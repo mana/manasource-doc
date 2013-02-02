@@ -5,34 +5,34 @@ The Manasource server reacts on the following chat commands when a player enters
 ===== Implemented and working =====
 
 ^Command ^ Function |
-|[[@announce]] | Sends a chat message to all characters in the game |
-|[[@attribute]] | Changes the character attributes of a character |
-|[[@ban]] | Bans the character and all characters on the same account from the game |
-|[[@charwarp]] | Warps a character |
-|[[@craft]] | Attempts to craft something |
-|[[@die]] | Kills the own character |
-|[[@drop]] | Drops a stack of items on the ground at your current location |
-|[[@effect]] | Spawns an effect defined inside of [[effects.xml|effects.xml]] on the map |
-|[[@getpos]] | Gets the position of a character |
-|[[@givepermission]] | Gives a permission class to the account a character belongs to |
-|[[@goto]] | Teleports you to the location of another character |
-|[[@help]] | Lists all available commands or a detailed help for a command |
-|[[@item]] | Creates a number of items in the inventory of a character |
-|[[@kick]] | Disconnects the client of a character from the game |
-|[[@kill]] | Kills a character |
-|[[@killmonsters]] | Kills all monsters on the map |
-|[[@log]] | Logs a message to the GM log |
-|[[@logsay]] | Says something in public chat and logs it to the GM log at the same time (analogue to @t on tmwAthena) |
-|[[@money]] | Changes the money a character possesses |
-|[[@mute]] | Makes it impossible for a character to chat for a while |
-|[[@recall]] | Teleports another character to your location |
-|[[@reload]] | Makes the server reload all configuration files |
-|[[@rights]] | Tells you your current permissions |
-|[[@spawn]] | Creates a number of monsters near your location |
-|[[@skills]] | Lists all skills of a character and their values |
-|[[@takepermission]] | Takes a permission class from the account a character belongs to |
-|[[@warp]] | Teleports your character to a different location in the game world |
-|[[@where]] | Tells you your location in the game world |
+|[[chat_commands:announce|@announce]] | Sends a chat message to all characters in the game |
+|[[chat_commands:attribute|@attribute]] | Changes the character attributes of a character |
+|[[chat_commands:ban|@ban]] | Bans the character and all characters on the same account from the game |
+|[[chat_commands:charwarp|@charwarp]] | Warps a character |
+|[[chat_commands:craft|@craft]] | Attempts to craft something |
+|[[chat_commands:die|@die]] | Kills the own character |
+|[[chat_commands:drop|@drop]] | Drops a stack of items on the ground at your current location |
+|[[chat_commands:effect|@effect]] | Spawns an effect defined inside of [[effects.xml|effects.xml]] on the map |
+|[[chat_commands:getpos|@getpos]] | Gets the position of a character |
+|[[chat_commands:givepermission|@givepermission]] | Gives a permission class to the account a character belongs to |
+|[[chat_commands:goto|@goto]] | Teleports you to the location of another character |
+|[[chat_commands:help|@help]] | Lists all available commands or a detailed help for a command |
+|[[chat_commands:item|@item]] | Creates a number of items in the inventory of a character |
+|[[chat_commands:kick|@kick]] | Disconnects the client of a character from the game |
+|[[chat_commands:kill|@kill]] | Kills a character |
+|[[chat_commands:killmonsters|@killmonsters]] | Kills all monsters on the map |
+|[[chat_commands:log|@log]] | Logs a message to the GM log |
+|[[chat_commands:logsay|@logsay]] | Says something in public chat and logs it to the GM log at the same time (analogue to @t on tmwAthena) |
+|[[chat_commands:money|@money]] | Changes the money a character possesses |
+|[[chat_commands:mute|@mute]] | Makes it impossible for a character to chat for a while |
+|[[chat_commands:recall|@recall]] | Teleports another character to your location |
+|[[chat_commands:reload|@reload]] | Makes the server reload all configuration files |
+|[[chat_commands:rights|@rights]] | Tells you your current permissions |
+|[[chat_commands:spawn|@spawn]] | Creates a number of monsters near your location |
+|[[chat_commands:skills|@skills]] | Lists all skills of a character and their values |
+|[[chat_commands:takepermission|@takepermission]] | Takes a permission class from the account a character belongs to |
+|[[chat_commands:warp|@warp]] | Teleports your character to a different location in the game world |
+|[[chat_commands:where|@where]] | Tells you your location in the game world |
 
 ===== Implemented but not doing anything =====
 

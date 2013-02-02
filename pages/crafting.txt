@@ -3,7 +3,7 @@
 Manaserv includes a fully scripted crafting system which allows a server administrator to script an own crafting logic in LUA.
 
 ===== Client side =====
-Currently crafting is done through the [[@craft]] command. Replacing this workaround with a GUI is planned ([[http://bugs.manasource.org/view.php?id=335]])
+Currently crafting is done through the [[chat_commands:craft|@craft]] command. Replacing this workaround with a GUI is planned ([[http://bugs.manasource.org/view.php?id=335]])
 
 ===== Server side =====
 
