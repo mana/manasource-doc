@@ -1,0 +1,140 @@
+===== manaserv.xml file configuration =====
+Data from the ''manaserv.xml'' file or ''.manaserv.xml'' store central configuration values for the account and the game servers.
+Each configuration option is defined using an <option> tag within the <configuration> main node, for instance:
+
+<file xml manaserv.xml sample>
+ <?xml version="1.0"?>
+ <configuration>
+    <option name="net_accountServerAddress" value="localhost"/>
+    <option name="net_accountServerPort" value="9601"/>
+ </configuration>
+</file>
+
+**Important Note:** Each and every option names are **__case-sensitive__** in the server!! (This is linked to computation-saving and simplification purpose.)
+
+==== Database backends configuration ====
+
+=== SQLite ===
+
+The SQLite database system uses only one parameter, defining where the database (.db) file is to be found. Note that the file automatically created if not found.
+
+^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^
+| sqlite_database | No | ./mana.db | Database filename including absolute or relative path. |
+
+=== mySQL ===
+
+^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^
+| mysql_hostname  | No | localhost  | IP or Database Hostname  |
+| mysql_port      | No | 3306       | MySQL server Port  |
+| mysql_database  | No | mana       | Database name  |
+| mysql_username  | No | mana       | Username used for the database credentials  |
+| mysql_password  | No | ""         | Password used for the database credentials  |
+
+=== PostgreSQL ===
+
+FIXME: Add PostgreSQL.
+==== Account server configuration ====
+
+
+=== Data localisation ===
+^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^
+| serverPath  | No | "." | The location of manaserv. Used mainly to find the Lua libraries provided by manaserv.  |
+| worldDataPath  | No | "example" | The data folder used for world data. |
+| <del>clientDataPath</del>  | No | "example/clientdata" | The data folder used for client data shared with the server. In many case, you'll still want to keep the server data as a whole and not share those with the client. You can set this value to "" in that case.  |
+| <del>serverDataPath</del>  | No | "example/serverdata" | The server data folder. Previously hard-coded to "data". \\ Note: The server data and client data are merged to get the server running, using PhysFS. If the same file is provided by both folders, the server data will prevail.  |
+
+=== Logs configuration ===
+^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^
+| log_accountServerFile  | No | "manaserv-account.log" | file path to output the account server log, relative to the folders where the servers were ran.  |
+| log_gameServerFile  | No | "manaserv-game.log" | file path to output the game server, relative to the folders where the servers were ran.  |
+| log_statisticsFile  | No | "manaserv.stats" | file path to output the server's statistics, relative to the folders where the servers were ran.  |
+| log_gameServerLogLevel  | No | 2 (Warning level) | Set the the game server's log verbosity level.  |
+| log_accountServerLogLevel  | No | 2 (Warning level) | Set the the account server's log verbosity level.  |
+| log_toStandardOutput  | No | true | Tells whether the servers will also log to standard output.  |
+| log_enableRotation  | No | false | Enable the log rotation for both servers. The log will then change based on rotation parameters.  |
+| log_maxFileSize  | No | 0 | Set in kilobytes the log files max size. If the rotation is enabled and the max file is > 0 Kb, the log file will be renamed using the current date, before resuming the logging in the former filename.   |
+| log_perDay  | No | false | Rotate the log file each day.  |
+
+**Note:**  Available log verbosity values are:
+   0. Fatal Errors only.
+   1. All Errors.
+   2. Plus warnings.
+   3. Plus standard information.
+   4. Plus debugging information. 
+
+
+=== Network configuration ===
+
+^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^
+| net_accountHost \\ <del>net_accountServerAddress</del> \\ <del>net_listenHost</del>  | No | "localhost" | The IP or hostname the account server will listen to. Don't use the 'localhost' value when running a public server, but rather the public name or you won't be able to contact the game server when using MySQL for instance. |
+| net_accountListenToClientPort \\ <del>net_accountServerPort</del>     | No |  9601  | Port used by the account server.  \\ 9601 if not set.  |
+| net_accountListenToGamePort  | No |  9602  | Port used by the account server to listen to game servers. Equal to <net_accountListenToClientPort> + 1 if not set. |
+| net_chatListenToClientPort  | No |  9603  | Port used by the chat server to listen to clients. Equal to <net_accountListenToClientPort> + 2 if not set. |
+| net_chatHost     | No | "localhost" | IP Address or hostname used by the chat server (even if the account and chat servers are only one binary for now.)  |
+| net_publicChatHost | No | Value of option net_chatHost | The ip or domain for the chatserver that will be sent to the client. Use this when hosting behind a router for example |
+| net_gameHost \\ <del>net_gameServerAddress</del>     | No | "localhost" | IP Address or hostname used by the game server.  |
+| net_gameListenToClientPort \\ <del>net_gameServerPort</del>        | No | 9604      | Port used by the game server to listen to clients. Equal to <net_accountListenToClientPort> + 3 if not set.  |
+| net_publicGameHost | No | Value of option net_chatHost | The ip or domain for the gameserver that will be sent to the client. Use this when hosting behind a router for example |
+| net_maxClients            | No | 1000      | Total simultaneous allowed client connections.  |
+| <del>net_clientVersion</del>         | No | 0         | Minimal client version now unused. Set by the **''PROTOCOL_VERSION''** value since it's more a core value.  |
+| net_password              | No | changeMe  | Password used between the account and the game server to authenticates queries (Very important in order not to get hacked easily.  |
+| net_defaultUpdateHost \\ <del>defaultUpdateHost</del>  | No | ""  | The Update host hostname or IP address given to the client, used to download updates data.  |
+| net_clientDataUrl | No | ""  | The data URL used by the QML based Mana client, used to download data on-demand.  |
+
+
+=== Account settings ===
+
+^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^
+| account_allowRegister       | No | 1   | Tells if the registration can be done via a Manaserv client (1), or not (0).  |
+| account_denyRegisterReason  | No | ""  | Message displayed if the registration is denied. (For instance, the URL to the web interface in which you can actually register.)  |
+| account_minNameLength       | No | 4   | Account names minimal length.  |
+| account_maxNameLength       | No | 16  | Account names maximal length.  |
+| account_minPasswordLength   | No | 6   | Account password minimal length.  |
+| account_maxPasswordLength   | No | 25  | Account password maximal length.  |
+| account_minEmailLength      | No | 7   | Account email minimal length.  |
+| account_maxEmailLength      | No | 128  | Account email maximal length.  |
+| account_maxCharacters \\ <del>char_maxCharacters</del>   | No | 3   | Maximal number of characters per account. |
+
+
+=== Avatars settings ===
+
+^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^
+| char_startMap      | Yes | | Map ID used by the account server See: [[maps.xml|maps.xml]]  |
+| char_startX        | Yes | | X pixel start coordinate on the start map. |
+| char_startY        | Yes | | Y pixel start coordinate on the start map. |
+| char_numHairStyles   | No | 15  | Number of available Hairstyles.    |
+| char_numHairColors   | No | 9   | Number of available Hair colors.   |
+| char_numGenders      | No | 2   | Number of available gender types.  |
+| char_minNameLength   | No | 4   | Characters' names minimal length.  |
+| char_maxNameLength   | No | 25  | Characters' names maximal length.  |
+| char_respawnMap \\ <del>respawnMap</del>   | Yes |         | Map ID where the character will respawn if he/she dies. See: [[maps.xml | maps.xml]]  |
+| char_respawnX \\ <del>respawnX</del>   | Yes |         | X coordinate of the spawn point on the respawn map.  |
+| char_respawnY \\ <del>respawnY</del>   | Yes |         | Y coordinate of the spawn point on the respawn map.  |
+| <del>char_startingPoints</del>  | <del>No</del> | <del>60</del>  | Number of attribute points available at character creation. Now done through [[attributes.xml|attributes.xml]] configuration.  |
+
+
+=== Gameplay Options ===
+
+^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^
+| game_visualRange  \\ <del>visualRange</del>  | No  | 448     | Range around the player in pixels for which the game server send state updates to the client. (Defines the client view range.)         |
+| game_defaultPvp \\ <del>defaultPvp</del>  | No  | "none"  | Standard PVP((PVP: Player Versus Player. Defines if a player can deal damage to another one.)) mode on maps which have not set any corresponding properties. \\ Available options are: \\ **"none"**: No PVP. \\ **"free"**: PVP fully enabled.   |
+| game_maxSkillCap \\ <del>maxSkillCap</del>  | No  |         | Option indicating if a configurable hard cap based on the skill level is to be set.  |
+| game_floorItemDecayTime \\ <del>floorItemDecayTime</del> | No  | 0       | Time in seconds until items laying on the floor disappear. Set to 0 to make items lay on the floor indefinitely (while this would be the "realistic" setting keep in mind that it will make your game world look like a garbage dump in the long run). |
+| game_hpRegenBreakAfterHit \\ <del>hpRegenBreakAfterHit</del> | No  | 0  | Sets the time in ticks((A tick is a server cycle, currently set to 100ms)) before the player HP regeneration starts again when fighting.  |
+
+
+=== Chat Options ===
+
+^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^
+| chat_maxChannelNameLength  | No | 15   | User-created chat Channel name maximum length.  |
+
+=== Command Options ===
+
+^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^
+| command_defaultMuteLength  | No | 60   | Default mute command length (in seconds).  |
+
+=== Mail System Options ===
+
+^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^
+| mail_maxAttachments  | No | 3   | Mails maximal number of attachments.  |
+| mail_maxLetters      | No | 10  | Mails maximum number of digits (or characters).  |

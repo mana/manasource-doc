@@ -1,0 +1,33 @@
+===== Synopsis =====
+  @givepermission [charactername] [permissiongroup]
+Adds a permission group to the account of a player. This command can be used to appoint game masters, administrators or other privileged users. Note that permissions are handled on account level, not character level, although you have to specify a character name from the account when using this command. This means that all characters from the same account will gain the permission group. The character must be online for this command to work.
+
+===== Examples =====
+  @givepermission "Mr. Trustworthy" gm
+This command will give the account of the character "Mr. Trustworthy" the permission to use commands from the permission group "gm".
+  @givepermission # dev
+This will give your own account the permission to use commands from the permission group "dev".
+
+Permission groups and the permissions they include can be customized in [[permissions.xml]]. The example configuration defines the following permission groups:
+
+^ Group     ^ Meaning          ^
+| player    | The default group assigned to every new account. Includes some harmless information commands.  |
+| tester    | Includes some convenience commands useful for beta-testing new content, namely [[@die]] and [[@warp]] |
+| dev       | Suggested group for content developers and event masters. Includes various "cheat" commands like [[@item]] and [[@attribute]], so be careful not to give this command to anyone who would use it to give themself or other people an unfair advantage. |
+| gm        | Game master group. Includes commands for punishing other users, like [[@kick]] or [[@ban]], but no commands which give the user a gameplay advantage (unless you count "being able to get rid of annoying people" as one). |
+| admin     | Server administrator. Includes commands which affect technical aspects of the server as well as permission handling commands (including the @givepermission command described here). This permission group contains the most "dangerous" commands. It should only be assigned to the owner of the server and technical administrators who are 100% trustworthy and 100% know what they are doing. For maximum security, accounts with this permission group should never be used for playing or socializing and only be used to perform administrative tasks. |
+===== Alternative method to set permissions =====
+When you create a new server with the default configuration, you won't have any account with the necessary permission group to use @givepermission and thus no way to use it to give yourself any permissions. To solve this chicken/egg problem you have to promote an existing account manually by running an SQL query on the database. The tool to do this depends on the used database backend. When your account name is "admin", the following SQL query will give all permission groups to your account.
+  UPDATE tmw_accounts SET level=255 WHERE username="admin";
+
+===== Security =====
+
+**Critical**
+
+This command allows the user to give any permission to any person, including permissions the user hasn't got herself. This command should only be given to a trusted administrator account. For maximum security don't assign this command to anyone and use the database method explained above to manage permissions.
+
+===== See also =====
+  * [[chat commands]]
+  * [[@help]]
+  * [[@rights]]
+  * [[@takepermission]]

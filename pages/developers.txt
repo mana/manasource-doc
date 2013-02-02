@@ -1,0 +1,9 @@
+====== The Mana Development Team =======
+
+^  Nick Name  ^  Real Name  ^  E-mail  ^  Location  ^
+|  bjorn  |  Thorbjørn Lindeijer  |  thorbjorn lindeijer nl  |  Germany  |
+|  Bertram  |  Yohann Ferreira  |  yohann_<dot<_ferreira_<at<orange_dot_efer  |  France  |
+|  Crush  |  Philipp Sehmisch  |  mana@crushnet.org  |  Germany |
+|  Ablu   |  Erik Schilling  |  ablu.erikschilling googlemail.com  |  Germany  |
+| ... ||||
+

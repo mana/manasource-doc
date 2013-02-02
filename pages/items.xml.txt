@@ -1,0 +1,274 @@
+===== items.xml file configuration =====
+Data from the ''items.xml'' file are used to set up configuration values about every items 
+the players will be able to carry during his/her online experience.
+
+The items.xml file has to be located in the **data** directory.
+
+Each configuration option in this xml file, is defined using a ''<item>'' tag within the ''<item**s**>'' main node.
+Here is an example:
+
+<file xml items.xml sample>
+ <?xml version="1.0"?>
+ <items>
+   <item id="501" name="Cactus Drink"
+    image="use-potion-a.png|G:#22ff22"
+    description="A fresh drink."
+    effect="+15 HP"
+    type="usable"
+    hp="15"
+    weight="4"
+    max-per-slot="10"/>
+    ...
+ </items>
+</file>
+
+**Note:** This file can be used by both the client and the server if the necessary data is provided. That's why we provide options for both applications here for simplification and easier documentation purpose.
+But when you should be careful to provide only the client data when dealing with client configuration, or the players will have more information about the items than they should.
+
+==== General (Client and server) parameters description ====
+
+^  Parameter name  ^  Type  ^  Mandatory  ^  Default value  ^  Manaserv  ^^  TMW-Athena  ^^ Description  ^
+^  :::  ^  :::  ^  :::  ^  :::  ^  Client  ^  Server  ^  Client  ^  Server  ^  :::  ^
+| id      |  integer  |  Yes  | |  0.0.2x \\ 1.x  |  v0 \\ v1((Protocol version))  |  0.0.2x \\ 0.5.x \\ 1.x  |  | It is the item id. This parameter has to be unique for each item. \\ The system will use the item id to refer on it in many ways.  |
+| name    |  string  |  No  |  "unnamed"  |  0.0.2x \\ 1.x  |  v0 \\ v1  |  0.0.2x \\ 0.5.x \\ 1.x  |  | Tells the item name. Used to ease configuration on server and with the client \\ but displayed to players on the client side.  |
+| description    |  string  |  No  |  ""  |  0.0.2x \\ 1.x  |  |  0.0.2x \\ 0.5.x \\ 1.x  |  | Gives a short description of the item. Used to ease configuration on server and with the client. \\ This is displayed to players on client side.  |
+| type    |  string \\ (defined values)  |  No  |  "other" \\ (="generic")  |  |  |  0.0.2x \\ 0.5.x \\ 1.x  |  | Indicates the item's type. The available types are: \\ - ''generic'': A generic item can only be used for quest or be sold in most cases. This is not usable by itself. \\ - ''usable'': An usable item gives something to the character when used. (E.g: A potion gives 20HP when used.) \\ - ''equip-1hand'': A one-handed weapon. \\ - ''equip-2hand:'' A two-handed weapon, meaning that a shield cannot be equipped at the same time.  \\ - ''equip-torso:'' The torso piece of equipment. \\ - ''equip-arms:'' Equipment for both arms. \\ - ''equip-head:'' E.g.: An helmet. \\ - ''equip-legs:'' Equipment for both legs. \\ - ''equip-shield:'' A extra defensive piece of equipment that can be equipped with a one-handed weapon.  \\ - ''equip-ring:'' A ring is equipped on hands. For game usability, characters can equip only one ring at a time. \\ - ''equip-charm:'' A charm is magic artefact in the character's inventory, considered active when equipped.  \\ - ''equip-necklace:'' Only one necklace can be equipped at a time. \\ - ''equip-feet:'' Equipment for both feet. \\ - ''equip-ammo:'' Need by weapon requiring ammo, like A bow needs arrows. \\ - ''racesprite:'' Special type used to tell the system that the sprite file is used as an available race. \\ - ''hairsprite:'' Special type used to tell the system that the sprite file is used as an available hairstyle.  |
+| weapon-type    |  string  |  No  |  ""  |  0.0.2x \\ 1.x  |  v0 \\ v1  |  0.0.2x \\ 0.5.x \\ 1.x  |  | Indicates the skill name the item is triggering when used for attacking (for weapon items only). The skill name set in [[skills.xml]] and the value given here must match (case-insensitively). FIXME: Is it used for tA?  |
+| attack-action    |  string  |  No  |  ""  |  1.x  |  |  0.5.x \\ 1.x  |  | Indicates the attack action name used to animate the character using the weapon. The value given here must match exactly the ''action'' value of the character's corresponding playerset file. See the [[sprite system]].  |
+| weight    |  integer  |  No  |  0  |  0.0.2x \\ 1.x  |  v0 \\ v1  |  0.0.2x \\ 0.5.x \\ 1.x  |  | Indicates the item's weight.  |
+| view    |  integer  |  No  |  0  |  0.0.2x \\ 1.x  |  |  0.0.2x \\ 0.5.x \\ 1.x  |  | Indicates another item whose view to use instead. |
+| attack-range    |  integer  |  No  |  0  |  0.0.2x \\ 1.x  |  v0 \\ v1  |  0.0.2x \\ 0.5.x \\ 1.x  |  | Indicates the weapon's attack range in pixels. (The range is in tiles for the v0.)  |
+| hp    |  integer  |  No  |  0  |  |  |  0.0.2x \\ 0.5.x \\ 1.x  |  | Indicates what happens to the character's HP((Hit Points)) when he/she uses it. E.g: A value of 25 means healing of 25 HP.  |
+| defense    |  integer  |  No  |  0  |  |  |  0.0.2x \\ 0.5.x \\ 1.x  |  | Indicates the defense bonus when using the given weapon.  |
+
+
+==== Server only parameters ====
+
+Used only by the server to handle inventory limitations.
+
+^ Parameter name  ^ Type ^ Mandatory ^ Default value ^ Description  ^
+| max-per-slot    |  integer  |  No  |  1  | Indicates the maximum of a given item the character can stack in the same inventory slot. Note that items with equip/unequip effect become equippable. I.e: Tey have a max-per-slot parameter set to 1 whatever the current parameter tells.   |
+| sprite_id    |  integer  |  No  |  0  | The item ID sent by the server when another character is wearing the item. This can be used to avoid revealing the real item type when you have look-alike items with different properties. |
+| value    |  integer  |  No  |  0  | Tells how much does the item cost with the default currency. See [[units.xml]] for more details about how to set up the World currency (and weight) name. FIXME: This doesn't handle multiple currencies and will be removed once a new way to define that has been added.  |
+
+==== Client-only parameters ====
+
+=== Common parameters (used by ManaServ and TmwAthena clients) ===
+
+^ Parameter name  ^ Type ^ Mandatory ^ Default value ^ Description  ^
+| image    |  string  |  No  |  "" \\ (PNG file)  | The PNG filename must be relative to the ''data/graphics/sprites'' folder. \\ The corresponding image is used to be displayed in the inventory and in the equipment window. Additional values can be added after the filename, starting with a ''<nowiki>|</nowiki>'' are used to dye the image corresponding to the need. \\ See the [[Image dyeing system]] to get more details about how to add such useful color scheme to your inventory.  |
+| effect    |  string  |  No  |  ""  | Used to display very a short effects list of the item.  |
+| missile-particle    |  string \\ (xml file)  |  No  |  ""  | Gives the xml file used to display the corresponding particle effect when the weapon is used. The filename must be relative to the ''data/graphics/particles'' folder. \\ See the [[particle system]] for more details about how to configure nice particle effects.  |
+| hit-effect-id    |  integer  |  No  |  -1  | Gives the effect id to trigger when doing a successful hit with the given weapon. (The item must indeed be used as a weapon for this work.) The effect id must correspond to an existing effect id in the [[effects.xml]] file. Note that this effect is triggered on the victim.  |
+| critical-hit-effect-id    |  integer  |  No  |  -1  | Gives the effect id to trigger when doing a successful critical hit with the given weapon. (The item must indeed be used as a weapon for this work.) The effect id must correspond to an existing effect id in the [[effects.xml]] file. Note that this effect is triggered on the victim.  |
+
+
+=== TmwAthena specific parameters ===
+
+The Mana server isn't concerned by the given parameters and will ignore them.
+
+
+These "items" are purely virtual ones. They are used to configure the available hairstyle, races, and weapon type within
+an TmwAthena session. The client use them to get in sync with server when dealing with such information.
+
+
+== Hair Styles ==
+
+**Note:** FIXME: The ManaServ client is using this hairstyle system for now. This should be fixed by adding the available hairstyle in a specific xml file, why not along with TmwAthena configuration. See the [[playerset handling improvement]] where a hairstyle node should be added.
+
+<file xml hairstyle sample>
+ <?xml version="1.0"?>
+   <items>
+    ...
+    <item id="-9" type="hairsprite" name="Short and curly">
+        <sprite>hairstyle9.xml</sprite>
+    </item>
+    ...
+   </items>
+</file>
+
+
+^ Parameter name  ^ Type & Range ^ Description  ^
+| id (for hairstyles)  |  integer \\ From -1 to -16?? \\ FIXME: What is the higher negative available value?  | The id used by both the client and the TmwAthena server to cope with this hairstyle.  |
+| name (for hairstyles)  |  string  | The Hair Style name.  |
+
+See the [[#<sprite> childnode description]] to get more information about the <sprite></sprite> part.
+
+== Races ==
+
+**Note:** FIXME: The ManaServ client is using this hairstyle system for now and the server doesn't support more than one race. See the [[playerset handling improvement]] where a race parameter should be added for both.
+
+<file xml race sample>
+ <?xml version="1.0"?>
+   <items>
+    ...
+    <item id="-100" type="racesprite" name="Human">
+      <sprite gender="male">player_male_base.xml</sprite>
+      <sprite gender="female">player_female_base.xml</sprite>
+    </item>
+    ...
+   </items>
+</file>
+
+
+^ Parameter name  ^ Type & Range ^ Description  ^
+| id (for racesprites)  |  integer \\ From -100 to ?? \\ FIXME: What is the higher negative available value?  | The id used by both the client and the TmwAthena server to cope with this race.  |
+| name (for hairstyles)  |  string  | The race name.  |
+
+See the [[#<sprite> childnode description]] to get more information about the <sprite></sprite> part.
+
+
+== Weapons ==
+
+These //low-id// weapon are used to set which animation goes with which weapon for TmwAthena clients only.
+
+<file xml weapons sample>
+ <?xml version="1.0"?>
+   <items>
+    ...
+    <item id="33" weapon_type="1">
+        <sprite>weapon-dagger.xml</sprite>
+        <sound event="strike">weapons/swords/short-sword-miss1.ogg</sound>
+        <sound event="hit">weapons/swords/short-sword-hit1.ogg</sound>
+    </item>
+    ...
+   </items>
+</file>
+
+
+^ Parameter name  ^ Type & Range ^ Description  ^
+| id (for weapons)  |  integer \\ From 1 to 255  | The id used by both the client and the TmwAthena server to cope with this weapon.  |
+| weapon_type (for weapons)  |  integer  | Used to get in synchronization with the server when using this weapon-type. \\ **Do not be confused with the ''weapon-type'' parameter.**  |
+
+See the [[#<sprite> childnode description]] and the [[#<sound> childnode description]] to get more information about the <sprite></sprite> and the <sound></sound> part.
+
+
+== Miscellaneous ==
+
+Those <item> parameters are used only by TmwAthena clients.
+
+^ Parameter name  ^ Type ^ Mandatory ^ Default value ^ Description  ^
+| attack    |  integer  |  No  |  0  | Indicates the attack bonus when using the given weapon.  |
+| mp    |  integer  |  No  |  0  | Indicates what happens to the character's MP((Magic Points)) when he/she uses it. E.g: A value of 25 means healing of 25 MP.  |
+
+
+==== <sprite> childnode description ====
+
+This childnode is used to provide information about how to display the item's sprite by the client. This node is used by the client only and is very recommended.
+
+<file xml sprite sample>
+ <?xml version="1.0"?>
+   <items>
+    ...
+    <item id="523" image="armor-chest-leathershirt.png" name="Leather Shirt">
+        <sprite gender="male">chest-leather-male.xml|#573a26,9e7654,d3b79e,ffffff;#b96b3d,fbf5f1</sprite>
+        <sprite gender="female">chest-leather-female.xml|#412300,603100,8d4900;#ffff00</sprite>
+    </item>
+    ...
+ </items>
+</file>
+
+^ Parameter name  ^ Type ^ Mandatory ^ Default value ^ Description  ^
+| sprite inner value    |  string  |  No  |  "error.xml" \\ (xml file)  | This parameter can be either an xml filename or a PNG filename. The filename must be relative to the ''data/graphics/sprites'' folder. \\ The client will load the corresponding XML file to get the images used for each cases. See the [[sprite system]] for more details.\\ Additional values can be added after the filename, starting with a ''<nowiki>|</nowiki>'' are used to dye the image corresponding to the need. \\ See the [[Image dyeing system]] to get more details about how to add such useful color scheme to your inventory.  |
+| gender  |  string \\ (defined values)  |  No  |  ""  | This parameter indicates for which gender the xml file should be used. "male" and "female" are available values, but if no values are specified, the same file is used for both.  |
+
+
+==== <sound> childnode description ====
+
+This childnode is used to provide information about which sound are to be played by the client, based on the actions made with the given the item. This node is used by the client only.
+
+<file xml sound sample>
+ <?xml version="1.0"?>
+   <items>
+    ...
+     <item id="521"
+      image="weapon-dagger-dagger.png"
+      name="Dagger">
+        <sprite>weapon-dagger.xml</sprite>
+        <sound event="strike">weapons/swords/short-sword-miss1.ogg</sound>
+        <sound event="hit">weapons/swords/short-sword-hit1.ogg</sound>
+    </item>
+    ...
+ </items>
+</file>
+
+^ Parameter name  ^ Type ^ Mandatory ^ Default value ^ Description  ^
+| sprite inner value    |  string  |  No  |  "" \\ (WAV or OGG file)  | This parameter can be either an OGG filename or a WAV one. The filename must be relative to the ''data/sfx'' folder. \\ The client will load the corresponding file to get the sounds played for each cases.  |
+| event  |  string \\ (defined values)  |  No  |  ""  | This parameter indicates for which action the sound file should be played. "strike" and "hit" are available values. \\ You can provide more than one file a sound event: In that case, the given sounds will be played randomly.  |
+
+==== <effect> childnode description ====
+
+This childnode is used to provide information about what the server should do when dealing with an item. This node is used by the client and manaserv v1 to define advanced items behaviour, and replace old hp, mp, script parameters, ...
+
+Note that an item can have more than one effect, and more than one effect per type.
+
+<file xml effect sample>
+ <?xml version="1.0"?>
+   <items>
+    ...
+     <item id="1"
+      image="candy.png"
+      name="Dagger">
+       <effect trigger="activation">
+            <script src="candy.lua" function="use" />
+            <consumes />
+        </effect>
+     </item>
+     ...
+     <item id="521"
+      image="weapon-dagger-dagger.png"
+      name="Dagger">
+        <sprite>weapon-dagger.xml</sprite>
+        <effect trigger="in-inventory">
+             <modifier attribute="cap1" value="-2000" />
+        </effect>
+        <effect trigger="equip">
+            <attack skill="102" warmuptime="1" cooldowntime="5" reusetime="1"
+                basedamage="1" deltadamage="10" chancetohit="200" range="320"
+                element="fire" type="physical" />
+            <modifier attribute="acc1" value="1.5" />
+        </effect>
+    </item>
+    ...
+ </items>
+</file>
+
+^ Parameter name  ^ Type ^ Mandatory ^  Default value  ^ Description  ^
+| trigger    |  string  |  Yes  |  "" \\ Must be one of the predefined parameters.  | This parameter is used to tell when the effect should be triggered. The folloing events can be triggered: \\ ''in-inventory'': This event is triggered when the item is in the player inventory. \\ ''activation'': This event is triggered when the item is used/activated. \\ ''leave-inventory'': Triggered when leaving the inventory. (Dropped, consumed after use, sold, traded, ...)  \\ ''equip'': Triggered when the player equips the item. (Note: When the item is equippable, it isn't stackable anymore. i.e.: The max-per-slot parameter it reset to 1.) \\ ''unequip'': Triggered when the player unequips the item. \\ ''equip-change'': Triggered when an equipped item is replace by another. Note that this item will also trigger the equip event of the newly equipped item, and the unequip trigger of the current item. FIXME: This is redundant in 99% of the cases and may be removed in near future.   |
+^ ''<consumes />'' sub-childnode ^^^^^
+| The only presence of this tag is sufficient to tell the server that the item must be removed after triggering that event. Hence, it will be used mostly for use-once item like simple potions, etc... but it may technically be used for any event, leading to surprising effects.  |||||
+^ ''<script>'' sub-childnode ^^^^^
+^ Parameter name  ^ Type ^ Mandatory ^  Default value  ^ Description  ^
+| src  |  string  |  Yes  |  ""  | The script filename to use when activating/deactivating the item. The file is relative to the ''data/scripts/items/'' folder.  |
+| function  |  string  |  Yes  |  ""  | The script function called in the script file when activating the item.  Note that two parameters are pushed to this function: The item user being pointer, and the item Id. Your function can have the following form: function activate_function_name(user, item_id), for instance.   |
+| dispell-function  |  string  |  Yes  |  ""  | The script function called in the script file when deactivating the item.  Note that two parameters are pushed to this function: The item user being pointer, and the item Id. Your function can have the following form: function activate_function_name(user, item_id), for instance.  |
+| **Note:** Item can't use the built-in schedule functions at the moment!  |||||
+^ ''<modifier>'' sub-childnode ^^^^^
+| Modifiers are here to modify attributes when an event is triggered. An item can have 0 to many modifiers for each event.  |||||
+^ Parameter name  ^ Type ^ Mandatory ^ Default value ^ Description  ^
+| attribute  |  string  |  Yes  |  ""  | This value must correspond to one of the ''tag'' parameter present in the <modifier> node of the [[attributes.xml]] file. They are used to trigger an effect on the player's attributes. I.e.: Increasing or decreasing strength when equipped, raise speed when activated, ect...   |
+| value  |  integer  |  Yes  |  0  | This value indicates of how much the effect on the attribute tag is applied. The actual effect is depending on how you've configured the attribute's modifier.   |
+^ ''<attack>'' <effect> childnode  ^^^^^
+| See [[attackconfiguration#XML Attack Node|Attack Node Configuration]] |||||
+
+==== <floor> childnode description ====
+
+This childnode is used to provide sprite and particle information for the item when it is on the floor. This can contain <sprite> and <particlefx> tags, which function as above.
+
+<file xml floor sample>
+ <?xml version="1.0"?>
+   <items>
+    ...
+     <item id="1"
+      image="candy.png"
+      name="Candy">
+       <floor>
+            <sprite>candy-floor.xml</sprite>
+            <particlefx>fresh-food.xml</particlefx>
+        </floor>
+     </item>
+    ...
+ </items>
+</file>
+
+

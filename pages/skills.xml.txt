@@ -1,0 +1,35 @@
+====== skills.xml ======
+
+The skills.xml file is used to set up the different skills used by the player to gain experience while in game.
+
+**Warning: WIP** Currently, the implementation isn't fully tested. Feel free to [[mantis_workflow|report bug in our mantis]].
+
+Here is an example of a [[https://github.com/mana/manaserv/blob/master/example/skills.xml |skills.xml]] file:
+
+<file xml skills.xml>
+<?xml encoding="UTF-8" version="1.0"?>
+<skills>
+    <set name="Weapons">
+        <skill id="100" name="Unarmed" icon="graphics/images/unarmed.png" default="true" />
+        <skill id="101" name="Knife" icon="graphics/images/knife.png" />
+        <skill id="102" name="Sword" icon="graphics/images/sword.png" />
+    </set>
+    <set name="Magic">
+        <skill id="200" name="Magic Example" />
+    </set>
+    <set name="Crafts">
+        <skill id="300" name="Craft Example" />
+    </set>
+</skills>
+</file>
+
+^  ''skills'' node  ^^^^^^^
+^  ''set'' child node  ^^^^^^^
+^  Parameter name  ^  Type  ^  Required in client  ^  Required in account-server  ^  Required in game-server  ^  Default value  ^  Description  ^
+|  name    |  **string**  |  yes  |  no   |  no  |  ""    | The skill group name. Sets are used to visually group skills in the same tab in the client's skill window. |
+^  ''skill'' child node  ^^^^^^^
+^  Parameter name  ^  Type  ^  Required in client  ^  Required in account-server  ^  Required in game-server  ^  Default value  ^  Description  ^
+|  id    |  **integer**  |  yes  |  yes   |  yes  |  0    | The skill Id used internally. Must be > 0 and unique.  |
+|  name  |  **string**   |  yes  |  yes  |  yes   |  -   | The skill name.  |
+|  icon  |  **string**   |  no   |  no  |  no   |  ""   | The icon image displayed in the client.  |
+|  default  |  **boolean**   |  no   |  yes  |  yes   |  false   | Whether this skill is the default one used to get XP. Only one skill can be the default.  |

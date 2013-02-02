@@ -1,0 +1,204 @@
+====== Database version 8 ======
+
+
+^mana_accounts|||||
+|Column name|Datatype|Nullable|References|Description|
+|id|int(10)|PRIMARY KEY| | |
+|username|varchar(64)|UNIQUE KEY| | |
+|password|varchar(64)|NOT NULL| | |
+|email|varchar(32)|UNIQUE KEY| | |
+|level|tinyint(3)| NOT NULL| | |
+|banned|int(10)| NOT NULL| | |
+|registration|int(10)|NOT NULL| | |
+|lastlogin|int(10)|NOT NULL| | |
+|authorization|text| | |for manaweb|
+|expiration|int(10)| | |for manaweb|
+
+  * email
+    * The email is stored as a one-way sha256 hash value. This ensures, that the email address a user enters cannot be used to send spam mails. It is only used to validate the mailaddress during password recovery procedure.
+  * level
+   * describes the user rights in the game (10 = normal user, 50 = gm, 99 = administrator)
+  * authorization and expiration 
+   * these fields are used by TMWWEB to store a secret key and the time of expiration if the user has requested to reset its password. The secret key is sent via mail to the user.
+
+^mana_characters|||||
+|Column name|Datatype|Nullable|References|Description|
+|id|int(10)|NOT NULL| | |
+|user_id|int(10)|NOT NULL|mana_accounts(id)| |
+|name|varchar(32)|UNIQUE KEY| | |
+|gender|tinyint(3)|NOT NULL| | |
+|hair_style|tinyint(3)|NOT NULL| | |
+|level| tinyint(3)|NOT NULL| | |
+|char_pts|smallint(5)|NOT NULL| | |
+|correct_pts|smallint(5)|NOT NULL| | |
+|money|int(10)|NOT NULL| | |
+|x|smallint(5)|NOT NULL| | |
+|y|smallint(5)|NOT NULL| | |
+|map_id|tinyint(3)|NOT NULL| | |
+|str|smallint(5)|NOT NULL| | |
+|agi|smallint(5)|NOT NULL| | |
+|dex|smallint(5)|NOT NULL| | |
+|vit|smallint(5)|NOT NULL| | |
+|int|smallint(5)|NOT NULL| | |
+|will|smallint(5)|NOT NULL| | |
+
+
+^mana_char_skills|||||
+|Column name|Datatype|Nullable|References|Description|
+|char_id|int(10)|PRIMARY KEY|mana_characters(id) | |
+|skill_id|smallint(5)|:::|(skills.xml) | |
+|skill_exp|smallint(5)|NOT NULL| | |
+
+^mana_char_status_effects|||||
+|Column name|Datatype|Nullable|References|Description|
+|char_id|int(10)|PRIMARY KEY|mana_characters(id)| |
+|status_id|smallint(5)|:::| | |
+|status_time|int(10|NOT NULL| | |
+
+
+^mana_char_kill_stats|||||
+|Column name|Datatype|Nullable|References|Description|
+|char_id|int(10)|PRIMARY KEY|mana_characters(id)| |
+|monser_id|int(10)|:::| | |
+|kills|int(10)|NOT NULL| | |
+
+
+^mana_items|||||
+|Column name|Datatype|Nullable|References|Description|
+|id|int(10)|PRIMARY KEY| | |
+|name|varchar(100)|NOT NULL| | |
+|description|varchar(255)|NOT NULL| | |
+|image|varchar(50)|NOT NULL| | |
+|weight|smallint(5)|NOT NULL| | |
+|itemtype|varchar(50)|NOT NULL| | |
+|effect|varchar(100)| | | |
+|dyestring|varchar(50)| | | |
+
+
+^mana_items_instances|||||
+|Column name|Datatype|Nullable|References|Description|
+|item_id|int(10)|PRIMARY KEY| | |
+|itemclass_id|int(10)|FOREIGN KEY|mana_items(id)| |
+|amount|tinyint(3)|NOT NULL| | |
+
+
+^mana_item_attributes|||||
+|Column name|Datatype|Nullable|References|Description|
+|attribute_id|int(10)|PRIMARY KEY| | |
+|item_id|int(10)|FOREIGN KEY|mana_items_instances(item_id)| |
+|attribute_class|tinyint(3)|NOT NULL| | |
+|attribute_value|varchar(500)| | | |
+
+
+^mana_inventories|||||
+|Column name|Datatype|Nullable|References|Description|
+|id|int(10)|PRIMARY KEY| | |
+|owner_id|int(10)|UNIQUE KEY|mana_characters(id)| |
+|slots|tinyint(3)|:::| | |
+|class_id|int(10)|NOT NULL| | |
+|amount|tinyint(3)|NOT NULL| | |
+
+^mana_guilds|||||
+|Column name|Datatype|Nullable|References|Description|
+|id|int(10)|PRIMARY KEY| | |
+|name|varchar(35)|UNIQUE KEY| | |
+
+
+^mana_guild_members|||||
+|Column name|Datatype|Nullable|References|Description|
+|guild_id|int(10)|PRIMARY KEY|mana_guilds(id)| |
+|member_id|int(10)|:::|mana_characters(id)| |
+|rights|int(10)|NOT NULL| | |
+
+
+^mana_quests|||||
+|Column name|Datatype|Nullable|References|Description|
+|owner_id|int(10)|PRIMARY KEY|mana_characters(id)| |
+|name|varchar(100)|:::| | |
+|value|varchar(200)|NOT NULL| | |
+
+
+^mana_world_states|||||
+|Column name|Datatype|Nullable|References|Description|
+|state_name|varchar(100)|PRIMARY KEY| | |
+|map_id|INTEGER| | | |
+|value|TEXT| | | |
+|moddate|INTEGER|NOT NULL| | |
+
+
+
+^mana_auctions|||||
+|Column name|Datatype|Nullable|References|Description|
+|auction_id|int(10)|PRIMARY KEY| | |
+|auction_state|tinyint(3)|NOT NULL| | |
+|char_id|int(10)|FOREIGN KEY|mana_characters(id)| |
+|itemclass_id|int(10)|NOT NULL| | |
+|amount|int(10)|NOT NULL| | |
+|start_time|int(10)|NOT NULL| | |
+|end_time|int(10)|NOT NULL| | |
+|start_price|int(10)|NOT NULL| | |
+|min_price|int(10)| | | |
+|buyout_price|int(10)| | | |
+|description|varchar(255)| | | |
+
+  * auction_state can have the following values:
+    *  0 = The auction is published and ready for bidders
+    * 1 = The auction has finished and closed 
+  * start_time contains the creation date of the auction. Format: Unixtimestamp 
+
+^mana_auction_bids|||||
+|Column name|Datatype|Nullable|References|Description|
+|bid_id|int(10)|PRIMARY KEY|mana_characters(id)| |
+|auction_id|int(10)|NOT NULL| | |
+|char_id|int(10)|NOT NULL| | |
+|bid_time|int(10)|NOT NULL| | |
+|bid_price|int(10)|NOT NULL| | |
+
+
+^mana_post|||||
+|Column name|Datatype|Nullable|References|Description|
+|letter_id|int(10)|PRIMARY KEY| | |
+|sender_id|int(10)|FOREIGN KEY|mana_characters(id)| |
+|receiver_id|int(10)|FOREIGN KEY|mana_characters(id)| |
+|letter_type|int(5)|NOT NULL| | |
+|expiration_date|int(10)|NOT NULL| | |
+|sending_date|int(10)|NOT NULL| | |
+|letter_text|TEXT| | | |
+
+
+^mana_post_attachments|||||
+|Column name|Datatype|Nullable|References|Description|
+|attachment_id|int(10)|PRIMARY KEY| | |
+|letter_id|int(10)|FOREIGN KEY|mana_post(letter_id)| |
+|item_id|int(10)|FOREIGN KEY|mana_item_instances(item_id)| |
+
+
+^mana_transaction_codes|||||
+|Column name|Datatype|Nullable|References|Description|
+|id|int(10)|PRIMARY KEY| | |
+|description|text|NOT NULL| | |
+|category|text|NOT NULL| | |
+
+
+^mana_online_list|||||
+|Column name|Datatype|Nullable|References|Description|
+|char_id|int(10)|PRIMARY KEY|mana_characters(id)| |
+|login_date|int(10)|NOT NULL| | |
+
+
+^mana_transactions|||||
+|Column name|Datatype|Nullable|References|Description|
+|id|int(11)|PRIMARY KEY| | |
+|char_id|int(11)|NOT NULL| | |
+|action|int(11)|NOT NULL | | |
+|message|text|NOT NULL| | |
+|time|int(11)|NOT NULL| | |
+
+
+
+
+
+
+
+
+

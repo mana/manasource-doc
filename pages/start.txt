@@ -1,0 +1,66 @@
+{{http://manasource.org/gfx/manasource-logo.png}}
+
+====== Welcome to the Mana documentation wiki! ======
+
+The Manasource project aims at bringing a real innovative, complete and Free 2D-MMORPG generic platform.
+With both our server and client provided, you'll be able to set up your own world, or take part of one already
+set up by our community.
+
+If you want to get on board, why not try to come on [[IRC]], or try the [[http://forums.themanaworld.org|forums]].
+
+===== Community =====
+  * [[Games based on Manasource]]
+  * [[http://manasource.org/downloads|Downloads]]
+  * [[Client Features]]
+  * [[Server Features]]
+
+===== Administrators documentation =====
+
+^  Mana Client  ^  ManaServ Server  |
+^  Get it running                   ^^
+| [[client_installation|Installation of Client]] \\ [[Ports]] \\ [[Dependencies]] \\ [[Compile Mana from source]]  |[[Ports]] \\ [[Dependencies]] \\ [[Compile ManaServ from source]]  |
+^  Basic configuration              ^^
+|  [[Test data]]  ||
+|[[Client configuration]] \\ [[Update System]]  |[[Server configuration]] \\ [[Scripting]] \\ [[Chat commands]] |
+|  [[Mapping]]  ||
+|  [[Tools]]  ||
+^  In depths  ^^
+|[[Client data handling]]  |[[Server data handling]]  |
+|[[Image dyeing system]] |[[ManaServ Protocol]]  |
+|[[Sprite system]] |[[Database specifications|ManaServ Database specifications]]  |
+|[[Client design overview]]  |[[ManaServ statistics system]]  |
+|[[Client release How-to]]  ^  ^
+
+To get support about setting up a **TmwAthena server**, please have a look at [[http://wiki.themanaworld.org/index.php/Main_Page|The Mana World wiki]].
+
+===== Developers documentation =====
+
+Welcome on board! We're happy that you're thinking about [[Joining the project]]!
+
+== Found a bug, missing a feature? ==
+  * Report them in our [[http://bugs.manasource.org/|Bug tracker]]
+  * [[Mantis Workflow|How to make good use of our bug tracker]]
+
+  * For what is being worked on, see the [[http://bugs.manasource.org/roadmap_page.php|Roadmap]]
+  * Technical concepts and documentation needing reviews, see [[Requests for Comments]]
+
+== Development conventions ==
+  * [[Development Process]]
+  * [[Git repository]]
+  * [[Hacking]]
+  * [[Quality insurance]]
+
+== Source code documentation ==
+  * [[http://manasource.org/doxygen/mana/|Doxygen for client]] ([[http://manasource.org/doxygen/mana-warnings.log|Doxygen Warnings]])
+  * [[http://manasource.org/doxygen/manaserv/|Doxygen for ManaServ server]] ([[http://manasource.org/doxygen/manaserv-warnings.log|Doxygen Warnings]])
+  * Additional Documentation about the eAthena servers((TmwAthena is a modified eAthena server.)) can be found in itse original [[http://www.eathena.ws/|web site]].
+
+== External Resources ==
+
+  * [[http://wiki.themanaworld.org/index.php/Main_Page|The Mana World Wiki]] - The Mana World wiki which contains some useful content to play with.
+  * [[http://wiki.invertika.org/Hauptseite|Invertika Wiki]] - Contains information about the Mana client and server in German.
+
+===== New Account Registration on this Wiki =====
+
+To protect against spam as well as to keep the information authorative, new account registration on this wiki is disabled. If you want to help keep the information in this wiki up to date, ask ''bjorn'' for an account on [[IRC]].
+See also the list of [[developers]] to get a slight idea about the team members skills.

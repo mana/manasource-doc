@@ -1,0 +1,50 @@
+====== status-effects.xml ======
+
+The ''status-effects.xml'' file is used to define positive and negative status effects seen around the character.
+
+Here is a description of the different parameters of this file:
+
+====== Status-effects parameters ======
+
+Here is a status-effects.xml file sample:
+
+<file xml status-effects.xml>
+<?xml version="1.0" encoding="utf-8"?>
+<status-effects>
+    <status-effect name="item-healing" id="70" block-id="24"
+		   persistent-particle-effect="true"
+		   start-particle="graphics/particles/circle.particle.xml"
+		 />
+
+    <status-effect name="speed" id="37" block-id="21"
+                   icon="icon-haste-potion.xml"
+		   persistent-particle-effect="true"
+		   start-particle="graphics/particles/pink-violent-glow.particle.xml"
+		 />
+    <status-effect name="strength" id="185" block-id="23"
+                   icon="icon-iron-potion.xml"
+		   persistent-particle-effect="true"
+		   start-particle="graphics/particles/orange-violent-glow.particle.xml"
+		 />
+    <status-effect name="invisibility" id="4096" block-id="12"
+                   icon="icon-invisible.xml"
+                   start-message="You are now invisible."
+                   end-message="You are no longer invisible."
+		   persistent-particle-effect="true"
+		   start-particle="graphics/particles/sphere-white.particle.xml"
+		 />
+</status-effects>
+</file>
+
+^  Parameter  ^  Value type  ^ Description  ^
+|  id  |  integer  | The status effect id used to store and call the effect internally. Must be unique.  |
+|  name  |  string  | The status effect name.  |
+|  block-id  |  integer  | FIXME: Review this one in case it's wrong and document it better for maintainers. \\ Indicate the effect family. Used to tell at which offset to store the effect in the character's status-effect bitmask. |
+|  icon  |  string  | XML filename used set up a small icon animation of the status-effect.  |
+|  start-message  |  string  | Sentence displayed in the chat window when the effect is starting.  |
+|  end-message  |  string  | Sentence displayed in the chat window when the effect is ending.  |
+|  start-audio  |  string  | SFX file played when the effect is starting.  |
+|  end-audio  |  string  | SFX file played when the effect is ending.  |
+|  persistent-particle-effect  |  boolean \\ (true/false)  | Tells whether the effect is played once or looped.  |
+|  start-particle  |  string  | XML filename used to set up the particle effect displayed around the character when the effect is activated (and looped if the persistent-particle-effect is set to true).  |
+|  end-particle  |  string  | XML filename used to set up the particle effect displayed around the character when the effect is deactivated.  |

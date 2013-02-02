@@ -1,0 +1,1069 @@
+
+The Mana server uses the scripting language LUA for scripting. This is a list of the script commands currently implemented in addition to the [[http://www.lua.org/manual/5.1/|standard lua statements and functions]].
+
+Also, if you want to look at actual working samples, you can have a look at the ''example/serverdata/scripts'' folder in the [[https://github.com/mana/manaserv/tree/master/example/serverdata/scripts|Manaserv's source]] which has always the latest working set.
+
+======Script bindings ======
+===== Creation and removal of stuff =====
+
+==== npc_create ====
+<code lua>npc_create(string name, int spriteID, int gender, int x, int y, function talkfunct, function updatefunct)</code>
+
+**Return value:** A handle to the created NPC.
+
+Creates a new NPC with the name ''name'' at the coordinates ''x'':''y'' which appears to the players with the appearence listed in their npcs.xml under ''spriteID'' and the gender ''gender''. Every game tick the function ''updatefunct'' is called with the handle of the NPC. When a character talks to the NPC the function ''talkfunct'' is called with the NPC handle and the character handle.
+
+For setting the gender you can use the constants defined in the libmana-constants.lua:
+
+| 0 | GENDER_MALE  |
+| 1 | GENDER_FEMALE  |
+| 2 | GENDER_UNSPECIFIED  |
+
+==== npc_disable ====
+<code lua>npc_disable(handle npc)</code>
+
+Disables an NPC.
+
+==== npc_enable ====
+<code lua>npc_enable(handle npc)</code>
+
+Re-enables an NPC that got disabled before.
+ 
+==== monster_create ====
+<code lua>monster_create(int monsterID, int x, int y)</code>
+<code lua>monster_create(string monstername, int x, int y)</code>
+
+**Return value:** A handle to the created monster.
+
+Spawns a new monster of type ''monsterID'' or ''monstername'' on the current map on the pixel coordinates ''x'':''y''.
+
+==== monster_remove ====
+<code lua>monster_remove(handle monster)</code>
+
+**Return value:** True if removing the monster suceeded.
+
+Remove the monster ''monster'' from the current map.
+
+==== trigger_create ====
+<code lua>trigger_create(int x, int y, int width, int height, function trigger_function, int arg, bool once)</code>
+
+Creates a new trigger area with the given ''height'' and ''width'' in pixels at the map position ''x'':''y'' in pixels. When a being steps into this area the function ''trigger_function'' is called with the being handle and ''arg'' as arguments. When ''once'' is false the function is called every game tick the being is inside the area. When ''once'' is true it is only called again when the being leaves and reenters the area.
+
+
+==== effect_create ====
+<code lua>
+effect_create(int id, int x, int y)
+effect_create(int id, being b)
+</code>
+
+Triggers the effect ''id'' from the clients effects.xml (particle and/or sound) at map location ''x'':''y'' or on being ''b''. This has no effect on gameplay.
+
+**Warning:** Remember that clients might switch off particle effects for performance reasons. Thus you should not use this for important visual input.
+
+==== item_drop ====
+<code lua>item_drop(int x, int y, int id[, int number])</code>
+<code lua>item_drop(int x, int y, string itemname[, int number])</code>
+
+Drops a stack of ''number'' items at the location ''x'':''y'' on the current map. If no number is given, one item will be dropped.
+
+**Return value**: True if the drop on map succeeded, false otherwise.
+
+===== Input and output =====
+
+==== npc_message ====
+<code lua>npc_message(handle npc, handle character, string message)</code>
+
+**Warning:** May only be called from an NPC talk function.
+
+Shows an NPC dialog box on the screen of character ''ch'' displaying the string ''msg''.
+Idles the current thread until the user click "OK".
+
+
+==== npc_choice ====
+<code lua>npc_choice(handle npc, handle character, item1, item2, ... itemN)</code>
+
+**Return value:** Number of the option the player selected (starting with 1).
+
+**Warning:** May only be called from an NPC talk function.
+
+Shows an NPC dialog box on the users screen with a number of dialog options to choose from. Idles the current thread until the user selects one or aborts the current thread when the user clicks "cancel".
+
+Items are either strings or tables of strings (indices are ignored, but presumed to be taken in order). So, ''npc_choice(npc, ch, "A", {"B", "C", "D"}, "E")'' is the same as ''npc_choice(npc, ch, "A", "B", "C", "D", "E")''.
+
+==== npc_ask_integer ====
+<code lua>npc_ask_integer(handle npc, handle character, min_num, max_num, [default_num])</code>
+
+**Return value:** The number the player entered into the field.
+
+**Warning:** May only be called from an NPC talk function.
+
+Shows a dialog box to the user which allows him to choose a number between ''min_num'' and ''max_num''. If ''default_num'' is set this number will be uses as default. Otherwise ''min_num'' will be the default.
+
+==== npc_ask_string ====
+<code lua>npc_ask_string(handle npc, handle character)</code>
+
+**Return value:** The string the player entered.
+
+**Warning:** May only be called from an NPC talk function.
+
+Shows a dialog box to a user which allows him to enter a text.
+
+==== being_say ====
+<code lua>being_say(handle being, string message)</code>
+
+Makes ''being'', which can be a character, monster or NPC, speak the string ''message'' as if it was entered by a player in the chat bar.
+
+
+==== chat_message ====
+<code lua>chat_message(handle character, string message)</code>
+
+Outputs the string ''message'' in the chatlog of ''character'' which will appear as a private message from "Server".
+
+==== announce ====
+<code lua>announce(string message [, string sender])</code>
+
+Sends a global announce with the given ''message'' and ''sender''. If no ''sender'' is passed "Server" will be used as sender.
+
+===== Inventory interaction =====
+
+==== npc_trade ====
+<code lua>
+npc_trade(handle npc,
+               handle character,
+               bool mode,
+               {int item1id, int item1amount, int item1cost}, ...,
+               {int itemNid, int itemNamount, int itemNcost})</code>
+<code lua>
+npc_trade(handle npc,
+               handle character,
+               bool mode,
+               {string item1name, int item1amount, int item1cost}, ...,
+               {string itemNname, int itemNamount, int itemNcost})</code>
+
+Opens a trade window for ''character'' while talking with ''npc''. ''mode'' is true for selling and false for buying. You have to set each items the NPC is buying/selling, the cost and the maximum amount in {}. 
+
+**Note:** If the fourth parameters (table type) is omitted or invalid, and the mode set to sell (true),
+the whole player inventory is then sellable.
+
+**N.B.:** Be sure to put a ''value'' (item cost) parameter in your items.xml to permit the player to sell it when using this option.
+
+**Return values:**
+  * **0** when a trade has been started
+  * **1** when there is no buy/sellable items
+  * **2** in case of errors.
+
+**Examples:**
+<code lua npc_trade.lua>
+    -- "A buy sample."
+    local buycase = npc_trade(npc, ch, false, { {"Sword", 10, 20}, {"Bow", 10, 30}, {"Dagger", 10, 50} })
+    if buycase == 0 then
+      npc_message(npc, ch, "What do you want to buy?")
+    elseif buycase == 1 then
+      npc_message(npc, ch, "I've got no items to sell.")
+    else
+      npc_message(npc, ch, "Hmm, something went wrong... Ask a scripter to fix the buying mode!")
+    end
+
+-- ...
+
+    -- "Example: Let the player sell only pre-determined items."
+    local sellcase = npc_trade(npc, ch, true, { {"Sword", 10, 20}, {"Bow", 10, 30}, 
+                     {"Dagger", 10, 200}, {"Knife", 10, 300}, {"Arrow", 10, 500}, {"Cactus Drink", 10, 25} })
+    if sellcase == 0 then
+      npc_message(npc, ch, "Here we go:")
+    elseif sellcase == 1 then
+      npc_message(npc, ch, "I'm not interested by your items.")
+    else
+      npc_message(npc, ch, "Hmm, something went wrong... Ask a scripter to fix me!")
+    end
+
+-- ...
+
+    -- "Example: Let the player sell every item with a 'value' parameter in the server's items.xml file
+    local sellcase = npc_trade(npc, ch, true)
+    if sellcase == 0 then
+      npc_message(npc, ch, "Ok, what do you want to sell:")
+    elseif sellcase == 1 then
+      npc_message(npc, ch, "I'm not interested by any of your items.")
+    else
+      npc_message(npc, ch, "Hmm, something went wrong... Ask a scripter to fix this!")
+    end
+</code>
+
+==== chr_inv_count ====
+<code lua>chr_inv_count(handle character, bool inInventory, bool inEquipment, int id1, ..., int idN)</code>
+<code lua>chr_inv_count(handle character, bool inInventory, bool inEquipment, string name1, ..., string nameN)</code>
+
+The boolean values ''inInventory'' and ''inEquipment'' make possible to select whether equipped or carried items must be counted.
+
+**Return values:** A number of integers with the amount of items ''id'' or ''name'' carried or equipped by the ''character''.
+
+
+==== chr_inv_change ====
+<code lua>chr_inv_change(handle character, int id1, int number1, ..., int idN, numberN)</code>
+<code lua>chr_inv_change(handle character, string name1, int number1, ..., string nameN, numberN)</code>
+
+**Return value:** Boolean true on success, boolean false on failure.
+
+Changes the number of items with the item ID ''id'' or ''name'' owned by ''character'' by ''number''. You can change any number of items with this function by passing multiple ''id'' or ''name'' and ''number'' pairs. A failure can be caused by trying to take items the character doesn't possess.
+
+**Warning:** When one of the operations fails the following operations are ignored but these before are executed. For that reason you should always check if the character possesses items you are taking away using chr_inv_count.
+
+==== chr_get_inventory ====
+<code lua>chr_get_inventory(character): table[]{slot, item id, name, amount}</code>
+used to get a full view of a character's inventory.
+This is not the preferred way to know whether an item is in the character's inventory:
+Use chr_inv_count for simple cases.
+
+**Return value:** A table containing all the info about the character's inventory.
+Empty slots are not listed.
+
+**Example of use:**
+<code lua>
+local inventory_table = chr_get_inventory(ch)
+for i = 1, #inventory_table do
+    item_message = item_message.."\n"..inventory_table[i].slot..", "
+        ..inventory_table[i].id..", "..inventory_table[i].name..", "
+        ..inventory_table[i].amount
+end
+</code>
+
+==== chr_get_equipment ====
+<code lua>chr_get_equipment(character): table[](slot, item id, name)}</code>
+Used to get a full view of a character's equipment.
+This is not the preferred way to know whether an item is equipped:
+Use chr_inv_count for simple cases.
+
+**Return value:** A table containing all the info about the character's equipment.
+Empty slots are not listed.
+
+**Example of use:**
+<code lua>
+local equipment_table = chr_get_equipment(ch)
+for i = 1, #equipment_table do
+    item_message = item_message.."\n"..equipment_table[i].slot..", "
+        ..equipment_table[i].id..", "..equipment_table[i].name
+end
+</code>
+
+==== chr_money ====
+<code lua>chr_money(handle character)</code>
+
+**Return value:** The money currently owned by ''character''
+
+
+==== chr_money_change ====
+<code lua>chr_money_change(handle character, int amount)</code>
+
+Changes the money currently owned by ''character'' by ''amount''.
+
+**Warning:** Before reducing the money make sure to check if the character owns enough money using chr_money.
+
+
+===== Character and being interaction =====
+==== chr_get_quest ====
+<code lua>chr_get_quest(handle character, string name)</code>
+**Return value:** The quest variable named ''name'' for the given character.
+
+**Warning:** May only be called from an NPC talk function.
+
+==== chr_set_quest ====
+<code lua>chr_set_quest(handle character, string name, string value)</code>
+Sets the quest variable named ''name'' for the given character to the value ''value''.
+
+==== chr_set_special_recharge_speed ====
+<code lua>chr_set_special_recharge_speed(handle ch, int specialid, int new_speed)</code>
+<code lua>chr_set_special_recharge_speed(handle ch, string specialname, int new_speed)</code>
+Sets the recharge speed of the special to a new value for the character.
+
+**Note:** When passing the ''specialname'' as parameter make sure that it is formatted in this way: <setname>_<specialname> (for eg. "Magic_Healingspell").
+
+==== chr_get_special_recharge_speed ====
+<code lua>chr_get_special_recharge_speed(handle ch, int specialid)</code>
+<code lua>chr_get_special_recharge_speed(handle ch, string specialname)</code>
+**Return value:** The current recharge speed of the special that is owned by the character ''ch''.
+
+**Note:** When passing the ''specialname'' as parameter make sure that it is formatted in this way: <setname>_<specialname> (for eg. "Magic_Healingspell").
+
+==== chr_set_special_mana ====
+<code lua>chr_set_special_mana(handle ch, int specialid, int new_mana)</code>
+<code lua>chr_set_special_mana(handle ch, string specialname, int new_mana)</code>
+Sets the mana (recharge status) of the special to a new value for the character.
+
+**Note:** When passing the ''specialname'' as parameter make sure that it is formatted in this way: <setname>_<specialname> (for eg. "Magic_Healingspell").
+
+==== chr_get_special_mana ====
+<code lua>chr_get_special_mana(handle ch, int specialid)</code>
+<code lua>chr_get_special_mana(handle ch, string specialname)</code>
+**Return value:** The mana (recharge status) of the special that is owned by the character ''ch''.
+
+**Note:** When passing the ''specialname'' as parameter make sure that it is formatted in this way: <setname>_<specialname> (for eg. "Magic_Healingspell").
+
+==== being_walk ====
+<code lua>being_walk(handle being, int pixelX, int pixelY [, int walkSpeed])</code>
+
+Set the desired destination in pixels for the **'being'**.
+
+The optional **'WalkSpeed'** is to be given in tiles per second. The average speed is 6.0 tiles per second. If no speed is given the default speed of the being is used.
+
+==== being_damage ====
+<code lua>being_damage(handle being, int damage, int delta, int accuracy, int type, int element)</code>
+<code lua>being_damage(handle being, int damage, int delta, int accuracy, int type, int element, handle source)</code>
+<code lua>being_damage(handle being, int damage, int delta, int accuracy, int type, int element, handle source, int skill)</code>
+<code lua>being_damage(handle being, int damage, int delta, int accuracy, int type, int element, handle source, string skillname)</code>
+
+Inflicts damage to ''being''. The severity of the attack is between ''damage'' and (''damage'' + ''delta'') and is calculated using the normal [[damage calculation]] rules. The being has a chance to [[hitting and dodging|dodge the attack]] with its [[attributes|agility attribute]]. The ''accuracy'' decides how hard this is. If ''source'' is provided the attack is handled as if the ''source'' triggered the damage. If ''skill'' is given the ''owner'' can also recieve xp for the attack. The ''skill'' should be defined in the [[skills.xml|skills.xml]]. If the skill is provided as string (''skillname'') you have to use this format: <setname>_<skillname>. So for example: "Weapons_Unarmed"
+
+''type'' affects which kind of armor and character attributes reduce the damage. It can be one of the following values:
+| 0 | DAMAGE_PHYSICAL  |
+| 1 | DAMAGE_MAGICAL  |
+| 2 | DAMAGE_OTHER  |
+
+''element'' decides how the [[element system]] changes the damage. The following values are possible:
+| 0 | ELEMENT_NEUTRAL  |
+| 1 | ELEMENT_FIRE  |
+| 2 | ELEMENT_WATER  |
+| 3 | ELEMENT_EARTH  |
+| 4 | ELEMENT_AIR  |
+| 5 | ELEMENT_LIGHTNING  |
+| 6 | ELEMENT_METAL  |
+| 7 | ELEMENT_WOOD  |
+| 8 | ELEMENT_ICE  |
+
+**Return Value**: Actual HP reduction resulting from the attack.
+
+==== being_heal ====
+<code lua>being_heal(handle being[, int value])</code>
+
+Restores ''value'' lost hit points to ''being''. Value can be omitted to restore the being to full hit points.
+
+While you can (ab)use this function to hurt a being by using a negative value you should rather use being_damage for this purpose.
+
+==== being_get_name ====
+<code lua>being_get_name(handle being)</code>
+
+**Return value:** Name of the being.
+
+
+==== being_type ====
+<code lua>being_type(handle being)</code>
+
+**Return value:** Type of the given being. These type constants are defined in libmana-constants.lua:
+
+| 0 | TYPE_ITEM      |
+| 1 | TYPE_ACTOR     |
+| 2 | TYPE_NPC       |
+| 3 | TYPE_MONSTER   |
+| 4 | TYPE_CHARACTER |
+| 5 | TYPE_EFFECT    |
+| 6 | TYPE_OTHER     |
+
+
+==== being_get_action ====
+<code lua>being_get_action(handle being)</code>
+
+**Return value:** Current action of the given being. These action constants are defined in libmana-constants.lua:
+
+| 0 | ACTION_STAND  |
+| 1 | ACTION_WALK   |
+| 2 | ACTION_ATTACK |
+| 3 | ACTION_SIT    |
+| 4 | ACTION_DEAD   |
+| 5 | ACTION_HURT   |
+
+
+==== being_set_action ====
+<code lua>being_set_action(handle being, int action)</code>
+
+
+==== being_get_direction ====
+<code lua>being_get_direction(handle being)</code>
+
+**Return value:** Current direction of the given being. These direction constants are defined in libmana-constants.lua:
+
+| 0 | DIRECTION_DEFAULT |
+| 1 | DIRECTION_UP      |
+| 2 | DIRECTION_DOWN    |
+| 3 | DIRECTION_LEFT    |
+| 4 | DIRECTION_RIGHT   |
+| 5 | DIRECTION_INVALID |
+
+
+==== being_set_direction ====
+<code lua>being_set_direction(handle being, int direction)</code>
+
+Sets the current direction of the given being. Directions are same as in ''being_get_direction''.
+
+==== being_set_walkmask ====
+<code lua>being_set_walkmask(handle being, string mask)</code>
+
+Sets the walkmasks of a being. The mask is a set of characters which stand for different collision types.
+
+| w | Wall      |
+| c | Character |
+| m | Monster   |
+
+This means being_set_walkmask(being, "wm") will prevent the being from walking over walls and monsters.
+
+==== being_get_walkmask ====
+<code lua>being_get_walkmask(handle being)</code>
+
+**Return value:** The walkmask of the being formatted as string. (See [[scripting#get_item_class|being_set_walkmask]])
+
+
+==== chr_warp ====
+<code lua>chr_warp(handle character, int mapID, int posX, int posY)</code>
+<code lua>chr_warp(handle character, string mapName, int posX, int posY)</code>
+
+Teleports the ''character'' to the position ''posX'':''posY'' on the map with the ID number ''mapID'' or name ''mapName''. The ''mapID'' can be substituted by ''nil'' to warp the ''character'' to a new position on the current map.
+
+
+==== posX ====
+<code lua>posX(handle being)</code>
+
+**Return value:** The horizontal position of the ''being'' in pixels measured from the left border of the map it is currently on.
+
+
+==== posY ====
+<code lua>posY(handle being)</code>
+
+**Return value:** The vertical position of the ''being'' in pixels measured from the upper border of the map it is currently on.
+
+
+==== being_get_base_attribute ====
+<code lua>being_get_base_attribute(handle being, int attribute_id)</code>
+
+Set the value of the being's ''base attribute'' to the 'new_value' parameter given. (It can be negative).
+
+**Return value:** Returns nothing.
+
+==== being_set_base_attribute ====
+<code lua>being_set_base_attribute(handle being, int attribute_id, double new_value)</code>
+
+**Return value:** Returns the double value of the being's ''base attribute''.
+
+==== being_get_modified_attribute ====
+<code lua>being_get_modified_attribute(handle being, int attribute_id)</code>
+
+**Return value:** Returns the double value of the being's ''modified attribute''.
+
+The modified attribute is equal to the base attribute + currently applied modifiers. \\
+To get to know how to configure and create modifiers, you can have a look at the [[attributes.xml]] file
+and at the [[#being_apply_attribute_modifier]]() and [[#being_remove_attribute_modifier]]() lua functions. \\
+Note also that items, equipment, and monsters attacks can cause attribute modifiers.
+
+FIXME: This functions about applying and removing modifiers are still WIP, because some simplifications and renaming could occur.
+==== being_apply_attribute_modifier ====
+<code lua>being_apply_attribute_modifier(handle being, int attribute_id, double value, unsigned int layer, [unsigned short duration, [unsigned int effect_id]])</code>
+
+**Parameters description:** \\
+  * **value** (double): The modifier value (can be negative).
+  * **layer** (unsigned int): The layer or level of the modifier. As modifiers are stacked on an attribute, the layer determines where the modifier will be inserted. Also, when adding a modifier, all the modifiers with an higher ayer value will also be recalculated.
+  * **duration** (unsigned short): The modifier duration in ticks((A tick is equal to 100ms.)). If set to 0, the modifier is permanent.
+  * **effect_id** (unsigned int): Set and keep that parameter when you want to retrieve the exact layer later. (FIXME: Check this.)
+
+**Return value:** Returns nothing.
+
+==== being_remove_attribute_modifier ====
+<code lua>being_remove_attribute_modifier(handle being, int attribute_id, double value, unsigned int layer)</code>
+
+Permits to remove an attribute modifier by giving its value and its layer.
+
+**Return value:** Returns nothing.
+
+==== being_get_gender ====
+<code lua>being_get_gender(handle being)</code>
+
+**Return value:** The gender of the being. These gender constants are defined in libmana-constants.lua:
+
+| 0 | GENDER_MALE |
+| 1 | GENDER_FEMALE |
+| 2 | GENDER_UNSPECIFIED |
+
+==== chr_set_gender ====
+<code lua>being_set_gender(handle being, int gender)</code>
+
+Sets the gender of a ''being''.
+
+The gender constants are defined in libmana-constants.lua:
+
+| 0 | GENDER_MALE |
+| 1 | GENDER_FEMALE |
+| 2 | GENDER_UNSPECIFIED |
+
+
+==== chr_get_level ====
+<code lua>chr_get_level(handle character)</code>
+<code lua>chr_get_level(handle character, int skill_id)</code>
+<code lua>chr_get_level(handle character, string skill_name)</code>
+
+**Return value:** Returns the level of the ''character''. If a skill is passed (either by name or id) the level of this skill is returned.
+
+**Note:** If the skill is provided as string (''skill_name'') you have to use this format: <setname>_<skillname>. So for example: "Weapons_Unarmed".
+
+==== chr_get_exp ====
+<code lua>chr_get_exp(handle character, int skill)</code>
+<code lua>chr_get_exp(handle character, string skillname)</code>
+
+**Return value:** The total experience collected by ''character'' in skill ''skill''.
+
+If the skill is provided as string (''skillname'') you have to use this format: <setname>_<skillname>. So for example: "Weapons_Unarmed".
+
+
+==== chr_give_exp ====
+<code lua>chr_give_exp(handle character, int skill, int amount [, int optimalLevel])</code>
+<code lua>chr_give_exp(handle character, string skillname, int amount [, int optimalLevel])</code>
+
+Gives ''character'' ''amount'' experience in skill ''skill''. When an optimal level is set (over 0), the experience is reduced when the characters skill level is beyond this.
+If the skill is provided as string (''skillname'') you have to use this format: <setname>_<skillname>. So for example: "Weapons_Unarmed".
+
+
+==== exp_for_level ====
+<code lua>exp_for_level(int level)</code>
+
+**Return value:** Returns the total experience necessary (counted from level 0) for reaching ''level'' in any skill.
+
+
+==== chr_get_hair_color ====
+<code lua>chr_get_hair_color(handle character)</code>
+
+**Return value:** The hair color ID of ''character''
+
+
+==== chr_set_hair_color ====
+<code lua>chr_set_hair_color(handle character, int color)</code>
+
+Sets the hair color ID of ''character'' to ''color''
+
+
+==== chr_get_hair_style ====
+<code lua>chr_get_hair_style(handle character)</code>
+
+**Return value:** The hair style ID of ''character''
+
+
+==== chr_set_hair_style ====
+<code lua>chr_set_hair_style(handle character, int style)</code>
+
+Sets the hair style ID of ''character'' to ''style''
+
+==== chr_get_kill_count ====
+<code lua>chr_get_kill_count(handle character, int monsterId)</code>
+<code lua>chr_get_kill_count(handle character, string monsterName)</code>
+<code lua>chr_get_kill_count(handle character, MonsterClass monsterClass)</code>
+
+**Return value:** The total number of monsters of the specy (passed either as monster id, monster name or monster class) the ''character'' has killed during its career.
+
+==== chr_get_rights ====
+<code lua>chr_get_rights(handle character)</code>
+
+**Return value:** The access level of the account of character.
+
+===== Monsters =====
+
+==== monster_get_id ====
+<code lua>monster_get_id(handle monster)</code>
+
+**Return value:** The id of the specy of the monster handle.
+
+==== monster_change_anger ====
+<code lua>monster_change_anger(handle monster, handle being, int anger)</code>
+
+Makes the ''monster'' more angry about the ''being'' by adding ''anger'' to the being.
+
+===== Status effects =====
+
+==== being_apply_status ====
+<code lua>being_apply_status(handle Being, int status_id, int time)</code>
+
+Gives a ''being'' a status effect ''status_id'', status effects don't work on NPCs. ''time'' is in game ticks.
+
+
+==== being_remove_status ====
+<code lua>being_remove_status(handle Being, int status_id)</code>
+
+Removes a given status effect from a being.
+
+
+==== being_has_status ====
+<code lua>being_has_status(handle Being, int status_id)</code>
+
+**Return value:** Bool if the being has a given status effect.
+
+
+==== being_get_status_time ====
+<code lua>being_get_status_time(handle Being, int status_id)</code>
+
+**Return Value:** Number of ticks remaining on a status effect.
+
+
+==== being_set_status_time ====
+<code lua>being_set_status_time(handle Being, int status_id, int time)</code>
+
+Sets the time on a status effect a target being already has.
+
+
+===== Scheduling =====
+
+==== atinit ====
+<code lua>atinit(function() [function body] end)</code>
+
+Adds a function which is executed when the gameserver loads the map this script belongs to. Usually used for placing NPCs or trigger areas and for setting up cronjobs with schedule_every. Any number of functions can be added this way.
+
+
+==== schedule_in ====
+<code lua>schedule_in(seconds, function() [function body] end)</code>
+
+Executes the ''function body'' in ''seconds'' seconds.
+
+
+==== schedule_every ====
+<code lua>schedule_every(seconds, function() [function body] end)</code>
+
+Executes the ''function body'' every ''seconds'' seconds from now on.
+
+==== schedule_per_date ====
+<code lua>schedule_per_date(year, month, day, hour, minute, function() [function body] end)</code>
+
+Executes the ''function body'' at the given date and time.
+==== on_death ====
+<code lua>on_death(handle being, function() [function body] end)</code>
+
+Executes the ''function body'' when ''being'' is killed. Note that this doesn't happen anymore after the being left the map. 
+
+==== on_remove ====
+<code lua>on_remove(handle being, function() [function body] end)</code>
+
+Executes the ''function body'' when ''being'' is no longer on the map for some reason (leaves the map voluntarily, is warped away, logs out, cleaned up after getting killed or whatever).
+
+
+===== General information =====
+
+==== monster_get_name ====
+<code lua>monster_get_name(int id)</code>
+
+**Return value:** The name of the monster with the ID ''id''
+
+==== item_get_name ====
+<code lua>item_get_name(int id)</code>
+
+**Return value:**  The name of the item with the ID ''id''
+
+===== Map information =====
+
+==== get_map_id ====
+<code lua>get_map_id()</code>
+
+**Return value:** The ID number of the map the script runs on.
+
+==== get_map_property ====
+<code lua>get_map_property(string key)</code>
+
+**Return value:** The value of the property ''key'' of the current map. The string is empty if the property ''key'' does not exist.
+
+==== is_walkable ====
+<code lua>is_walkable(int x, int y)</code>
+
+**Return value:** True if ''x'':''y'' is a walkable pixel on the current map.
+
+==== map_get_pvp ====
+<code lua>map_get_pvp()</code>
+
+**Return value:** The pvp situation of the map.
+
+There are constants for the different pvp situations in the libmana-constants.lua:
+
+| 0 | PVP_NONE  |
+| 1 | PVP_FREE  |
+
+===== Persistent variables =====
+Be aware that due to a design flaw, all map-bound and global variables share the same namespace. You can also currently interact with map variables on other maps by referring to them as global variables. **So you'd better not try to exploit this!** You have been warned! A workaround is to prefix all map-bound variable names with a different prefix on each map and all global variables with yet a different prefix.
+
+Details about the bug on http://bugs.manasource.org/view.php?id=310
+
+==== map ====
+<code lua>local value = map[string key]</code>
+<code lua>map[string key] = value</code>
+
+Sets or gets a persistent map variable. The scrope of the variable is the map the script runs on. The value is stored in the database and thus will survive a server reboot.
+
+**Example:**
+<code lua>
+local value = map["a key"]
+if value == "some value" then
+    map["a key"] = "other value"
+end
+</code>
+==== world ====
+<code lua>local value = world[string key]</code>
+<code lua>world[string key] = value</code>
+
+Sets or gets a persistent world variable. The value is stored in the database and thus will survive a server reboot.
+
+**Important:** When you are using this function, be aware of race conditions: It is impossible to prevent that another map changes the value of a variable between you requesting to old value and setting a new value.
+
+**Example:**
+<code lua>
+local value = world["a key"]
+if value == "some value" then
+    world["a key"] = "other value"
+end
+</code>
+
+==== on_mapvar_changed ====
+<code lua>on_mapvar_changed(string key, function func)</code>
+Registers a callback to the key. This callback will be called with the key and value of the changed variable.
+
+**Example:** <code lua>on_mapvar_changed(key, function(key, value) log(LOG_DEBUG, "mapvar " .. key .. " has new value " .. value) end)</code>
+
+==== remove_mapvar_listener ====
+<code lua>remove_mapvar_listener(string key, function func)</code>
+Unassigns a function from getting notified from mapvar changes.
+
+==== on_worldvar_changed ====
+<code lua>on_worldvar_changed(string key, function func)</code>
+Registers a callback to the key. This callback will be called with the key and value of the changed variable.
+
+**Example:** <code lua>on_worldvar_changed(key, function(key, value) log(LOG_DEBUG, "worldvar " .. key .. " has new value " .. value) end)</code>
+
+==== remove_worldvar_listener ====
+<code lua>remove_worldvar_listener(string key, function func)</code>
+Unassigns a function from getting notified from worldvar changes.
+
+===== Logging =====
+
+==== log ====
+<code lua>log(int log_level, string message)</code>
+
+Log something at the specified log level. The available log levels are:
+| 0 | LOG_FATAL  |
+| 1 | LOG_ERROR  |
+| 2 | LOG_WARNING  |
+| 3 | LOG_INFO |
+| 4 | LOG_DEBUG |
+
+==== ERROR ====
+<code lua>ERROR(string message)</code>
+
+Will log the ''message'' using the log level LOG_ERROR.
+
+*Note:* When passing multiple arguments these arguments will get connected using a " ".
+
+==== WARN ====
+<code lua>WARN(string message)</code>
+
+Will log the ''message'' using the log level LOG_WARNING.
+
+*Note:* When passing multiple arguments these arguments will get connected using a " ".
+
+==== INFO ====
+<code lua>INFO(string message)</code>
+
+Will log the ''message'' using the log level LOG_INFO.
+
+*Note:* When passing multiple arguments these arguments will get connected using a " ".
+
+==== DEBUG ====
+<code lua>DEBUG(string message)</code>
+
+Will log the ''message'' using the log level LOG_DEBUG.
+
+*Note:* When passing multiple arguments these arguments will get connected using a " ".
+
+===== Area of Effect =====
+
+In order to easily use area of effects in your items or in your scripts, the following functions are available:
+
+==== get_beings_in_circle ====
+<code lua>get_beings_in_circle(int x, int y, int radius)</code>
+<code lua>get_beings_in_circle(handle being, int radius)</code>
+**Return value:** This function returns a lua table of all beings in a circle of radius (in pixels) ''radius'' centered either at the pixel at (''x'', ''y'') or at the position of ''being''.
+
+==== get_beings_in_rectangle ====
+<code lua>get_beings_in_rectangle(int x, int y, int width, int height)</code>
+**Return value:** An array of being objects. All parameters have to be passed as pixels.
+
+==== get_distance ====
+<code lua>get_distance(handle being1, handle being2)</code>
+<code lua>get_distance(int x1, int y1, int x2, int y2)</code>
+**Return value:** The distance between the two beings or the two points in pixels.
+
+===== Special info class =====
+
+See the [[specials.xml#A script example|specials Documentation]] for a script example
+==== get_special_info ====
+<code lua>get_special_info(int specialId)</code>
+<code lua>get_special_info(string specialName)</code>
+**Return value:** This function returns a object of the specialinfo class. See below for usage of that object.
+
+**Note:** When passing the ''specialName'' as parameter make sure that it is formatted in this way: <setname>_<specialname> (for eg. "Magic_Healingspell").
+
+==== specialinfo:name ====
+<code lua>specialinfo:name()</code>
+** Return value:** The name of the specialinfo object.
+
+**Note:** See [[scripting#get_special_info|get_special_info]] for getting a specialinfo object.
+
+==== specialinfo:needed_mana ====
+<code lua>specialinfo:needed_mana()</code>
+** Return value:** The mana that is needed to use the special
+
+**Note:** See [[scripting#get_special_info|get_special_info]] for getting a specialinfo object.
+
+==== specialinfo:rechargeable ====
+<code lua>specialinfo:rechargeable()</code>
+** Return value:** A boolean value that indicates whether the special is rechargeable or usuable without recharge
+
+**Note:** See [[scripting#get_special_info|get_special_info]] for getting a specialinfo object.
+
+==== specialinfo:on_use ====
+<code lua>specialinfo:on_use(function callback)</code>
+Assigns the ''callback'' as callback for the use event. This function will be called everytime a character uses a special.
+
+**Note:** See [[scripting#get_special_info|get_special_info]] for getting a specialinfo object.
+
+==== specialinfo:on_recharged ====
+<code lua>specialinfo:on_recharged(function callback)</code>
+Assigns the ''callback'' as callback for the recharged event. This function will be called everytime when the special is fully recharged.
+
+**Note:** See [[scripting#get_special_info|get_special_info]] for getting a specialinfo object.
+
+==== specialinfo:category ====
+<code lua>specialinfo:category(function callback)</code>
+**Return value:** The set-name of the special as defined in the [[specials.xml]]
+
+**Note:** See [[scripting#get_special_info|get_special_info]] for getting a specialinfo object.
+===== Status effect class =====
+==== get_status_effect ====
+<code lua>get_status_effect(string name)</code>
+**Return value:** This function returns a object of the statuseffect class. See below for usage of that object.
+
+==== statuseffect:on_tick ====
+<code lua>statuseffect:on_tick(function callback)</code>
+Sets the callback that gets called for every tick when the status effect is active.
+
+**Note:** See [[scripting#get_status_effect|get_status_effect]] for getting a statuseffect object.
+
+===== Monster class =====
+
+==== get_monster_class ====
+<code lua>get_monster_class(int monsterid)</code>
+<code lua>get_monster_class(string monstername)</code>
+**Return value:** This function returns a object of the monster class. See below for usage of that object.
+
+==== monsterclass:on_update ====
+<code lua>monsterclass:on_update(function callback)</code>
+Assigns the ''callback'' as callback for the monster update event. This callback will be called every tick for each monster of that class.
+
+**Note:** See [[scripting#get_monster_class|get_monster_class]] for getting a monsterclass object.
+
+==== monsterclass:on_damage ====
+<code lua>monsterclass:on_damage(function callback)</code>
+Assigns the ''callback'' as callback for the monster damage event. This callback will be called every time when a monster takes damage.
+The damage can be either invoked from scripts or from other beings such as players. The parameters of the callback are:
+the attacked monster, the being dealing the damage and the hploss
+
+**Note:** See [[scripting#get_monster_class|get_monster_class]] for getting a monsterclass object.
+
+**Example:** <code lua>
+local function damage(mob, aggressor, hploss)
+    being_say(mob, "I took damage -.- ".. hploss)
+    if aggressor then
+        being_say(mob, "Curse you, ".. being_get_name(aggressor))
+    end
+end
+local maggot = get_monster_class("maggot")
+maggot:on_damage(damage)</code>
+
+==== monsterclass:attacks ====
+<code lua>monsterclass:attacks()</code>
+**Return value:** This function returns a table with all attacks of the monster. See the [[scripting#AttackInfo class|Attack Info]] section.
+
+===== AttackInfo class =====
+The AttackInfo class reveals info about attacks and provides functions to register callbacks on attacks. See the [[attackconfiguration|Attack Configuration]] for more info.
+To get an AttackInfo use [[scripting#monsterclass:attacks|monsterclass:attacks]] or [[scripting#itemclass:attacks|itemclass:attacks]]
+
+==== attackinfo:priority ====
+<code lua>attackinfo:priority()</code>
+**Return value:** This function returns the priority of the attack.
+
+==== attackinfo:cooldowntime ====
+<code lua>attackinfo:cooldowntime()</code>
+**Return value:** This function returns the cooldowntime (time after dealing damage after which a new attack can be used) of the attack.
+
+==== attackinfo:warmuptime ====
+<code lua>attackinfo:warmuptime()</code>
+**Return value:** This function returns the warmuptime (time before a attack triggers damage after being used) of the attack.
+
+==== attackinfo:reusetime ====
+<code lua>attackinfo:reusetime()</code>
+**Return value:** This function returns the reusetime (time after which the same attack can be used again) of the attack.
+
+==== attackinfo:damage ====
+<code lua>attackinfo:damage()</code>
+**Return value:** This function returns the damage info of the attack.
+**See also:** [[scripting#Damage Class|Damage Class]]
+
+==== attackinfo:on_attack ====
+<code lua>attackinfo:on_attack(function callback)</code>
+Assigns a callback to the attack that will be called as soon the attack is used. The callback will get called with the following parameters: being user, being target, int damage_dealt.
+
+
+==== Damage Class ====
+The Damage class provides info about the kind of damage attack deals.
+
+==== damage:id ====
+<code lua>damage:id()</code>
+**Return value:** This function returns the id of the attack.
+
+==== damage:skill ====
+<code lua>damage:skill()</code>
+**Return value:** This function returns the skill id of the attack. If the damage dealer is a character is a character this skill will recieve exp.
+
+==== damage:base ====
+<code lua>damage:base()</code>
+**Return value:** This function returns the base damage of the attack. It is the minimum of damage dealt.
+
+==== damage:delta ====
+<code lua>damage:delta()</code>
+**Return value:** This function returns the damage delta of the attack. base damage + delta damage is the maximum of damage the attack can cause. A number in between will be picked by random.
+
+==== damage:cth ====
+<code lua>damage:cth()</code>
+**Return value:** This function returns the chance to hit of the attack. This number is not a percent value but some factor. Higher means better chance to hit. FIXME: Add info about the factor.
+
+==== damage:element ====
+<code lua>damage:element()</code>
+**Return value:** This function returns the element of the attack.
+**See:** [[scripting#being_damage|being_damage]] for possible values.
+
+==== damage:type ====
+<code lua>damage:type()</code>
+**Return value:** This function returns the type of the attack.
+**See:** [[scripting#being_damage|being_damage]] for possible values.
+
+==== damage:is_truestrike ====
+<code lua>damage:is_truestrike()</code>
+**Return value:** This function returns whether the attack is a true strike. A true strike is not effected by chance of hit or anything that could prevent the hit.
+
+==== damage:range ====
+<code lua>damage:range()</code>
+**Return value:** This function returns the range of the attack in pixels.
+
+===== Map object class =====
+
+==== map_get_objects ====
+<code lua>map_get_objects()</code>
+<code lua>map_get_objects(string type)</code>
+
+**Return value:** A table of all objects or a table of all objects of the given ''type''. See below for usage of these objects.
+
+==== mapobject:property ====
+<code lua>mapobject:property(string key)</code>
+**Return value:** The value of the property of the key ''key'' or nil if the property does not exists.
+
+**Note:** See [[scripting#map_get_objects|map_get_objects]] for getting a monsterclass object.
+
+==== mapobject:bounds ====
+<code lua>mapobject:bounds()</code>
+
+**Return value:** x, y position and height, width of the ''mapobject''.
+
+**Example use:**
+<code lua>local x, y, width, height = my_mapobject:bounds()</code>
+
+**Note:** See [[scripting#map_get_objects|map_get_objects]] for getting a mapobject object.
+
+==== mapobject:name ====
+<code lua>mapobject:name()</code>
+
+**Return value:** Name as set in the mapeditor of the ''mapobject''.
+
+**Note:** See [[scripting#map_get_objects|map_get_objects]] for getting a mapobject object.
+
+==== mapobject:type ====
+<code lua>mapobject:type()</code>
+
+**Return value:** Type as set in the mapeditor of the ''mapobject''.
+
+**Note:** See [[scripting#map_get_objects|map_get_objects]] for getting a mapobject object.
+
+===== Item class =====
+==== get_item_class ====
+<code lua>get_item_class(int itemid)</code>
+<code lua>get_item_class(string itemname)</code>
+
+**Return value:** This function returns a object of the item class. See below for usage of that object.
+
+==== itemclass:on ====
+<code lua>itemclass:on(string event, function callback)</code>
+Assigns ''callback'' as callback for the ''event'' event.
+
+**Note:** See [[scripting#get_item_class|get_item_class]] for getting a itemclass object.
+
+==== itemclass:attacks ====
+<code lua>itemclass:attacks()</code>
+**Return value:** Returns a list of all attacks the item offers.
+**See:** the [[scripting#AttackInfo Class|AttackInfo class]] for more info about how to use the values in the list.
+
+===== Callbacks =====
+**Note:** You can only assign a **single** function as callback. When setting a new function the old one will not be called anymore. Some of this callbacks are already used for the libmana.lua
+
+==== on_character_death ====
+<code lua>on_character_death(function ref)</code>
+
+Will make sure that the function ''ref'' gets called with the character as argument as soon a character dies.
+
+==== on_character_death_accept ====
+<code lua>on_character_death_accept(function ref)</code>
+
+Will make sure that the function ''ref'' gets called with the character as argument as soon a character either pressed the ok dialouge in the death message or left the game while being dead.
+
+==== on_character_login ====
+<code lua>on_character_login(function ref)</code>
+
+Will make sure that function ''ref'' gets called with the character as argument as soon a character logged in.
+
+==== on_being_death ====
+<code lua>on_being_death(function ref)</code>
+
+Will make sure that the function ''ref'' gets called with the being as argument as soon a being dies.
+
+==== on_being_remove ====
+<code lua>on_being_remove(function ref)</code>
+
+Will make sure that the function ''ref'' gets called with the being as argument as soon a being gets removed from a map.
+
+==== on_update ====
+<code lua>on_update(function ref)</code>
+
+Will make sure that the function ''ref'' gets called every game tick.
+
+==== on_create_npc_delayed ====
+<code lua>on_create_npc_delayed(function ref)</code>
+
+Will make sure that the function ''ref'' gets called with the name, id, gender, x and y values as arguments of the npc when a npc should be created at map init (Npcs defined directly in the map files use this).
+
+==== on_map_initialize ====
+<code lua>on_map_initialize(function ref)</code>
+
+Will make sure that the function ''ref'' gets called with the initialized map as current map when the map is initialized.
+
+==== on_craft ====
+<code lua>on_craft(function ref)</code>
+
+Will make sure that the function ''ref'' gets called with the the crafting character and a table with the recipes {(id, amount}) when a character performs crafting.
+
+==== on_mapupdate ====
+<code lua>on_mapupdate(function ref)</code>
+
+
+Will make sure that the function ''ref'' gets called with the the map id as argument for each game tick and map.
+
+====== Needed script bindings ======
+
+==== Area of Effect ====
+Possible missing area of effect functions:
+
+  * get_beings_in_cone
+  * get_beings_in_line

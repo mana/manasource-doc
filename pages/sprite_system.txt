@@ -1,0 +1,206 @@
+===== The sprite system =====
+
+The animation system and its related files is the most wide spread engine system working throughout the client. Animation files can indeed be used for animating the characters, the monsters, the maps tiles, the emoticons, and so on...
+
+This chapter will the attempt to provide documentation about sprite files within the mana client. If you want to create particle effects, see the [[particle system]] documentation.
+
+==== XML Sprite files ====
+
+Most of the time, an animation parameter (in [[npcs.xml]], in [[items.xml]] or [[monsters.xml]] for instance) is linking to an XML file where the actual animation
+to play for each action is described.
+
+Here are example of sprite files and how to configure them:
+
+=== Note on the playersets configuration ===
+
+The playersets animations, corresponding to male and female animations for each races, are currently declared in the [[items.xml]] file.
+
+== Note on the playersets definition ==
+
+**Note:** The races declaration should be moved to the ''races.xml'' file, and support for more than one race is to be added. \\
+  QUESTION: Will we allow to have a custom different genders value as it is theoretically possible in the server?
+
+You can find below a working example about how to set up the link to playersets animation files for each available gender:
+
+**Note:** Currently, only the id -100 for the first race is allowed, and only one race is allowed in the client anyway.
+
+<file XML items.xml>
+<?xml version="1.0"?>
+<items>
+  <!-- ... -->
+  <item id="-100" type="racesprite" name="Human">
+    <sprite gender="male">player_male_base.xml</sprite>
+    <sprite gender="female">player_female_base.xml</sprite>
+  </item>
+  <!-- ... -->
+</items>
+</file>
+
+For each XML file declared above, a corresponding file in ''graphics/sprites''((per default, see [[paths.xml]] to change the default paths.)) will have to exist.
+
+== Note on the hair sets definition ==
+
+**Note:** The hairs declaration should be moved to the ''races.xml'' file, as hairsets should be linked to the playerset, and thus, the race. \\
+  QUESTION: Will we allow to have a custom different genders value for hairs?
+
+You can find below a working example about how to set up the link to hairsets animation files for both server, as TmwAthena has a limitation on the permitted Id:
+
+<file XML hair-sample-in-items.xml>
+    <item id="-1" type="hairsprite" name="Flat ponytail">
+        <sprite>hairstyle1.xml</sprite>
+    </item>
+    <item id="-2" type="hairsprite" name="Bowl cut">
+        <sprite>hairstyle2.xml</sprite>
+    </item>
+    <item id="-3" type="hairsprite" name="Combed back">
+        <sprite>hairstyle3.xml</sprite>
+    </item>
+    <item id="-4" type="hairsprite" name="Emo">
+        <sprite>hairstyle4.xml</sprite>
+    </item>
+    <item id="-5" type="hairsprite" name="Mohawk">
+        <sprite>hairstyle5.xml</sprite>
+    </item>
+    <item id="-6" type="hairsprite" name="Pompadour">
+        <sprite>hairstyle6.xml</sprite>
+    </item>
+    <item id="-7" type="hairsprite" name="Center parting/Short and slick">
+        <sprite>hairstyle7.xml</sprite>
+    </item>
+    <item id="-8" type="hairsprite" name="Long and slick">
+        <sprite>hairstyle8.xml</sprite>
+    </item>
+    <item id="-9" type="hairsprite" name="Short and curly">
+        <sprite>hairstyle9.xml</sprite>
+    </item>
+    <item id="-10" type="hairsprite" name="Pigtails">
+        <sprite>hairstyle10.xml</sprite>
+    </item>
+    <item id="-11" type="hairsprite" name="Long and curly">
+        <sprite>hairstyle11.xml</sprite>
+    </item>
+    <item id="-12" type="hairsprite" name="Parted">
+        <sprite>hairstyle12.xml</sprite>
+    </item>
+    <item id="-13" type="hairsprite" name="Perky ponytail">
+        <sprite>hairstyle13.xml</sprite>
+    </item>
+    <item id="-14" type="hairsprite" name="Wave">
+        <sprite>hairstyle14.xml</sprite>
+    </item>
+    <item id="-15" type="hairsprite" name="Mane">
+        <sprite>hairstyle15.xml</sprite>
+    </item>
+    <item id="-16" type="hairsprite" name="Bun">
+        <sprite>hairstyle16.xml</sprite>
+    </item>
+</file>
+
+For each XML file declared above, a corresponding file in ''graphics/sprites''((per default, see [[paths.xml]] to change the default paths.)) will have to exist.
+
+=== Configuration of a sprite file ===
+
+Here is an example of a playerset XML file:
+
+**Note:** You can also consider that NPCs, monsters, equipment sprites, and so on, can be configured the same way than below.
+
+<file XML playerset_male_base.xml>
+<?xml version="1.0"?>
+<sprite name="player" action="stand">
+  <imageset name="base" src="graphics/sprites/player_male_base.png"
+            width="64" height="64" />
+
+  <action name="stand" imageset="base">
+    <animation direction="down">
+      <frame index="0" />
+    </animation>
+    <animation direction="left">
+      <frame index="18" />
+    </animation>
+    <animation direction="up">
+      <frame index="36" />
+    </animation>
+    <animation direction="right">
+      <frame index="54" />
+    </animation>
+  </action>
+  <!-- ... -->
+  <action name="attack_bow" imageset="base">
+    <animation direction="down">
+      <sequence start="13" end="17" delay="75" />
+      <end />
+    </animation>
+    <animation direction="left">
+      <sequence start="31" end="32" delay="75" />
+      <sequence start="33" end="35" delay="90" />
+      <end />
+    </animation>
+    <animation direction="up">
+      <sequence start="49" end="53" delay="75" />
+      <end />
+    </animation>
+    <animation direction="right">
+      <sequence start="67" end="71" delay="75" />
+      <end />
+    </animation>
+  </action>
+
+</sprite>
+</file>
+
+Here is a description of each available nodes and their parameters:
+
+^  ''sprite'' node  ^^^^^
+^  Parameter  ^  Value Type  ^  Required  ^  Default Value  ^ Description   ^
+|  name  |  string  |  no  |  ""  | The sprite name. Only used for self-documentation. FIXME: Can we remove that? Or will it be used later?  |
+|  action  |  string  |  yes  |  ""  | The default action name used when the system doesn't find the requested one for the given animation.  |
+^  ''imageset'' node (childnode of ''sprite'')  ^^^^^
+| There can be several ''imageset'' childnodes, as long as they have different ''name'' values.  |||||
+^  Parameter ^  Value Type  ^  Required  ^  Default Value  ^ Description   ^
+|  name      |  string   |  yes  |  -  | The imageset internal name. This name is used as a reference later in an ''animation'' node. Must be unique.  |
+|  src       |  string   |  yes  |  -  | The file path of a PNG file used when invoking the imageset. The file path must be relative to the ''data/'' folder.  |
+|  width     |  integer  |  yes  |  -  | The sprites' width used when tiling the PNG file to obtain the animation frames. See notes about that below.  |
+|  height    |  integer  |  yes  |  -  | The sprites' height used when tiling the PNG file to obtain the animation frames. See notes about that below.  |
+|  offsetX   |  integet  |  no   |  0  | The image horizontal (from left to right) offset to used when displaying the frames. Can be negative. |
+|  offsetY   |  integer  |  no   |  0  | The image vertical (from top to bottom) offset to used when displaying the frames. Can be negative. |
+^  ''action'' node (childnode of ''sprite'')  ^^^^^
+| There can be several ''action'' childnodes, as long as they have different ''name'' values.  |||||
+^  Parameter  ^  Value Type  ^  Required  ^  Default Value  ^ Description   ^
+|  name  |  string \\ Defined values: \\ ("default", "stand", "walk", "sit", "dead", attack")  |  yes  |  -  | The action name. The core actions (walk, sit, ...) must be defined using the predefined values described in the 'Value type' column. Attack actions are freely named using the ''attack-action'' parameter in the [[items.xml]] and thus, have to be named accordingly. Only the default "attack" action has to be specifically set. \\ E.g.: If the "attack_bow" action name value is corresponding to the ''attack-action'' parameter value in [[items.xml]] for a bow. Then, this action will be used when using this weapon instead of the default "attack" action. \\ Also, the "default" action will be played when the default given in the sprite action parameter isn't found.  |
+|  imageset  |  string  |  yes  |  -  | The imageset reference name. It must correspond to one of the imageset name values.  |
+^  ''animation'' node (childnode of ''action'')  ^^^^^
+| There can be several ''animation'' childnodes, as long as they have different ''direction'' values.  |||||
+^  Parameter  ^  Value Type  ^  Required  ^  Default Value  ^ Description   ^
+|  direction  |  string \\ Defined values: \\ ("up", "down", "left", "right")  |  yes  |  -  | The animation direction. Its value must be unique per animation node. Also, the first animation declared is the default one when the requested direction isn't found.  |
+^  ''frame'' node (childnode of ''animation'')  ^^^^^
+| There can be several ''frame'' childnodes within an ''animation'' node, even mixed with ''sequence'' ones, but the animation will stop loading once it has reached an ''end'' childnode.  |||||
+|  index  |  integer  |  yes  |  -  | The frame index to display. When the imageset file is loaded, it is tiled into pieces of the size given in its ''imageset'' node, from left ot right, and from top to the bottom of the PNG file. The index is representing the tile number to display. Note that the first tile index value (representing top-left part of the image) is 0.  |
+|  delay  |  integer  |  no  |  75  | The time the frame is displayed in milliseconds. Must be positive.  |
+|  offsetX  |  integer  |  no  |  0  | The image horizontal (from left to right) offset to used when displaying the frames. Can be negative.  |
+|  offsetY  |  integer  |  no  |  0  | The image vertical (from top to bottom) offset to used when displaying it. Can be negative.  |
+^  ''sequence'' node (childnode of ''animation'')  ^^^^^
+| There can be several ''sequence'' childnodes within an ''animation'' node, even mixed with ''frame'' ones, but the animation will stop loading once it has reached an ''end'' childnode.  |||||
+|  start  |  integer  |  yes  |  -  | The first frame index to display. See index parameter of the ''frame'' node.  |
+|  end  |  integer  |  yes  |  -  | The last frame index to display. Note that every frames with indexes between start and end parameter values will be played.  |
+|  delay  |  integer  |  no  |  75  | The time the frames are displayed in milliseconds. Must be positive.  |
+|  offsetX  |  integer  |  no  |  0  | The image horizontal (from left to right) offset to used when displaying the frames. Can be negative.  |
+|  offsetY  |  integer  |  no  |  0  | The image vertical (from top to bottom) offset to used when displaying the frames. Can be negative.  |
+^  ''end'' node (childnode of ''animation'')  ^^^^^
+| An ''end'' childnode set the end of the current animation. It doesn't have any parameters. This node is optional.  |||||
+
+
+=== XML inclusion support ===
+
+Another XML sprite file can be included by using the **<include>** tag.
+
+For instance, if you want to override the images, you'll need to specify them before the include element. If you want to override any animations, you have to do so after the include element. Example:
+
+<file xml include-sample.xml>
+<sprite>
+ <imageset name="base" />
+ <!-- ... -->
+ <include file="other-sprite-file.xml"/>
+ <!-- possibly override or introduce new actions -->
+</sprite>
+</file>
+

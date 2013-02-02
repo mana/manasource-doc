@@ -1,0 +1,75 @@
+====== GUI configuration ======
+
+You'll find below the files and options available in order to customize the Mana client's GUI.
+
+===== GUI Theme support =====
+
+The Mana client is aimed at being a generic client, supporting the necessary branding functions for other maintainers.
+Hence, a GUI theming support has been added through the following branding option: ''guiThemePath''. See the [[branding.xml]] page.
+
+The above option permits to provide an alternate path to the gui files, thus making the client load a different skin set.
+The GUI theme path is relative to the ''data/'' folder. Also, when GUI files are not found in the theme path, the default ones are used instead.
+
+===== GUI Data handling =====
+
+Here is a description of each required XML and PNG files used to set up the Mana client GUI:
+
+^  File  ^ Description  ^
+^  XML files  ^^
+|  graphics/gui/[[gui colors|colors.xml]]  | The  XML file defining each text and progress bars colour depending on the case.   |
+|  graphics/gui/[[speechbubble.xml]]  | An XML file defining how to display speech bubbles in game.   |
+|  graphics/gui/[[window.xml]]  | An XML file specifying how to display each GUI windows.   |
+^  PNG files depending on a XML  ^^
+|  graphics/gui/bubble.png  | The PNG file used by the default speechbubble.xml file.   |
+|  graphics/gui/window.png  | The PNG file used by the default window.xml file.   |
+|  **PNG files with hard-coded parts** \\ You won't have the possibility to change those images placement as there is no configuration available for them. \\ Look at the default theme and place the same GUI part as in the default theme.   ||
+|  button.png  | Used to draw button at their default state.   |
+|  buttonhi.png  | Used to draw buttons when highlighted.   |
+|  buttonpress.png  | Used to draw button when they are pressed.   |
+|  button_disabled.png  | Used to draw disabled buttons.   |
+|  checkbox.png  | Used to draw check-boxes.   |
+|  circle-gray.png  | Used to draw disabled leds. (Green dot presenting a on status, for instance. Used in the party window.)   |
+|  circle-green.png  | Used to draw green leds.   |
+|  close_button.png  | Used to draw the X close button.   |
+|  deepbox.png  | Used to draw input text areas, player boxes, and similar.   |
+|  hscroll_left_default.png  | Horizontal left arrow at default state.    |
+|  hscroll_left_highlight.png  | Horizontal left arrow at highlight state.   |
+|  hscroll_left_pressed.png  | Horizontal left arrow at pressed state.   |
+|  hscroll_right_default.png  | Horizontal right arrow at default state.   |
+|  hscroll_right_highlight.png  | Horizontal right arrow at highlight state.   |
+|  hscroll_right_pressed.png  | Horizontal right arrow at pressed state.   |
+|  vscroll_down_default.png  | Vertical down arrow at default state.   |
+|  vscroll_down_highlight.png  | Vertical down arrow when highlighted.   |
+|  vscroll_down_pressed.png  | Vertical down arrow when pressed.   |
+|  vscroll_up_default.png  | Vertical up arrow at default state.   |
+|  vscroll_up_highlight.png  | Vertical up arrow when highlighted.   |
+|  vscroll_up_pressed.png  | Vertical up arrow when pressed.   |
+|  vscroll_grey.png  | Progress bar at default state.   |
+|  vscroll_highlight.png  | Progress bar when highlighted.   |
+|  item_shortcut_bgr.png  | Item boxes background.   |
+|  mouse.png  | Mouse different cursors.   |
+|  progress-indicator.png  | Progress indicator's different images.   |
+|  radioin.png  | Activated radio button.   |
+|  radioin_highlight.png  | Activated and highlighted radio button.   |
+|  radioout.png  | Deactivated radio button.   |
+|  radioout_highlight.png  | Deactivated and highlighted radio button.   |
+|  resize.png  | The resize grip, seen at the windows' bottom-right corner.   |
+|  selection.png  | An item box when it is selected.   |
+|  slider.png  | Slider button different parts.   |
+|  slider_hilight.png  | Slider button different highlighted parts.   |
+|  sticky_button.png  | Window sticky button, to keep a window on top of the others.   |
+|  tab.png  | A tab at default state.   |
+|  tabselected.png  | A selected tab at default state.   |
+|  tab_hilight.png  | An highlighted tab at default state.  |
+|  unknown-item.png  | The default image used when no image is found for the given item.   |
+
+
+===== Discussion =====
+
+<file comment Bertram 2010/10/07>
+As already said before, the GUI customization development should not be
+our priority (rather make the servers work, and the client more stable.)
+Anyway, a very relevant thing to do would be to add custom padding support in the windows.xml file,
+as it has been requested here: http://mantis.themanaworld.org/view.php?id=774
+And as it may fix that bug, too: http://mantis.themanaworld.org/view.php?id=816 (Bug rendering tabs.)
+</file>

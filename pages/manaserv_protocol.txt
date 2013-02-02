@@ -1,0 +1,310 @@
+===== ManaServ server protocol =====
+
+When playing on a ManaServ server, the player will interact with different other entities, includinf his/her own character, use item, chat, fight monsters, use skills, ...
+
+In order to deal with all players real-time requests in an efficient way, a ManaServ server message protocol has been defined to 
+give the client all the necessary information, in a minimalistic approach, to save bandwidth and server computation cycles.
+
+The protocol has been defined in a way that if the client can compute a data, it will have to do it as the server will try to avoid unnecessary computation for the clients.
+
+This page will then describe what kind of data, in which order, and in which case they are used.
+
+==== Network layer ====
+Manaserv is using Enet (http://enet.bespin.org) as its network layer. Enet is a cross-platform reliable UDP layer, and it's a good compromise between speed and reliability. Thus, to be able to get into communication with a Manaserv server, you'll have to be aware that Enet encapsulates the data in its own format, first.
+
+==== Message types ====
+
+Each data object has its own set of properties and things it can do in the
+game. A number of messages in the protocol can be grouped on these types. We'll
+go through each of them separately.
+
+In the messages described the following data types are being used:
+
+  S - String, char array (null terminated)
+  B - Byte (1 byte)
+  W - Word (2 bytes)
+  D - Double word (4 bytes)
+
+==== Messages naming convention ====
+
+The message described in the protocol.h file are following a naming convention,
+to ease their understanding:
+
+  * Components: **B** Byte, **W** Word, **D** Double word, **S** Variable-size string, **C** Tile-based coordinates (B*3)
+  * Hosts:      **P** (Player's client), **A** (Account server), **C** (Char server), **G** (Game server)
+
+Hence, here are how we prefix the messages:
+  * **PA**MSG_*: from client to account server
+  * **AP**MSG_*: from account server to client
+  * **PC**MSG_*: from client to chat server
+  * **CP**MSG_*: from chat server to client
+  * **PG**MSG_*: from client to game server
+  * **GP**MSG_*: from game server to client
+  * **GA**MSG_*: from game server to account server
+
+and here is an example:
+  GPMSG_BEINGS_MOVE  0x0280 { W being id, B flags [, Wx2 position, B speed] }
+
+The ''GPMSG_BEINGS_MOVE'' message is starting with GPMSG, meaning that the message is going from the game server to the client.
+The ''0x0280'' hexadecimal value is the actual message starting value sent to the receiver (here the client).
+The wording between brackets is indicating what will be sent next to the message. Here a **W**ord, a **B** flag,
+and potentially, hence the [] two Word data and a Bit one.
+
+The network message will then be:
+  <0x0280><W><B><W><W><B>
+
+==== Login-Register messages ====
+
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **PAMSG_REGISTER**                |  0x0000  | **D** protocol version, **S** username, **S** password, **S** email, **S** captcha response  |
+| **APMSG_REGISTER_RESPONSE**       |  0x0002  | **B** error, **S** updatehost, **S** client data url, **B** number of character slots \\ __Error return values:__ \\ **REGISTER_INVALID_VERSION** (0x40): The user is using too old protocol version. (Must be >= to **''PROTOCOL_VERSION''**)  \\ **REGISTER_EXISTS_USERNAME** (0x41): There is already a registered account with this username. \\ **REGISTER_EXISTS_EMAIL** (0x42): There is already an account with this email address. \\ **REGISTER_CAPTCHA_WRONG** (0x43): The user didn't solve the captcha correctly.  |
+| **GAMSG_REGISTER**                |  0x0500  | **S** address, **W** port, **S** password, **D** items db revision, { **W** map id }*  |
+| **AGMSG_REGISTER_RESPONSE**       |  0x0501  | **C** item version, **C** password response \\ __Item version return values:__ \\ **DATA_VERSION_OK** (0x00): Item DB version is ok. \\ **DATA_VERSION_OUTDATED** (0x01): Item DB version is outdated. \\ __Password return values:__ \\ **PASSWORD_OK** (0x00): Password accepted. \\ **PASSWORD_BAD** (0x01): Invalid password. Registering failed.  |
+| **PAMSG_UNREGISTER**              |  0x0003  | **S** username, **S** password  |
+| **APMSG_UNREGISTER_RESPONSE**     |  0x0004  | **B** error  |
+| **PAMSG_REQUEST_REGISTER_INFO**   |  0x0005  | None  |
+| **APMSG_REGISTER_INFO_RESPONSE**  |  0x0006  | **B** registration Allowed, **B** min name Length, **B** max name length, **S** captcha URL, **S** captcha instructions  |
+| **PAMSG_LOGIN**                   |  0x0010  | **D** protocol version, **S** username, **S** password  |
+| **APMSG_LOGIN_RESPONSE**          |  0x0012  | **B** error, **S** updatehost, **S** client data url, **B** number of character slots \\ __Error return values:__ \\ **LOGIN_INVALID_VERSION** (0x40): The user is using a too old protocol version. (Must be >= to **''PROTOCOL_VERSION''**) \\ **LOGIN_INVALID_TIME** (0x50): The user tried logging in too fast. \\ **LOGIN_BANNED** (0x51) : The user is currently banned.  |
+| **PAMSG_LOGOUT**                  |  0x0013  | None  |
+| **APMSG_LOGOUT_RESPONSE**         |  0x0014  | **B** error  |
+| **PAMSG_CHAR_CREATE**             |  0x0020  | **S** name, **B** hair style, **B** hair color, **B** gender, **B** character slot, {**W** statistics}N times (See [[attributes.xml]]) \\ __Gender values:__ \\ **GENDER_MALE** (0): Male gender. \\ **GENDER_FEMALE** (1): Female gender. \\ **GENDER_UNSPECIFIED** (2): When not specified yet. Should not happen.   |
+| **APMSG_CHAR_CREATE_RESPONSE**    |  0x0021  | **B** error \\ __Error return values:__ \\ **CREATE_INVALID_HAIRSTYLE** (0x40): Invalid Hairstyle value. \\ **CREATE_INVALID_HAIRCOLOR** (0x41): Invalid hair color value. \\ **CREATE_INVALID_GENDER** (0x42): Invalid Gender value. \\ **CREATE_ATTRIBUTES_TOO_HIGH** (0x43): Some attributes are too high. \\ **CREATE_ATTRIBUTES_TOO_LOW** (0x44): Some attributes are too low. \\ **CREATE_ATTRIBUTES_OUT_OF_RANGE** (0x45): Some attribute are out of the permitted range. \\ **CREATE_EXISTS_NAME** (0x46): Character name already exists. \\ **CREATE_TOO_MUCH_CHARACTERS** (0x47): The maximum of characters has already been created. Cannot create a new one. \\ **CREATE_INVALID_SLOT** (0x48): In invalid or occupied slot was selected.  |
+| **PAMSG_CHAR_DELETE**             |  0x0022  | **B** character slot.  |
+| **APMSG_CHAR_DELETE_RESPONSE**    |  0x0023  | **B** error  |
+| **APMSG_CHAR_INFO**               |  0x0024  | **B** character slot, **S** name, **B** gender, **B** hair style, **B** hair color, **W** level, **W** character points, **W** correction points, **D** money, **W**x6 statistics \\ __Gender values:__ \\ **GENDER_MALE** (0): Male gender. \\ **GENDER_FEMALE** (1): Female gender. \\ **GENDER_UNSPECIFIED** (2): When not specified yet. Should not happen.  |
+| **PAMSG_CHAR_SELECT**               |  0x0026  | **B** index  |
+| **APMSG_CHAR_SELECT_RESPONSE**      |  0x0027  | **B** error, **B**x32 token, **S** game address, **W** game port, **S** chat address, **W** chat port  |
+| **PAMSG_EMAIL_CHANGE**              |  0x0030  | **S** email  |
+| **APMSG_EMAIL_CHANGE_RESPONSE**     |  0x0031  | **B** error \\ __Error return values:__ \\ **ERRMSG_OK** (0): Modification done. \\ **ERRMSG_EMAIL_ALREADY_EXISTS**: New email already exists for another account. Cannot change.  |
+| **PAMSG_PASSWORD_CHANGE**           |  0x0034  | **S** old password, **S** new password  |
+| **APMSG_PASSWORD_CHANGE_RESPONSE**  |  0x0035  | **B** error  |
+| **PGMSG_CONNECT**                   |  0x0050  | **B**x32 token  |
+| **GPMSG_CONNECT_RESPONSE**          |  0x0051  | **B** error  |
+| **PCMSG_CONNECT**                   |  0x0053  | **B**x32 token  |
+| **CPMSG_CONNECT_RESPONSE**          |  0x0054  | **B** error  |
+| **PGMSG_DISCONNECT**                |  0x0060  | **B** reconnect account  |
+| **GPMSG_DISCONNECT_RESPONSE**       |  0x0061  | **B** error, **B**x32 token  |
+| **PCMSG_DISCONNECT**                |  0x0063  | None  |
+| **CPMSG_DISCONNECT_RESPONSE**       |  0x0064  | **B** error  |
+| **PAMSG_RECONNECT**                 |  0x0065  | **B**x32 token  |
+| **APMSG_RECONNECT_RESPONSE**        |  0x0066  | **B** error  |
+
+==== Player related messages ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **GPMSG_PLAYER_MAP_CHANGE**        |  0x0100  | **S** filename, **W** x, **W** y  |
+| **GPMSG_PLAYER_SERVER_CHANGE**     |  0x0101  | **B**x32 token, **S** game address, **W** game port  |
+| **GPMSG_PLAYER_ATTRIBUTE_CHANGE**  |  0x0130  | **W** attribute, **W** base value, **W** modified value }*  |
+| **GPMSG_PLAYER_EXP_CHANGE**        |  0x0140  | { **W** skill, **D** exp got, **D** exp needed }*  |
+| **GPMSG_LEVELUP**                  |  0x0150  | **W** new level, **W** character points, **W** correction points  |
+| **GPMSG_LEVEL_PROGRESS**           |  0x0151  | **B** percent completed to next level up  |
+| **PGMSG_RAISE_ATTRIBUTE**          |  0x0160  | **B** attribute  |
+| **GPMSG_RAISE_ATTRIBUTE_RESPONSE** |  0x0161  | **B** error, **B** attribute \\ __Error return values:__ \\ **ATTRIBMOD_OK** (ERRMSG_OK [0]): Modification done without errors. \\ **ATTRIBMOD_INVALID_ATTRIBUTE** (0x40): Invalid attribute ID. \\ **ATTRIBMOD_NO_POINTS_LEFT** (0x41): No point left permitting modification. \\ **ATTRIBMOD_DENIED** (0x42): Modification not permitted.  |
+| **PGMSG_LOWER_ATTRIBUTE**          |  0x0170  | **B** attribute  |
+| **GPMSG_LOWER_ATTRIBUTE_RESPONSE** |  0x0171  | **B** error, **B** attribute \\ **See __GPMSG_RAISE_ATTRIBUTE_RESPONSE__.**  |
+| **PGMSG_RESPAWN**                  |  0x0180  | None  |
+| **AGMSG_PLAYER_ENTER**          |  0x0510  | **B**x32 token, **D** id, **S** name, serialised character data. FIXME: Explain what is contained into the character's serialized data.  |
+| **GAMSG_PLAYER_DATA**           |  0x0520  | **D** id, serialised character data  |
+| **GAMSG_REDIRECT**              |  0x0530  | **D** id  |
+| **AGMSG_REDIRECT_RESPONSE**     |  0x0531  | **D** id, **B**x32 token, **S** game address, **W** game port  |
+| **GAMSG_PLAYER_RECONNECT**      |  0x0532  | **D** id, **B**x32 token  |
+| **GAMSG_PLAYER_SYNC**           |  0x0533  | serialised sync data \\ __Return values:__ \\ **SYNC_CHARACTER_POINTS** (0x01), **D** Character ID, **D** Character Points, **D** Correction Points, **B** Attribute ID, **D** Attribute value. \\ **SYNC_CHARACTER_SKILL** (0x02), **D** Character ID, **B** Skill ID, **D** Skill value. \\ **SYNC_ONLINE_STATUS** (0x03), **D** Character ID, **B** {0x00 = offline, 0x01 = online}. \\ **SYNC_END_OF_BUFFER** (0xFF) shows, that the buffer ends here.  |
+
+==== Inventory related messages ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **PGMSG_PICKUP**                   |  0x0110  | **W**x2 position  |
+| **PGMSG_DROP**                     |  0x0111  | **W** slot, **W** amount  |
+| **PGMSG_EQUIP**                    |  0x0112  | **W** inventory slot  |
+| **PGMSG_UNEQUIP**                  |  0x0113  | **W** item Instance id  |
+| **PGMSG_MOVE_ITEM**                |  0x0114  | **W** slot1, **W** slot2, **W** amount  |
+| **GPMSG_INVENTORY**                |  0x0120  | { **W** slot, **W** item id [, **W** amount] (if item id is not zero) }*  |
+| **GPMSG_INVENTORY_FULL**           |  0x0121  | **W** inventory slot count { **W** slot, **W** itemId, **W** amount }, { **W** equip slot, **W** item Id, **W** item instance id}  |
+| **GPMSG_EQUIP**                    |  0x0122  | **W** item Id, **W** equip slot type count, plus the two following possibilities: { **W** equip slot, **W** capacity used}* <- When equipping, or { **W** item instance, **W** 0}* <- When unequipping.  |
+
+==== Items messages ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **GPMSG_ITEMS**                    |  0x0281  | { **W** item id, **W**x2 position }*  |
+| **GPMSG_ITEM_APPEAR**              |  0x0202  | **W** item id, **W**x2 position  |
+| **PGMSG_USE_ITEM**                 |  0x0300  | **B** slot  |
+| **GPMSG_USE_RESPONSE**             |  0x0301  | **B** error  |
+
+==== Beings messages ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **GPMSG_BEING_ENTER**              |  0x0200  | **B** type, **W** being id, **B** action, **W**x2 position, **B** direction \\ **Characters:** **S** name, **B** hair style, **B** hair color, **B** gender, **B** item bitmask, { **W** item id }* \\ **Monsters:** **W** type id  \\ **Npcs:** **W** type id \\ __Being type values:__ \\ **OBJECT_ITEM** (0): A simple item. \\ **OBJECT_ACTOR** (1): An item that toggle map/quest actions (doors, switchs, ...) and can speak (map panels). \\ **OBJECT_NPC** (2): Non-Playable-Character is an actor capable of movement and maybe actions. \\ **OBJECT_MONSTER** (3): A monster (moving actor with AI. Should be able to toggle map/quest actions, too). \\ **OBJECT_CHARACTER** (4): A normal being. \\ **OBJECT_EFFECT** (5): A effect to be shown. \\ **OBJECT_OTHER** (6): Server-only object.   |
+| **GPMSG_BEING_LEAVE**              |  0x0201  | **W** being id  |
+| **GPMSG_BEING_LOOKS_CHANGE**       |  0x0210  | **W** weapon, **W** hat, **W** top clothes, **W** bottom clothes \\ __Sprite layer values (used in clothes messages):__ \\ **SPRITE_BASE** (0): the sprite representing the character. \\ **SPRITE_SHOE** (1): The character feet sprite layer. \\ **SPRITE_BOTTOMCLOTHES** (2): The bottom-clothes layer \\ **SPRITE_TOPCLOTHES** (3): The top clothes layer. \\ **SPRITE_HAIR** (4): The hair layer. \\ **SPRITE_HAT** (5): The hat layer. \\ **SPRITE_WEAPON** (6): The weapon layer.  |
+| **PGMSG_WALK**                     |  0x0260  | **W**x2 destination  |
+| **PGMSG_ACTION_CHANGE**            |  0x0270  | **B** Action \\ __Action type values:__ \\ **STAND** (0): Simply stand. \\ **WALK** (1): Simply walks. \\ **ATTACK** (2): A normal attack action. \\ **SIT** (3): Sit on the ground. \\ **DEAD** (4): Is on the ground unconscious. \\ **HURT** (5): Is being hurt.  |
+| **GPMSG_BEING_ACTION_CHANGE**      |  0x0271  | **W** being id, **B** action  |
+| **PGMSG_DIRECTION_CHANGE**         |  0x0272  | **B** Direction \\ __Direction type values (Bitmask):__ \\ **DOWN** (1): Looks down (bottom of screen). \\ **LEFT** (2): Looks to the left. \\ **UP** (4): Looks to the north. \\ **RIGHT** (8): Looks to the right. \\ (Opposite concatenated directions are obviously unaccepted.)  |
+| **GPMSG_BEING_DIR_CHANGE**         |  0x0273  | **W** being id, **B** direction  |
+| **GPMSG_BEING_HEALTH_CHANGE**      |  0x0274  | **W** being id, **W** health  |
+| **GPMSG_BEINGS_MOVE**              |  0x0280  | { **W** being id, **B** flags [, **W**x2 position, **B** speed] }* \\ __Flag values:__ \\ **MOVING_POSITION** (1): The next Wx2 values will contain the current being position. \\ **MOVING_DESTINATION** (2): The next Wx2 values will contain the being destination.  |
+| **GPMSG_BEINGS_DAMAGE**            |  0x0310  | { **W** being id, **W** amount }*  |
+| **PGMSG_ATTACK**                   |  0x0290  | **W** being id  |
+| **GPMSG_BEING_ATTACK**             |  0x0291  | **W** being id, **B** direction, **B** attack type \\ __Attack type values:__ \\ **HIT** (0x00): Simple physical hit. \\ **CRITICAL** (0x0a): Critical hit. \\ **MULTI** (0x08): A multi-hit attack. \\ **REFLECT** (0x04): A counter-attack. \\ **FLEE** (0x0b): A missed attack.  |
+| **PGMSG_USE_SPECIAL**              |  0x0292  | **B** special ID  |
+| **GPMSG_SPECIAL_STATUS**           |  0x0293  | { **B** special ID, **D** current, **D** max, **D** recharge }  |
+
+==== Effects spawning messages ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **GPMSG_CREATE_EFFECT_POS**        |  0x0320  | **W** effect id, **W**x2 position  |
+| **GPMSG_CREATE_EFFECT_BEING**      |  0x0321  | **W** effect id, **W** BeingID  |
+
+==== Npc messages ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **GPMSG_NPC_CHOICE**               |  0x02B0  | **W** being id, { **S** text }*  |
+| **GPMSG_NPC_MESSAGE**              |  0x02B1  | **W** being id, **B** * text  |
+| **PGMSG_NPC_TALK**                 |  0x02B2  | **W** being id  |
+| **PGMSG_NPC_TALK_NEXT**            |  0x02B3  | **W** being id  |
+| **PGMSG_NPC_SELECT**               |  0x02B4  | **W** being id, **B** choice  |
+| **GPMSG_NPC_BUY**                  |  0x02B5  | **W** being id, { **W** item id, **W** amount, **W** cost }*  |
+| **GPMSG_NPC_SELL**                 |  0x02B6  | **W** being id, { **W** item id, **W** amount, **W** cost }*  |
+| **PGMSG_NPC_BUYSELL**              |  0x02B7  | **W** item id, **W** amount  |
+| **GPMSG_NPC_ERROR**                |  0x02B8  | **B** error  |
+| **GPMSG_NPC_CLOSE**                |  0x02B9  | **W** being id  |
+| **GPMSG_NPC_POST**                 |  0x02D0  | **W** being id  |
+| **PGMSG_NPC_POST_SEND**            |  0x02D1  | **W** being id, { **S** name, **S** text, **W** item id }  |
+| **GPMSG_NPC_POST_GET**             |  0x02D2  | **W** being id, { **S** name, **S** text, **W** item id }  |
+| **PGMSG_NPC_NUMBER**               |  0x02D3  | **W** being id, **D** number  |
+| **PGMSG_NPC_STRING**               |  0x02D4  | **W** being id, **S** string  |
+| **GPMSG_NPC_NUMBER**               |  0x02D5  | **W** being id, **D** max, **D** min, **D** default  |
+| **GPMSG_NPC_STRING**               |  0x02D6  | **W** being id  |
+
+==== Chat messages ====
+
+=== General chat messages ===
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **PGMSG_SAY**                      |  0x02A0  | **S** text  |
+| **GPMSG_SAY**                      |  0x02A1  | **W** being id, **S** text  |
+| **CPMSG_ERROR**                    |  0x0401  | **B** error \\ __Error return values:__ \\ **CHAT_USING_BAD_WORDS** (0x40): Detected pre-configured slangs in the chat sentence. \\ **CHAT_UNHANDLED_COMMAND** (0x41): Not handled command entered in chat prompt.  |
+| **CPMSG_ANNOUNCEMENT**             |  0x0402  | **S** text  |
+| **CPMSG_PRIVMSG**                  |  0x0403  | **S** user, **S** text  |
+| **CPMSG_PUBMSG**                   |  0x0404  | **W** channel, **S** user, **S** text  |
+| **PCMSG_CHAT**                     |  0x0410  | **S** text, **W** channel  |
+| **PCMSG_ANNOUNCE**                 |  0x0411  | **S** text  |
+| **PCMSG_PRIVMSG**                  |  0x0412  | **S** user, **S** text  |
+| **PCMSG_WHO**                      |  0x0415  | None  |
+| **CPMSG_WHO_RESPONSE**             |  0x0416  | { **S** user }  |
+
+=== Chat channeling messages ===
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **CPMSG_CHANNEL_EVENT**               |  0x0430  | **W** channel, **B** event, **S** info \\ __Event values:__ \\ **CHAT_EVENT_NEW_PLAYER** (0): A new player entered the channel. \\ **CHAT_EVENT_LEAVING_PLAYER** (1): A player left the channel. \\ **CHAT_EVENT_TOPIC_CHANGE** (2): Channel topic changed. \\ **CHAT_EVENT_MODE_CHANGE** (3): Channel mode changed. \\ **CHAT_EVENT_KICKED_PLAYER** (4): A player was kicked from the channel. \\ FIXME: Document info values.  |
+| **PCMSG_ENTER_CHANNEL**               |  0x0440  | **S** channel, **S** password  |
+| **CPMSG_ENTER_CHANNEL_RESPONSE**      |  0x0441  | **B** error, **W** id, **S** name, **S** topic, **S** userlist  |
+| **PCMSG_QUIT_CHANNEL**                |  0x0443  | **W** channel id  |
+| **CPMSG_QUIT_CHANNEL_RESPONSE**       |  0x0444  | **B** error, **W** channel id  |
+| **PCMSG_LIST_CHANNELS**               |  0x0445  | None  |
+| **CPMSG_LIST_CHANNELS_RESPONSE**      |  0x0446  | **S** names, **W** number of users  |
+| **PCMSG_LIST_CHANNELUSERS**           |  0x0460  | **S** channel  |
+| **CPMSG_LIST_CHANNELUSERS_RESPONSE**  |  0x0461  | **S** channel, { **S** user, **B** mode }  |
+| **PCMSG_TOPIC_CHANGE**                |  0x0462  | **W** channel id, **S** topic  |
+
+==== Trade protocol messages ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **PGMSG_TRADE_REQUEST**            |  0x02C0  | **W** being id  |
+| **GPMSG_TRADE_REQUEST**            |  0x02C1  | **W** being id  |
+| **GPMSG_TRADE_START**              |  0x02C2  | None  |
+| **GPMSG_TRADE_COMPLETE**           |  0x02C3  | None  |
+| **PGMSG_TRADE_CANCEL**             |  0x02C4  | None  |
+| **GPMSG_TRADE_CANCEL**             |  0x02C5  | None  |
+| **PGMSG_TRADE_AGREED**             |  0x02C6  | None  |
+| **GPMSG_TRADE_AGREED**             |  0x02C7  | None  |
+| **PGMSG_TRADE_CONFIRM**            |  0x02C8  | None  |
+| **GPMSG_TRADE_CONFIRM**            |  0x02C9  | None  |
+| **PGMSG_TRADE_ADD_ITEM**           |  0x02CA  | **B** slot, **B** amount  |
+| **GPMSG_TRADE_ADD_ITEM**           |  0x02CB  | **W** item id, **B** amount  |
+| **PGMSG_TRADE_SET_MONEY**          |  0x02CC  | **D** amount  |
+| **GPMSG_TRADE_SET_MONEY**          |  0x02CD  | **D** amount  |
+| **GPMSG_TRADE_BOTH_CONFIRM**       |  0x02CE  | None  |
+
+==== Party messages ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **PCMSG_PARTY_INVITE**                  |  0x03A0  | **S** name  |
+| **CPMSG_PARTY_INVITE_RESPONSE**         |  0x03A1  | **B** error, **S** name  |
+| **CPMSG_PARTY_INVITED**                 |  0x03A2  | **S** name  |
+| **PCMSG_PARTY_ACCEPT_INVITE**           |  0x03A5  | **S** name  |
+| **CPMSG_PARTY_ACCEPT_INVITE_RESPONSE**  |  0x03A6  | **B** error, { **S** name }  |
+| **PCMSG_PARTY_REJECT_INVITE**           |  0x03A7  | **S** name  |
+| **CPMSG_PARTY_REJECTED**                |  0x03A8  | **S** name  |
+| **PCMSG_PARTY_QUIT**                    |  0x03AA  | None  |
+| **CPMSG_PARTY_QUIT_RESPONSE**           |  0x03AB  | **B** error  |
+| **CPMSG_PARTY_NEW_MEMBER**              |  0x03B0  | **W** being id, **S** name  |
+| **CPMSG_PARTY_MEMBER_LEFT**             |  0x03B1  | **W** being id  |
+| **CGMSG_CHANGED_PARTY**         |  0x0590  | **D** character id, **D** party id  |
+
+==== Guild messages ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **PCMSG_GUILD_CREATE**                  |  0x0350  | **S** name  |
+| **CPMSG_GUILD_CREATE_RESPONSE**         |  0x0351  | **B** error, **W** guild, **B** rights, **W** channel  |
+| **PCMSG_GUILD_INVITE**                  |  0x0352  | **W** id, **S** name  |
+| **CPMSG_GUILD_INVITE_RESPONSE**         |  0x0353  | **B** error  |
+| **PCMSG_GUILD_ACCEPT**                  |  0x0354  | **W** id  |
+| **CPMSG_GUILD_ACCEPT_RESPONSE**         |  0x0355  | **B** error, **W** guild, **B** rights, **W** channel  |
+| **PCMSG_GUILD_GET_MEMBERS**             |  0x0356  | **W** id  |
+| **CPMSG_GUILD_GET_MEMBERS_RESPONSE**    |  0x0357  | **S** names, **B** online  |
+| **CPMSG_GUILD_UPDATE_LIST**             |  0x0358  | **W** id, **S** name, **B** event \\ __Events values:__ \\ **GUILD_EVENT_NEW_PLAYER** (0): A new player joinded the guild. \\ **GUILD_EVENT_LEAVING_PLAYER** (1): A player left the guild. \\ **GUILD_EVENT_ONLINE_PLAYER** (2): A guild member has joined the game. \\ **GUILD_EVENT_OFFLINE_PLAYER** (3): A guild member left the game.  |
+| **PCMSG_GUILD_QUIT**                    |  0x0360  | **W** id  |
+| **CPMSG_GUILD_QUIT_RESPONSE**           |  0x0361  | **B** error  |
+| **PCMSG_GUILD_PROMOTE_MEMBER**          |  0x0365  | **W** guild, **S** name, **B** rights  |
+| **CPMSG_GUILD_PROMOTE_MEMBER_RESPONSE** |  0x0366  | **B** error  |
+| **PCMSG_GUILD_KICK_MEMBER**             |  0x0370  | **W** guild, **S** name  |
+| **CPMSG_GUILD_KICK_MEMBER_RESPONSE**    |  0x0371  | **B** error  |
+| **CPMSG_GUILD_INVITED**                 |  0x0388  | **S** char name, **S** guild name, **W** id  |
+| **CPMSG_GUILD_REJOIN**                  |  0x0389  | **S** name, **W** guild, **W** rights, **W** channel, **S** announce  |
+
+==== User mode messages ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **PCMSG_USER_MODE**                   |  0x0465  | **W** channel id, **S** name, **B** mode  |
+| **PCMSG_KICK_USER**                   |  0x0466  | **W** channel id, **S** name  |
+| **GAMSG_BAN_PLAYER**            |  0x0550  | **D** id, **W** duration  |
+| **GAMSG_CHANGE_PLAYER_LEVEL**   |  0x0555  | **D** id, **W** level  |
+| **GAMSG_CHANGE_ACCOUNT_LEVEL**  |  0x0556  | **D** id, **W** level  |
+
+==== Quests messages ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **GAMSG_SET_QUEST**             |  0x0540  | **D** id, **S** name, **S** value  |
+| **GAMSG_GET_QUEST**             |  0x0541  | **D** id, **S** name  |
+| **AGMSG_GET_QUEST_RESPONSE**    |  0x0542  | **D** id, **S** name, **S** value  |
+
+==== Postal system messages ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **GCMSG_REQUEST_POST**          |  0x05A0  | **D** character id  |
+| **CGMSG_POST_RESPONSE**         |  0x05A1  | **D** receiver id, { **S** sender name, **S** letter, **W** num attachments { **W** attachment item id, **W** quantity } }  |
+| **GCMSG_STORE_POST**            |  0x05A5  | **D** sender id, **S** receiver name, **S** letter, { **W** attachment item id, **W** quantity }  |
+| **CGMSG_STORE_POST_RESPONSE**   |  0x05A6  | **D** id, **B** error  |
+
+==== Inter-server messages ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **AGMSG_ACTIVE_MAP**            |  0x0502  | **W** map id  |
+| **GAMSG_STATISTICS**            |  0x0560  | { **W** map id, **W** thing nb, **W** monster nb, **W** player nb, { **D** character id }* }*  |
+| **GAMSG_TRANSACTION**           |  0x0600  | **D** character id, **D** action, **S** message  |
+
+==== Maximum message value limit (Do not use) ====
+^  Message name  ^  Hex value  ^  Values sent  ^
+| **XXMSG_INVALID**  |  0x7FFF  | None  |
+
+==== Other values ====
+
+=== The protocol version ===
+
+In order to only accept connections from sufficiently up-to-date clients, the server is requesting
+a minimal protocol version which must be at least equal to the **''PROTOCOL_VERSION''** value.
+
+=== Generic return values ===
+
+Here are values returned to sender corresponding to generic events (found in many places.)
+
+^  Return value  ^  Description  ^
+| **ERRMSG_OK** (0)  | Everything is fine.  |
+| **ERRMSG_FAILURE** (1)  | The action failed.  |
+| **ERRMSG_NO_LOGIN** (2)  | The user is not yet logged.  |
+| **ERRMSG_NO_CHARACTER_SELECTED** (3)  | The user needs a character first. |
+| **ERRMSG_INSUFFICIENT_RIGHTS** (4)  | The user is not privileged enough to do so.  |
+| **ERRMSG_INVALID_ARGUMENT** (5)  | Part of the received message was invalid.  |
+| **ERRMSG_EMAIL_ALREADY_EXISTS** (6)  | The Email Address already exists.  |
+| **ERRMSG_ALREADY_TAKEN** (7)  | Character or account name used was already taken.  |
+| **ERRMSG_SERVER_FULL** (8)  | The server is overloaded.  |
+| **ERRMSG_TIME_OUT** (9)  | Data failed to arrive in due time.  |
+| **ERRMSG_LIMIT_REACHED** (10)  | Server limit reached.  |
+| **ERRMSG_ADMINISTRATIVE_LOGOFF** (11)  | The connection with the client was closed on purpose. (E.g.: The client was kicked or banned.)  |

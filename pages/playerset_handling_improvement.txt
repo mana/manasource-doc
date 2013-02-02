@@ -1,0 +1,458 @@
+======Player and equipment layers handling======
+
+This page will attempt to provide specifications improving the current playerset layer definition,
+including race specific sprites for the body, equipment, and hairstyles support:
+
+Currently, the layer specification is made of these layers for each supported protocols:
+
+====Current static layer specifications====
+
+**TmwAthena:**
+    SPRITE_BASE = 0,
+    SPRITE_SHOE,
+    SPRITE_BOTTOMCLOTHES,
+    SPRITE_TOPCLOTHES,
+    SPRITE_MISC1,
+    SPRITE_MISC2,
+    SPRITE_HAIR,
+    SPRITE_HAT,
+    SPRITE_CAPE,
+    SPRITE_GLOVES,
+    SPRITE_WEAPON,
+    SPRITE_SHIELD,
+
+**ManaServ:**
+    SPRITE_BASE = 0,
+    SPRITE_SHOE,
+    SPRITE_BOTTOMCLOTHES,
+    SPRITE_TOPCLOTHES,
+    SPRITE_HAIR,
+    SPRITE_HAT,
+    SPRITE_WEAPON,
+
+===Pseudo-dynamic layer handling===
+
+From the different problems encountered, for instance when firing with a bow, or some annoyance when sprite makers have to erase part of their sprites to get the illusion that an particular equipment layer is behind another, even if drawn after it, I’ve listed the following possible layers:
+
+**Identified playerset layer definition so far:**
+
+  Hairs – back (2 versions: 1 under covering helmet, 1 without helmet or with uncovering helmet equipment.)
+  Hairs – front (2 versions: 1 under covering helmet, 1 without helmet or with uncovering helmet equipment.)
+  Eyes
+  Head
+  Torso
+  Arms-back
+  Arms-front
+  Legs
+
+**Identified equipment layer definition so far:**
+
+  Helmet – back
+  Helmet – front
+  Chest
+  Gloves
+  Legs armor
+  Shoes – back
+  Shoes - front
+  Weapons back
+  Weapons front
+
+**Merged together:**
+//(in a logical order, from background to foreground)//
+
+  Weapons - back
+  Shoes – back
+  Legs
+  Arms – back
+  Helmet – back
+  Hairs – back
+  Torso
+  Head
+  Eyes
+  Legs armor
+  Shoes - front
+  Chest armor
+  Arms – front
+  Gloves
+  Hairs – front
+  Helmet front
+  Weapons-front
+
+Every layer being optional, only the needed layer (even if two are present for a specific body part) would have to be drawn, of course.
+
+**Exception handling:**
+
+To handle layout exceptions, some layers will have to be drawn in another order for a specific item. To keep things simple for the equipment makers, empty layer spaces should be left between each defined layer, permitting specific changes or additions. We could number them 5 by 5, for instance:
+
+  05. Weapons - back
+  10. Shoes – back
+  15. Legs
+  20. Arms – back
+  25. Helmet – back
+  30. Hairs – back
+  35. Torso
+  40. Head
+  45. Eyes
+  50. Legs armor
+  55. Shoes - front
+  60. Chest armor
+  65. Arms – front
+  70. Gloves
+  75. Hairs – front
+  80. Helmet front
+  85. Weapons-front
+
+The layer numbering should be defined in a xml definition file to be the most flexible, for instance :
+
+<file xml playerset.xml>
+<?xml encoding=”UTF-8”?>
+  <layers>
+    <layer name="weapons-back" value="5" />
+    <layer name="shoes-back" value="10" />
+    <layer name="legs" value="15" />
+    <layer name="arms-back" value="20" />
+    <layer name="helmet-back" value="25" />
+    <layer name="hairs-back" value="30" />
+    <layer name="torso" value="35" />
+    <layer name="head" value="40" />
+    <layer name="eyes" value="45" />
+    <layer name="legs-armor" value="50" />
+    <layer name="shoes-front" value="55" />
+    <layer name="chest-armor" value="60" />
+    <layer name="arms-front" value="65" />
+    <layer name="gloves" value="70" />
+    <layer name="hairs-front" value="75" />
+    <layer name="helmet-front" value="80" />
+    <layer name="weapons-front" value="85" />
+  </layers>
+
+</file>
+**N.B.:** The same file could also providing a default hair xml file, and default sfx:
+
+<file xml playerset.xml>
+<?xml encoding=”UTF-8”?>
+  <layers>
+    <layer name="weapons-back" value="5" />
+    <layer name="shoes-back" value="10" />
+    ...
+  </layers>
+  <hairs file="hairs.xml" /> <!-- Default hair file -->
+
+  <sfx>
+    <default name="unarmed"   file="fist-swish.ogg" />
+    <default name="walking"   file="character-walking.ogg" />
+    <default name="appearing" file="character-appearing.ogg" />
+    <default name="leaving"   file="character-leaving.ogg" />
+    <default name="levelup"   file="character-levelup.ogg" />
+    <default name="skillup"   file="character-skillup.ogg" />
+    ...
+  </sfx>
+
+  <races> <!-- Node describing available playable races -->
+    <race name="Human" file="graphics/sprites/races/humans/humans.xml" />
+  </races>
+
+</file>
+
+For each piece of equipment, the keywords given above would make the equipment by drawn at the given layer number, for instance:
+
+  * Given in the items.xml file when willing to apply the layer to every sprites:
+<file xml items.xml>
+<?xml encoding=”UTF-8”?>
+    ...
+    <item id="624"
+        image="armor-chest-vnecksweater.png|W:#A4B2B2,FFFFFF"
+        name="V-Neck Sweater"
+        description="A soft, warm sweater."
+        effect="+8% Defense"
+        type="equip-torso"
+        layer="chest-armor"> <!-- new layer parameter. Not optional here -->
+        <sprite gender="male">chest-vnecksweater-male.xml|#A4B2B2,FFFFFF</sprite>
+        <sprite gender="female">chest-vnecksweater-female.xml|#A4B2B2,FFFFFF</sprite>
+    </item>
+…
+
+</file>
+
+  * And /or for each animation in the corresponding equipment xml file:
+<file xml armor-chest-vnecksweater.xml>
+<?xml encoding=”UTF-8”?>
+<sprite name="player" action="stand">
+        <imageset name="base" src="graphics/sprites/chest-vnecksweater-male.png|W" width="64" height="64" />
+        <action name="stand" imageset="base">
+                <animation direction="down">
+                  <!-- New layer parameter, here it is optional, since a default is given in items.xml for equipment-->
+                  <!-- On the contrary would be required in player-base-male/female.xml files -->
+                  <frame index="0" layer="torso" />
+                </animation>
+                <animation direction="left">
+                  <frame index="18" />
+                </animation>
+                ...
+        </action>
+        ...
+</sprite>
+</file>
+
+And for special cases where a specific layer must be drawn differently than the current set, a ‘layer’ parameter could be added, setting specifically the layer number where it should be drawn. Values used by preset definition (multiple of 5 in this case) would be refused and make the equipment piece fall back to its default layer number.
+
+For instance:
+<file xml armor-chest-vnecksweater.xml>
+<?xml encoding=”UTF-8”?>
+<sprite name="player" action="stand">
+        <imageset name="base" src="graphics/sprites/chest-vnecksweater-male.png|W" width="64" height="64" />
+        <action name="stand" imageset="base">
+                <animation direction="down">
+                  <!-- new layer_id parameter: In this case, the sprite is drawn after the head layer. -->
+                  <frame index="0" layer_id="41" />
+                </animation>
+                <animation direction="left">
+                  <frame index="18" />
+                </animation>
+                ...
+        </action>
+        ...
+</sprite>
+</file>
+
+A example where the given value is bad (because already preset and will fall back to the generic one:
+<file xml armor-chest-vnecksweater.xml>
+<?xml encoding=”UTF-8”?>
+<sprite name="player" action="stand">
+        <imageset name="base" src="graphics/sprites/chest-vnecksweater-male.png|W" width="64" height="64" />
+        <action name="stand" imageset="base">
+                <animation direction="down">
+                  <frame index="0" layer_id="45" /> <!-- bad layer_id parameter (already set for the eyes layer) -->
+                </animation>
+                <animation direction="left">
+                  <frame index="18" />
+                </animation>
+                ...
+        </action>
+        ...
+</sprite>
+</file>
+
+===Other needed parameters identified so far:===
+
+**Flip flag for frames:**
+
+  * **h-flip:** Would horizontally flip the given image part when drawing it.
+  * **v-flip:** Same for vertical flip.
+**N.B.:** Keep in mind that the flipped part should not be drawn on the opposite side, but still on the same coordinate as if it wasn’t flipped.
+
+Example:
+<file xml armor-chest-vnecksweater.xml>
+<?xml encoding=”UTF-8”?>
+<sprite name="player" action="stand">
+        <imageset name="base" src="graphics/sprites/chest-vnecksweater-male.png|W" width="64" height="64" />
+        <action name="stand" imageset="base">
+                <animation direction="down">
+                  <frame index="0"/>
+                </animation>
+                <animation direction="left">
+                  <frame index="18" h-flip/><!-- draw the image part flipped horizontally -->
+                </animation>
+                ...
+        </action>
+        ...
+</sprite>
+</file>
+
+**Hairs flag definition when covered or not by an helmet:**
+
+An 'hair_type' flag should tell which sub-image should be drawn if the player is equipped with 
+a covering helmet (not every helmet would be hair-covering, like the bandana.).
+If no parameter is used, the sprite would be used for both.
+
+Example:
+<file xml hairstyle1.xml>
+<?xml version="1.0"?>
+<sprite>
+        <imageset name="base" src="graphics/sprites/hairstyle1.png|M" width="40" height="40" />
+        <action name="stand" imageset="base">
+                <animation direction="down">
+                  <frame index="0" offsetX="0" offsetY ="-29" hair_type="covered"/>
+                  <frame index="4" offsetX="0" offsetY ="-29" hair_type="uncovered"/>
+                </animation>
+                <animation direction="left">
+                  <frame index="1" offsetX="0" offsetY ="-29" hair_type="covered"/>
+                  <frame index="5" offsetX="0" offsetY ="-29"  hair_type="uncovered"/>
+                </animation>
+                <animation direction="up">
+                  <frame index="2" offsetX="-1" offsetY ="-25" hair_type="covered"/>
+                  <frame index="6" offsetX="-1" offsetY ="-25" hair_type="uncovered"/>
+                </animation>
+                <animation direction="right">
+                  <frame index="3" offsetX="0" offsetY ="-29" hair_type="covered"/>
+                  <frame index="7" offsetX="0" offsetY ="-29" hair_type="uncovered"/>
+                </animation>
+        </action>
+        ...
+</sprite>
+</file>
+
+Helmets should then indicates wether they're covering, defaulted to no if no parameter is given:
+
+<file xml items.xml>
+<?xml encoding="utf-8"?>
+<items>
+    ...
+    <item id="511"
+        image="armor-head-santahat.png"
+        name="Santa Hat"
+        description="Ask Santa about this hat."
+        effect="+2% Defense"
+        type="equip-head"
+        hair_type="covered"> <!-- hair_type parameter -->
+        <sprite>head-santahat.xml</sprite>
+    </item>
+    ...
+</items>
+</file>
+
+==Hair styles moved into the hair.xml file==
+Hairstyles definition, currently in the items.xml file, should be moved into 
+the hair.xml. The configuration would become more logical:
+
+Future hair-xml file sample:
+<file xml hair.xml>
+ <hairstyles>
+  <hairstyle id="-1" name="Flat ponytail" sprite="hairstyles/hairstyle1.xml" />
+  <hairstyle id="-2" name="Bowl cut" sprite="hairstyles/hairstyle2.xml" />
+  ...
+ </hairstyles>
+
+ <colors>
+  <color id="0" value="#8c4b41,da9041,ffffff" name="light brown"/>
+  <color id="1" value="#06372b,489e25,fdedcc" name="green"/>
+  <color id="2" value="#5f0b33,91191c,f9ad81" name="red"/>
+  <color id="3" value="#602486,934cc3,fdc689" name="purple"/>
+  <color id="4" value="#805e74,c6b09b,ffffff" name="gray"/>
+  <color id="5" value="#8c6625,dab425,ffffff" name="yellow"/>
+  <color id="6" value="#1d2d6d,1594a3,fdedcc" name="blue"/>
+  <color id="7" value="#831f2d,be4f2d,f8cc8b" name="brown"/>
+  <color id="8" value="#432482,584bbc,dae8e5" name="light blue"/>
+  <color id="9" value="#460850,611967,e7b4ae" name="dark purple"/>
+  <color id="10" value="#000000,202020,404040,dddddd" name="black"/>
+ </colors>
+</file>
+
+====Discussion====
+
+<file comment Jaxad0127 - 2010-05-08>
+ Hair styles and are already in the item DB. TmwAthena already takes race from the item DB too. Why do we need a different file for them?
+</file>
+
+<file comment Bertram - 2010-05-09>
+I find very confusing the fact that hair and races are items. It's an eAthena speciality we wouldn't have done
+if were only supporting manaserv.
+Even if internally, the data can have the same type (if really needed), I'd separate them on the configuration level.
+Also, please note that hair.xml (or currently items.xml) defines the default hairstyles, but specific hairstyles depending
+on the character's race should be definable in the <race-name>.xml file. E.g.: humans.xml should have a reference to a
+specific hair-human.xml file or such.
+</file>
+
+<file comment Jaxad0127 - 2010-05-10>
+If we leave them in the item DB, then we can just send the item IDs with the equipment instead of managing separate
+fields and having to merge them into the equipment list. This keeps the sprite list very flexible, and can avoid
+client headaches trying to implement this flexibility there (as the server would have it hard-coded, instead of the
+client trying to soft-code it). hair.xml can be avoided completely for manaserv, as we want to send dye information
+from the server anyways, so we can take advantage of that for hair color (and skin color for dyeable playersets)
+too.
+</file>
+
+<file comment Bertram - 2010-05-12>
+Trying to keep the sprite in the same list is a good idea. We could achieve client soft-coding and a merged list
+by naming things a bit differently, IMHO:
+the ItemDB could be transformed in a spriteList or SpriteDB, and main kind of objects could be part of it,
+while the spriteDB would handle the ID uniqueness concerns. Hence, letting us declare sprites in whatever XML file we want:
+
+SpriteDB <- ItemDB
+^    ^
+|    |
+|    PlayerSetDB (Or RaceDB)
+|
+HairSpriteDB
+etc...
+
+What do you think?
+</file>
+
+<file comment Jaxad0127 - 2010-05-13>
+What about item details?
+</file>
+
+<file comment Bertram - 2010-05-18>
+Eh. ;) That's where we're entering the modeling area.
+I'll try to provide a model handling every sub-types asap if it can help you figure out what I meant.
+EDIT: I made this small concept, widely open for discussion:
+{{:wiki:db-concept.zip|db-concept.cpp (Zipped)}}
+RE-EDIT: Since external files don't work here, (Bjorn!), basically the design concept is to set up
+a DBManager class with a statical initializers and deinitializers for each DB, get/set for parameters of each DB
+You call the DBManager and it set the value on the concerned DB for you depending on what you're getting/setting.
+
+Then, while using it, separate hairstyles, weapons types and races from items,
+And, add a simple function that checks if ID boundaries and misuse used between the hairstyles, weapons types, race and items
+for the tA protocol. The DB design would then be much better and extensible.
+
+Also, we should move the db source files to the resources/db folder, IMHO.
+
+Details are to be thoroughly seen, but what about the concept?
+
+In pseud-code, something like this:
+
+</file>
+
+<file c++ dbmanager.h>
+class DBManager
+{
+ public:
+  enum DBTypes
+  {
+    ITEM_DB = 0,
+    MONSTER_DB,
+    ...
+  };
+
+  DBManager()
+  { init(); }
+  
+  ~DBManager()
+  { deinit(); }
+
+  void init()
+  {
+    mItemDB = new itemDB(...);
+    mMonsterDB =  new MonsterDB(...);
+    ...
+  }
+
+  void deinit();
+
+  bool exist(DBTypes type, int id) const;
+
+  ItemInfo& get(int id) const
+  { return mItemDB::get(id); }
+  
+  ItemInfo& get(std:string name) const
+  { return mItemDB::get(name); }
+  
+  MonsterInfo& get(int id) const
+  { return mMonsterDB::get(id); }
+  
+  MonsterInfo& get(std:string name) const
+  { return mMonsterDB::get(name); }
+  
+  ...
+  
+ protected:
+  /** Logs any eAthena specific ID problems */
+  static void checkeAthenaSpecificID();
+  
+ private:
+  ItemDB *mItemDB;
+  MonsterDB *mMonsterDB;
+  ...
+};
+</file>
