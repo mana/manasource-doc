@@ -62,5 +62,7 @@ Welcome on board! We're happy that you're thinking about [[Joining the project]]
 
 ===== New Account Registration on this Wiki =====
 
-To protect against spam as well as to keep the information authorative, new account registration on this wiki is disabled. If you want to help keep the information in this wiki up to date, ask ''bjorn'' for an account on [[IRC]].
-See also the list of [[developers]] to get a slight idea about the team members skills.
+This wiki is cloned from a repository:
+[[https://github.com/mana/manasource-doc]]
+
+Pullrequest for fixes and updates are welcome :)
