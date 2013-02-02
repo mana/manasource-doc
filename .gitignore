@@ -1,0 +1,13 @@
+.htaccess
+_dummy
+attic/
+cache/
+deleted.files
+index/
+locks/
+media_attic/
+media_meta/
+meta/
+security.png
+security.xcf
+tmp/
