@@ -28,7 +28,7 @@ provided along with the source code.
 
 ==== What you need ====
   * Code::Blocks with MinGW: http://www.codeblocks.org/
-  * The library pack for Windows: https://github.com/Bertram25/mana-libs
+  * The library pack for Windows: https://github.com/mana/mana-mingw-libs/archive/master/mana-mingw-libs-master.zip
   * Git for Windows: http://code.google.com/p/msysgit/
 
 ==== Compilation Instructions with Sqlite support ====
