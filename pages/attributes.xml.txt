@@ -1,13 +1,13 @@
 ====== Description ======
 Attributes are basically variables of beings. They can determinate things like HP, Movement speed, ...
 
-A attribute consists of two values. A base value and a modified value.
+An attribute consists of two values. A base value and a modified value.
 
 ===== base - value =====
 Each attribute has a *base value*. This value for example determines the current HP of a being.
 
 ===== modifier - value(s) =====
-Then every attribute can have multiple *modifiers*. Modifiers are a bit more complex. They are basically **layers** that define how bonuses are added to the base value. The layers themselves contain the actual modifications like item bonuses, status effect bonuses, and so on. So if you have an item that changes a attribute you likely want to make it modify one of the modifier layers.
+Then every attribute can have multiple *modifiers*. Modifiers are a bit more complex. They are basically **layers** that define how bonuses are added to the base value. The layers themselves contain the actual modifications like item bonuses, status effect bonuses, and so on. So if you have an item that changes an attribute you likely want to make it modify one of the modifier layers.
 
 Modifiers can either be ''additive'' or ''multiplicative''. Additive modifiers simply add up like this:
 <code>previousLayers + currentLayer</code>
@@ -71,6 +71,70 @@ FIXME: Check if non stackable really replaces the base value too
 
 ===== storage in database =====
 The database saves both the base + the sum of modification of all modifiers. However the game server will never use the stored modification. It will always recalculate it. So there is no need to worry about changing the database when modifying attribute mods in the items.xml for example. However be careful with setting the base attribute in scripts since it will be persistent.
+
+===== Dependencies between attributes =====
+You will most likely want to have multiple attributes that depend on each other
+or change others. To implement this you have to do the recalculation in your
+scripts.
+
+To do this you have two callbacks which will tell you when you need to do
+recalculations:
+  * [[scripting#on_update_derived_attribute|on_update_derived_attribute]]
+  * [[scripting#on_recalculate_base_attribute|on_recalculate_base_attribute]]
+
+Here is an example that shows how this recalculation could look like:
+
+<file lua attributes.lua>
+local function recalculate_base_attribute(being, attribute)
+    local old_base = being_get_base_attribute(being, attribute)
+    local new_base = old_base
+    if attribute == ATTR_ACCURACY then
+        -- Provisional
+        new_base = being_get_modified_attribute(being, ATTR_DEX)
+    elseif attribute == ATTR_DEFENSE then
+        new_base = 0.3 * being_get_modified_attribute(being, ATTR_VIT)
+    elseif attribute == ATTR_DODGE then
+        -- Provisional
+        new_base = being_get_modified_attribute(being, ATTR_AGI)
+    elseif attribute == ATTR_HP_REGEN then
+        local hp_per_sec = being_get_modified_attribute(being, ATTR_VIT) * 0.05
+        new_base = hp_per_sec * TICKS_PER_HP_REGENERATION / 10
+    elseif attribute == ATTR_HP then
+        local hp = being_get_modified_attribute(being, ATTR_HP)
+        local max_hp = being_get_modified_attribute(being, ATTR_MAX_HP)
+
+        if hp > max_hp then
+            new_base = new_base - hp - max_hp
+        end
+    elseif attribute == ATTR_MAX_HP then
+        local vit = being_get_modified_attribute(being, ATTR_VIT)
+        new_base = (vit + 3) * (vit + 20) * 0.125
+    end
+
+    if new_base ~= old_base then
+        being_set_base_attribute(being, attribute, new_base)
+    end
+end
+
+local function update_derived_attributes(being, attribute)
+    if attribute == ATTR_STR then
+        recalculate_base_attribute(ATTR_INV_CAPACITY, being)
+    elseif attribute == ATTR_AGI then
+        recalculate_base_attribute(ATTR_DODGE, being)
+    elseif attribute == ATTR_VIT then
+        recalculate_base_attribute(ATTR_MAX_HP, being)
+        recalculate_base_attribute(ATTR_HP_REGEN, being)
+        recalculate_base_attribute(ATTR_DEFENSE, being)
+    end
+end
+
+on_recalculate_base_attribute(recalculate_base_attribute)
+on_update_derived_attribute(update_derived_attributes)
+</file>
+
+The script should be pretty self-explanatory. If an attribute is changed
+''update_derived_attributes'' is called. That function then checks which
+attributes have to get recalculated and recalculates them.
 
 ====== attributes.xml ======
 
