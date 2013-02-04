@@ -1007,7 +1007,29 @@ Assigns ''callback'' as callback for the ''event'' event.
 **See:** the [[scripting#AttackInfo Class|AttackInfo class]] for more info about how to use the values in the list.
 
 ===== Callbacks =====
-**Note:** You can only assign a **single** function as callback. When setting a new function the old one will not be called anymore. Some of this callbacks are already used for the libmana.lua
+**Note:** You can only assign a **single** function as callback.
+When setting a new function the old one will not be called anymore.
+Some of this callbacks are already used for the libmana.lua. Be careful when
+using those since they will most likely break your code in other places.
+
+==== on_update_derived_attribute ====
+<code lua>on_update_derived_attribute(function ref)</code>
+
+Will call the function ''ref'' when an attribute changed and other attributes
+need recalculation. The function is expected to recalculate those then.
+
+**See:** [[attributes.xml]] for more info.
+
+==== on_recalculate_base_attribute ====
+<code lua>on_recalculate_base_attribute(function ref)</code>
+
+Will call the function ''ref'' when an attribute base needs to be recalculated.
+The function is expected to do this recalculation then. The engine only
+triggers this for characters. However you can use the same function for
+recalculating derived attributes in the
+[[scripting#on_update_derived_attribute|on_update_derived_attribute]] callback.
+
+**See:** [[attributes.xml]] for more info.
 
 ==== on_character_death ====
 <code lua>on_character_death(function ref)</code>
