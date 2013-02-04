@@ -4,7 +4,7 @@ Attributes are basically variables of beings. They can determinate things like H
 A attribute consists of two values. A base value and a modified value.
 
 ===== base - value =====
-Each attribute has a *base value*. This value for example determinates the current HP of a being.
+Each attribute has a *base value*. This value for example determines the current HP of a being.
 
 ===== modifier - value(s) =====
 Then every attribute can have multiple *modifiers*. Modifiers are a bit more complex. They are basically **layers** that define how bonuses are added to the base value. The layers themselves contain the actual modifications like item bonuses, status effect bonuses, and so on. So if you have an item that changes a attribute you likely want to make it modify one of the modifier layers.
@@ -17,13 +17,13 @@ Multiplicative modifiers work analogous to the additive ones:
 
 There are three different kinds of modifiers:
 == stackable - modifier ==
-The stackable modifier is really simple. It simply sums (or multiplicates) all modifications in this layer and adds (or multiplicates) to the value of the previous layer.
+The stackable modifier is really simple. It simply sums (or multiplies) all modifications in this layer and adds (or multiplies) to the value of the previous layer.
 
 == non stackable - modifier ==
 From all modifications inside of a non stackable modifier layer only the best (highest) modification is picked. If this modification is higher then the previous layers it will replace the previous layers with this value. Otherwise nothing happens and the previous layers stay untouched. Of course using ''multiplicative'' makes no sense since it only replaces previous values.
 
 == non stackable bonus - modifier ==
-The non stackable bonus works similar to the non stackable one. It will pick the best modification within the layer too. But it won't replace the previous layers but add (or multiplicate) to them. However it will **also** add if the modification would lower the value of the previous layers (**unlike** the non stackable modifier)!
+The non stackable bonus works similar to the non stackable one. It will pick the best modification within the layer too. But it won't replace the previous layers but add (or multiply) to them. However it will **also** add if the modification would lower the value of the previous layers (**unlike** the non stackable modifier)!
 
 ==== Example calculation ====
 Lets assume the following situation:
@@ -41,7 +41,7 @@ And lets assume the base as ''9.0'':
 current = 9.0
 
 apply example1:
-    # Since the layer is stackable and multiplicative all will be simply multiplicated:
+    # Since the layer is stackable and multiplicative all will be simply multiplied:
     mod_example1 = 1.3 * 0.9 * 1.1
     current = current * mod_example
 
@@ -70,7 +70,7 @@ So our actual attribute value will be 16.683.
 FIXME: Check if non stackable really replaces the base value too
 
 ===== storage in database =====
-The database saves both the base + the sum of modification of all modifiers. However the gameserver will never use the stored modification. It will always recalculate it. So there is no need to worry about changing the database when modifying attribute mods in the items.xml for example. However be careful with setting the base attribute in scripts since it will be persistent.
+The database saves both the base + the sum of modification of all modifiers. However the game server will never use the stored modification. It will always recalculate it. So there is no need to worry about changing the database when modifying attribute mods in the items.xml for example. However be careful with setting the base attribute in scripts since it will be persistent.
 
 ====== attributes.xml ======
 
@@ -116,7 +116,7 @@ As of a822f8f257aaec37174a11add3543ef70a29e206, the following attributes (and as
 Up to date definitions can be found in defines.h and in relevant updateDerivedAttributes methods.
 
 Here is an example of an attributes.xml file:
-It is recommanded to use exactly this file for now: [[https://github.com/mana/manaserv/blob/master/example/attributes.xml|attributes reference file]]
+It is recommended to use exactly this file for now: [[https://github.com/mana/manaserv/blob/master/example/attributes.xml|attributes reference file]]
 
 <file xml attributes.xml>
 <?xml encoding="UTF-8" version="1.0"?>
