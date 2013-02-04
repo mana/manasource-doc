@@ -56,6 +56,7 @@ Welcome on board! We're happy that you're thinking about [[Joining the project]]
   * Additional Documentation about the eAthena servers((TmwAthena is a modified eAthena server.)) can be found in itse original [[http://www.eathena.ws/|web site]].
 
 == External Resources ==
+Be careful! We do not ensure that those are up to date!
 
   * [[http://wiki.themanaworld.org/index.php/Main_Page|The Mana World Wiki]] - The Mana World wiki which contains some useful content to play with.
   * [[http://wiki.invertika.org/Hauptseite|Invertika Wiki]] - Contains information about the Mana client and server in German.
