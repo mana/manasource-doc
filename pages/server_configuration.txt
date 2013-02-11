@@ -23,7 +23,6 @@ data/[[permissions.xml]] \\
   * Get the client data from [[Git repository|Git]] and put it into a ''client-data'' directory where you will be running the game server from.
   * Get the server data, also from git, and put it into a ''server-data'' directory.
   * Copy the ''docs/manaserv.xml.example'' file to your favourite directory with the name ''manaserv.xml'', for instance and change the following configuration values to your corresponding client-data and server-data paths:
-      * ''serverPath'' to the default path.
       * ''clientDataPath'' to the path of your client data.
       * ''serverDataPath'' to the path of your server data.
   * Note that you can use the data given in the ''example/'' folder to start with a proper base.
