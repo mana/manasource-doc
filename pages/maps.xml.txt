@@ -15,6 +15,7 @@ The ''maps.xml'' file is used to each map files((.tmx - [[http://www.mapeditor.o
 The maps xml format is very simple. A ''<maps>'' node must envelop ''<map>'' childnodes.
 \\ Each ''<map>'' node must have two required parameters:
 
-^  Parameter name  ^  Type  ^ Description  ^
-|  id  |  integer  | The map id used by both the account and the game server. Note that the id must be unique, and one of them has to correspond to the ''char_startMap'' and ''respawnMap'' id values in the [[manaserv.xml]] file.  |
-|  name  |  string  | The name of the map file to be used when calling data with the corresponding the map ID. The filename is to be given without the file extension (.tmx or .tmx.gz), and is relative to the ''data/maps'' directory.  |
+^  Parameter name  ^  Type  ^  Mandatory  ^ Description  ^
+|  id  |  integer  |  yes  | The map id used by both the account and the game server. Note that the id must be unique, and one of them has to correspond to the ''char_startMap'' and ''respawnMap'' id values in the [[manaserv.xml]] file.  |
+|  name  |  string  |  yes  | The name of the map file to be used when calling data with the corresponding the map ID. The filename is to be given without the file extension (.tmx or .tmx.gz), and is relative to the ''data/maps'' directory.  |
+|  servername  |  string  |  no  | The name of the server that is supposed to handle this map. |

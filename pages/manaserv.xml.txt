@@ -79,6 +79,7 @@ FIXME: Add PostgreSQL.
 | net_password              | No | changeMe  | Password used between the account and the game server to authenticates queries (Very important in order not to get hacked easily.  |
 | net_defaultUpdateHost \\ <del>defaultUpdateHost</del>  | No | ""  | The Update host hostname or IP address given to the client, used to download updates data.  |
 | net_clientDataUrl | No | ""  | The data URL used by the QML based Mana client, used to download data on-demand.  |
+| net_gameServerName | No | "" | The name of the gameserver. This is only required for reserving maps (see [[maps.xml]]). |
 
 
 === Account settings ===
