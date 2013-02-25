@@ -40,7 +40,7 @@ FIXME: Add PostgreSQL.
 ^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^
 | worldDataPath  | No | "example" | The data folder used for world data. |
 | <del>clientDataPath</del>  | No | "example/clientdata" | The data folder used for client data shared with the server. In many case, you'll still want to keep the server data as a whole and not share those with the client. You can set this value to "" in that case.  |
-| <del>serverDataPath</del>  | No | "example/serverdata" | The server data folder. Previously hard-coded to "data". \\ Note: The server data and client data are merged to get the server running, using PhysFS. If the same file is provided by both folders, the server data will prevail.  |
+| <del>serverDataPath</del>  | No | "example/" | The server data folder |
 
 === Logs configuration ===
 ^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^

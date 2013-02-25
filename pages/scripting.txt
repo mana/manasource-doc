@@ -1,7 +1,12 @@
 
-The Mana server uses the scripting language LUA for scripting. This is a list of the script commands currently implemented in addition to the [[http://www.lua.org/manual/5.1/|standard lua statements and functions]].
+The Mana server uses the scripting language LUA for scripting. This is a list
+of the script commands currently implemented in addition to the
+[[http://www.lua.org/manual/5.1/|standard lua statements and functions]].
 
-Also, if you want to look at actual working samples, you can have a look at the ''example/serverdata/scripts'' folder in the [[https://github.com/mana/manaserv/tree/master/example/serverdata/scripts|Manaserv's source]] which has always the latest working set.
+Also, if you want to look at actual working samples, you can have a look at the
+''example/scripts'' folder in the
+[[https://github.com/mana/manaserv/tree/master/example/scripts|Manaserv's source]]
+which has always the latest working set.
 
 ======Area of Effect======
 In order to easily use area of effects in your items or in your scripts,
