@@ -1,5 +1,5 @@
-Manaserv, as a MMORPG server, will need rather a lot of different data. Depending on their scope, the data can used by the server, the client or both.
-Maintainers usually tend to put data used by both in the client data along with the rest, and have the server points to it using the ''clientDataPath'' option from [[manaserv.xml|manaserv.xml]].
+Manaserv, as a MMORPG server, shares a lot of the configuration files with the
+client. It will use the data from the ''worldDataPath'' option from [[manaserv.xml|manaserv.xml]].
 
 The following section will now attempt to describe what data is useful where, and why.
 
@@ -7,7 +7,7 @@ The following section will now attempt to describe what data is useful where, an
 
 ===== Data used only by the servers =====
 
-The server requires only a few configuration files, located at the path corresponding to the ''serverDataPath'' manaserv.xml value.
+The server requires only a few configuration files, located at the path corresponding to the ''worldDataPath'' manaserv.xml value.
 
 ^ File ^ Required ^ Description ^
 | [[manaserv.xml]] | Yes | Main configuration file. |
