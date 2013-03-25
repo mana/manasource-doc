@@ -262,27 +262,33 @@ A simple way to get small objects is to start the class declaration with the mos
 
 ===== Trivial accessors =====
 
-Some class members are trivial accessors to private data of objects. These members should be defined in the header files, so that the compiler can optimize them away when they are called from source files. Example:
+Some class members are trivial accessors to private data of objects.
+These members should be defined in the header files without implementing them
+directly at the declaration but later as inline functions in the header file.
 
+Example:
 <code cpp>
-class Character : public Being
-{  
-    public:  
-        /**  
-         * Gets client computer.  
-         */  
-        GameClient *getClient() const  
-        { return mClient; }  
+class Entity : public sigc::trackable
+{
+    public:
+        Entity(EntityType type, MapComposite *map = 0);
 
-        /**  
-         * Sets client computer.  
-         */  
-        void setClient(GameClient *c)  
-        { mClient = c; }  
+        virtual ~Entity();
 
-    private:  
-        GameClient *mClient; /**< Client computer. */  
+        EntityType getType() const;
+
+        // ...
 };
+
+/**
+* Gets type of this entity.
+*
+* @return the type of this entity.
+*/
+inline EntityType Entity::getType() const
+{
+    return mType;
+}
 </code>
 
 ===== Empty default constructors and destructors =====
