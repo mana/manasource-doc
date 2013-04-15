@@ -14,7 +14,7 @@ the following functions are available:
 ====get_beings_in_circle====
 <code lua>
 get_beings_in_circle(int x, int y, int radius)
-get_beings_in_circle(handle being, int radius)
+get_beings_in_circle(handle actor, int radius)
 </code>
 **Return value:** This function returns a lua table of all beings in a
 circle of radius (in pixels) ''radius'' centered either at the pixel at
@@ -23,7 +23,7 @@ circle of radius (in pixels) ''radius'' centered either at the pixel at
 <code lua>
 get_beings_in_rectangle(int x, int y, int width, int height)
 </code>
-**Return value:** An table of being objects within the rectangle.
+**Return value:** An table of being entities within the rectangle.
 All parameters have to be passed as pixels.
 ====get_distance====
 <code lua>
@@ -87,12 +87,6 @@ on_being_death(function ref)
 </code>
 Will make sure that the function ''ref'' gets called with the being
 as argument as soon a being dies.
-====on_being_remove====
-<code lua>
-on_being_remove(function ref)
-</code>
-Will make sure that the function ''ref'' gets called with the being
-as argument as soon a being gets removed from a map.
 ====on_character_death====
 <code lua>
 on_character_death(function ref)
@@ -126,6 +120,12 @@ on_create_npc_delayed(function ref)
 Will make sure that the function ''ref'' gets called with the
 name, id, gender, x and y values as arguments of the npc when a npc should
 be created at map init (Npcs defined directly in the map files use this).
+====on_entity_remove====
+<code lua>
+on_entity_remove(function ref)
+</code>
+Will make sure that the function ''ref'' gets called with the being
+as argument as soon a being gets removed from a map.
 ====on_map_initialize====
 <code lua>
 on_map_initialize(function ref)
@@ -165,12 +165,63 @@ need recalculation. The function is expected to recalculate those then.
 
 ======Character and being interaction======
 
-====being_apply_attribute_modifier====
+====chr_get_post====
 <code lua>
-being_apply_attribute_modifier(handle being, int attribute_id, double value,
-                               unsigned int layer, [unsigned short duration,
-                               [unsigned int effect_id]])
+chr_get_post(handle character)
 </code>
+Gets the post for the character.
+====chr_get_quest====
+<code lua>
+chr_get_quest(handle character, string name)
+</code>
+**Return value:** The quest variable named ''name'' for the given character.
+
+**Warning:** May only be called from an NPC talk function.
+
+====chr_request_quest====
+<code lua>
+chr_request_quest(handle character, string questvariable, Ref function)
+</code>
+Requests the questvar from the account server. This will make it available in
+the quest cache after some time. The passed function will be called back as
+soon the quest var is available.
+====chr_set_quest====
+<code lua>
+chr_set_quest(handle character, string name, string value)
+</code>
+Sets the quest variable named ''name'' for the given  character to the value
+''value''.
+====chr_try_get_quest====
+<code lua>
+chr_try_get_quest(handle character, string questvariable)
+</code>
+Callback for checking if a quest variable is available in cache.
+
+**Return value:** It will return the variable if it is or nil
+if it is not in cache.
+====entity:action====
+<code lua>
+entity:action()
+</code>
+Valid only for being entities.
+
+**Return value:** Current action of the being. These action constants are
+defined in libmana-constants.lua:
+
+| 0 | ACTION_STAND  |
+| 1 | ACTION_WALK   |
+| 2 | ACTION_ATTACK |
+| 3 | ACTION_SIT    |
+| 4 | ACTION_DEAD   |
+| 5 | ACTION_HURT   |
+====entity:apply_attribute_modifier====
+<code lua>
+entity:apply_attribute_modifier(int attribute_id, double value,
+                                unsigned int layer, [unsigned short duration,
+                                [unsigned int effect_id]])
+</code>
+Valid only for being entities.
+
 **Parameters description:** \\
   * **value** (double): The modifier value (can be negative).
   * **layer** (unsigned int): The layer or level of the modifier.
@@ -181,19 +232,39 @@ being_apply_attribute_modifier(handle being, int attribute_id, double value,
     equal to 100ms.)). If set to 0, the modifier is permanent.
   * **effect_id** (unsigned int): Set and keep that parameter when you want
     to retrieve the exact layer later. (FIXME: Check this.)
-====being_damage====
+====entity:base_attribute====
 <code lua>
-being_damage(handle being, int damage, int delta,
-             int accuracy, int type, int element)
-being_damage(handle being, int damage, int delta, int accuracy,
-             int type, int element, handle source)
-being_damage(handle being, int damage, int delta, int accuracy,
-             int type, int element, handle source, int skill)
-being_damage(handle being, int damage, int delta, int accuracy,
-             int type, int element, handle source, string skillname)
+entity:base_attribute(int attribute_id)
 </code>
-Inflicts damage to ''being''. The severity of the attack is between
-''damage'' and (''damage'' + ''delta'') and is calculated using the normal [[damage calculation]] rules. The being has a chance to [[hitting and dodging|dodge the attack]] with its [[attributes|agility attribute]]. The ''accuracy'' decides how hard this is. If ''source'' is provided the attack is handled as if the ''source'' triggered the damage. If ''skill'' is given the ''owner'' can also recieve xp for the attack. The ''skill'' should be defined in the [[skills.xml|skills.xml]]. If the skill is provided as string (''skillname'') you have to use this format: <setname>_<skillname>. So for example: "Weapons_Unarmed"
+Valid only for being entities.
+
+**Return value:** Returns the value of the being's ''base attribute''.
+====entity:damage====
+<code lua>
+entity:damage(int damage, int delta,
+              int accuracy, int type, int element)
+entity:damage(int damage, int delta, int accuracy,
+              int type, int element, handle source)
+entity:damage(int damage, int delta, int accuracy,
+              int type, int element, handle source, int skill)
+entity:damage(int damage, int delta, int accuracy,
+              int type, int element, handle source, string skillname)
+</code>
+Valid only for being entities.
+
+Inflicts damage to the being. The severity of the attack is between
+''damage'' and (''damage'' + ''delta'') and is calculated using the normal
+[[damage calculation]] rules. The being has a chance to
+[[hitting and dodging|dodge the attack]] with its
+[[attributes|agility attribute]]. The ''accuracy'' decides how hard this is.
+
+If ''source'' is provided the attack is handled as if the ''source''
+triggered the damage.
+
+If ''skill'' is given the ''owner'' can also recieve XP for the attack. The
+''skill'' should be defined in the [[skills.xml|skills.xml]]. If the skill
+is provided as string (''skillname'') you have to use this format:
+<setname>_<skillname>. So for example: "Weapons_Unarmed"
 
 ''type'' affects which kind of armor and character attributes reduce the
 damage. It can be one of the following values:
@@ -214,31 +285,14 @@ following values are possible:
 | 8 | ELEMENT_ICE  |
 
 **Return Value**: Actual HP reduction resulting from the attack.
-====being_get_action====
+====entity:direction====
 <code lua>
-being_get_action(handle being)
+entity:direction()
 </code>
-**Return value:** Current action of the given being. These action constants
-are defined in libmana-constants.lua:
+Valid only for being entities.
 
-| 0 | ACTION_STAND  |
-| 1 | ACTION_WALK   |
-| 2 | ACTION_ATTACK |
-| 3 | ACTION_SIT    |
-| 4 | ACTION_DEAD   |
-| 5 | ACTION_HURT   |
-====being_get_base_attribute====
-<code lua>
-being_get_base_attribute(handle being, int attribute_id)
-</code>
-Set the value of the being's ''base attribute'' to the 'new_value' parameter
-given. (It can be negative).
-====being_get_direction====
-<code lua>
-being_get_direction(handle being)
-</code>
-**Return value:** Current direction of the given being. These direction
-constants are defined in libmana-constants.lua:
+**Return value:** Current direction of the being. These direction constants
+are defined in libmana-constants.lua:
 
 | 0 | DIRECTION_DEFAULT |
 | 1 | DIRECTION_UP      |
@@ -246,102 +300,285 @@ constants are defined in libmana-constants.lua:
 | 3 | DIRECTION_LEFT    |
 | 4 | DIRECTION_RIGHT   |
 | 5 | DIRECTION_INVALID |
-====being_get_gender====
+====entity:gender====
 <code lua>
-being_get_gender(handle being)
+entity:gender()
 </code>
+Valid only for being entities.
+
 **Return value:** The gender of the being. These gender constants are
 defined in libmana-constants.lua:
 
 | 0 | GENDER_MALE        |
 | 1 | GENDER_FEMALE      |
 | 2 | GENDER_UNSPECIFIED |
-====being_get_mapid====
+====entity:give_special====
 <code lua>
-being_get_mapid(handle Being)
+entity:give_special(int special)
 </code>
-**Return value:** the id of the map where the being is located
-or nil if there is none.
-====being_get_name====
+Valid only for character entities.
+
+Enables a special for a character.
+====entity:give_xp====
 <code lua>
-being_get_name(handle being)
+entity:give_xp(int skill, int amount [, int optimalLevel])
+entity:give_xp(string skillname, int amount [, int optimalLevel])
 </code>
-**Return value:** Name of the being.
-====being_get_walkmask====
+Valid only for character entities.
+
+Gives the character ''amount'' experience in skill ''skill''. When an
+optimal level is set (over 0), the experience is reduced when the characters
+skill level is beyond this. If the skill is provided as string
+(''skillname'') you have to use this format: <setname>_<skillname>.
+So for example: "Weapons_Unarmed".
+====entity:hair_color====
 <code lua>
-being_get_walkmask(handle being)
+entity:hair_color()
 </code>
-**Return value:** The walkmask of the being formatted as string. (See
-[[scripting#get_item_class|being_set_walkmask]])
-====being_heal====
+Valid only for character entities.
+
+**Return value:** The hair color ID of the character.
+====entity:hair_style====
 <code lua>
-being_heal(handle being[, int value])
+entity:hair_style()
 </code>
-Restores ''value'' lost hit points to ''being''. Value can be omitted to
+Valid only for character entities.
+
+**Return value:** The hair style ID of the character.
+====entity:has_special====
+<code lua>
+entity:has_special(int special)
+</code>
+Valid only for character entities.
+
+**Return value:** True if the character has the special, false otherwise.
+====entity:heal====
+<code lua>
+entity:heal([int value])
+</code>
+Valid only for being entities.
+
+Restores ''value'' lost hit points to the being. Value can be omitted to
 restore the being to full hit points.
 
 While you can (ab)use this function to hurt a being by using a negative
-value you should rather use being_damage for this purpose.
-====being_register====
+value you should rather use entity:damage for this purpose.
+====entity:kick====
 <code lua>
-being_register(handle being)
+entity:kick()
 </code>
-Makes the server call the on_being_death and on_being_remove callbacks
-when the being dies or is removed from the map.
+Valid only for character entities.
+
+Kicks the character.
+====entity:kill_count====
+<code lua>
+entity:kill_count(int monsterId)
+entity:kill_count(string monsterName)
+entity:kill_count(MonsterClass monsterClass)
+</code>
+Valid only for character entities.
+
+**Return value:** The total number of monsters of the specy (passed either
+as monster id, monster name or monster class) the character has killed
+during its career.
+====entity:level====
+<code lua>
+entity:level()
+entity:level(int skill_id)
+entity:level(string skill_name)
+</code>
+Valid only for character entities.
+
+**Return value:** Returns the level of the character. If a skill is passed
+(either by name or id) the level of this skill is returned.
+
+**Note:** If the skill is provided as string (''skill_name'') you have to
+use this format: <setname>_<skillname>. So for example: "Weapons_Unarmed".
+====entity:mapid====
+<code lua>
+entity:mapid()
+</code>
+**Return value:** the id of the map where the entity is located or nil if
+there is none.
+====entity:name====
+<code lua>
+entity:name()
+</code>
+Valid only for being entities.
+
+**Return value:** Name of the being.
+====entity:position====
+<code lua>
+entity:position()
+</code>
+Valid only for actor entities.
+
+**Return value:** The x and y position of the actor in pixels, measured from
+the top-left corner of the map it is currently on.
+====entity:register====
+<code lua>
+entity:register()
+</code>
+Makes the server call the on_being_death and on_entity_remove callbacks
+when the being dies or the entity is removed from the map.
 
 **Note:** You should never need to call this in most situations. It is
 handeled by the libmana.lua
-====being_remove_attribute_modifier====
+====entity:remove_attribute_modifier====
 <code lua>
-being_remove_attribute_modifier(handle being, int attribute_id,
-                                double value, unsigned int layer)
+entity:remove_attribute_modifier(int attribute_id,
+                                 double value, unsigned int layer)
 </code>
+Valid only for being entities.
+
 Permits to remove an attribute modifier by giving its value and its layer.
-====being_set_action====
+====entity:rights====
 <code lua>
-being_set_action(handle being, int action)
+entity:rights()
 </code>
+Valid only for character entities.
+
+**Return value:** The access level of the account of the character.
+====entity:set_action====
+<code lua>
+entity:set_action(int action)
+</code>
+Valid only for being entities.
+
 Sets the current action for the being.
-====being_set_base_attribute====
+====entity:set_base_attribute====
 <code lua>
-being_set_base_attribute(handle being, int attribute_id, double new_value)
+entity:set_base_attribute(int attribute_id, double new_value)
 </code>
-**Return value:** Returns the double value of the being's ''base attribute''.
-====being_set_direction====
+Valid only for being entities.
+
+Set the value of the being's ''base attribute'' to the 'new_value' parameter
+given. (It can be negative).
+====entity:set_direction====
 <code lua>
-being_set_direction(handle being, int direction)
+entity:set_direction(int direction)
 </code>
+Valid only for being entities.
+
 Sets the current direction of the given being. Directions are same as in
-''being_get_direction''.
-====being_set_gender====
+''entity:direction''.
+====entity:set_gender====
 <code lua>
-being_set_gender(handle being, int gender)
+entity:set_gender(int gender)
 </code>
-Sets the gender of a ''being''.
+Valid only for being entities.
+
+Sets the gender of the being.
 
 The gender constants are defined in libmana-constants.lua:
 
 | 0 | GENDER_MALE        |
 | 1 | GENDER_FEMALE      |
 | 2 | GENDER_UNSPECIFIED |
-====being_set_walkmask====
+====entity:set_hair_color====
 <code lua>
-being_set_walkmask(handle being, string mask)
+entity:set_hair_color(int color)
 </code>
-Sets the walkmasks of a being. The mask is a set of characters which stand
+Valid only for character entities.
+
+Sets the hair color ID of the character to ''color''.
+====entity:set_hair_style====
+<code lua>
+entity:set_hair_style(int style)
+</code>
+Valid only for character entities.
+
+Sets the hair style ID of the character to ''style''.
+====entity:set_special_mana====
+<code lua>
+entity:set_special_mana(int specialid, int new_mana)
+entity:set_special_mana(string specialname, int new_mana)
+</code>
+Valid only for character entities.
+
+Sets the mana (recharge status) of the special to a new value for the
+character.
+
+**Note:** When passing the ''specialname'' as parameter make sure that it is
+formatted in this way: <setname>_<specialname> (for eg. "Magic_Healingspell").
+====entity:set_special_recharge_speed====
+<code lua>
+entity:set_special_recharge_speed(int specialid, int new_speed)
+entity:set_special_recharge_speed(string specialname, int new_speed)
+</code>
+Valid only for character entities.
+
+Sets the recharge speed of the special to a new value for the character.
+
+**Note:** When passing the ''specialname'' as parameter make sure that it is
+formatted in this way: <setname>_<specialname> (for eg. "Magic_Healingspell").
+====entity:set_walkmask====
+<code lua>
+entity:set_walkmask(string mask)
+</code>
+Valid only for actor entities.
+
+Sets the walkmasks of an actor. The mask is a set of characters which stand
 for different collision types.
 
 | w | Wall      |
 | c | Character |
 | m | Monster   |
 
-This means being_set_walkmask(being, "wm") will prevent the being from
-walking over walls and monsters.
-====being_type====
+This means entity:set_walkmask("wm") will prevent the being from walking
+over walls and monsters.
+====entity:shake_screen====
 <code lua>
-being_type(handle being)
+entity:shake_screen(int x, int y[, float strength, int radius])
 </code>
-**Return value:** Type of the given being. These type constants are defined
+Valid only for character entities.
+
+Shakes the screen for a given character.
+====entity:show_text_particle====
+<code lua>
+entity:show_text_particle(string text)
+</code>
+Valid only for character entities.
+
+Shows a text particle on a client. This effect is only visible for the
+character.
+====entity:special_mana====
+<code lua>
+entity:special_mana(int specialid)
+entity:special_mana(string specialname)
+</code>
+**Return value:** The mana (recharge status) of the special that is owned by
+the character.
+
+**Note:** When passing the ''specialname'' as parameter make sure that it is
+formatted in this way: <setname>_<specialname> (for eg. "Magic_Healingspell").
+====entity:special_recharge_speed====
+<code lua>
+entity:special_recharge_speed(int specialid)
+entity:special_recharge_speed(string specialname)
+</code>
+Valid only for character entities.
+
+**Return value:** The current recharge speed of the special that is owned by
+the character.
+
+**Note:** When passing the ''specialname'' as parameter make sure that it is
+formatted in this way: <setname>_<specialname> (for eg. "Magic_Healingspell").
+====entity:take_special====
+<code lua>
+entity:take_special(int special)
+</code>
+Valid only for character entities.
+
+Removes a special from a character.
+
+**Return value:** True if removal was successful, false otherwise (in case
+the character did not have the special).
+====entity:type====
+<code lua>
+entity:type()
+</code>
+**Return value:** Type of the given entity. These type constants are defined
 in libmana-constants.lua:
 
 | 0 | TYPE_ITEM      |
@@ -351,220 +588,77 @@ in libmana-constants.lua:
 | 4 | TYPE_CHARACTER |
 | 5 | TYPE_EFFECT    |
 | 6 | TYPE_OTHER     |
-====being_walk====
+====entity:walk====
 <code lua>
-being_walk(handle being, int pixelX, int pixelY [, int walkSpeed])
+entity:walk(int pixelX, int pixelY [, int walkSpeed])
 </code>
-Set the desired destination in pixels for the **'being'**.
+Valid only for being entities.
+
+Set the desired destination in pixels for the being.
 
 The optional **'WalkSpeed'** is to be given in tiles per second. The average
 speed is 6.0 tiles per second. If no speed is given the default speed of the
 being is used.
-====chr_create_text_particle====
+====entity:walkmask====
 <code lua>
-chr_create_text_particle(handle character, string text)
+entity:walkmask()
 </code>
-Creates a text particle on a client. This effect is only visible for the
-''character''.
-====chr_get_exp====
+Valid only for actor entities.
+
+**Return value:** The walkmask of the actor formatted as string. (See
+[[scripting#entityset_walkmask|entity:set_walkmask]])
+====entity:warp====
 <code lua>
-chr_get_exp(handle character, int skill)
-chr_get_exp(handle character, int skill)
+entity:warp(int mapID, int posX, int posY)
+entity:warp(string mapName, int posX, int posY)
 </code>
-**Return value:** The total experience collected by ''character'' in skill ''skill''.
+Valid only for character entities.
+
+Teleports the character to the position ''posX'':''posY'' on the map
+with the ID number ''mapID'' or name ''mapName''. The ''mapID'' can be
+substituted by ''nil'' to warp the character to a new position on the
+current map.
+====entity:x====
+<code lua>
+entity:x()
+</code>
+Valid only for actor entities.
+
+**Return value:** The x position of the actor in pixels, measured from
+the left border of the map it is currently on.
+====entity:xp====
+<code lua>
+entity:xp(int skill_id)
+entity:xp(string skill_name)
+</code>
+Valid only for character entities.
+
+**Return value:** The total experience collected by the character in
+''skill''.
 
 If the skill is provided as string (''skillname'') you have to use this
 format: <setname>_<skillname>. So for example: "Weapons_Unarmed".
-====chr_get_hair_color====
+====entity:y====
 <code lua>
-chr_get_hair_color(handle character)
+entity:y()
 </code>
-**Return value:** The hair color ID of ''character''
-====chr_get_hair_style====
-<code lua>
-chr_get_hair_style(handle character)
-</code>
-**Return value:** The hair style ID of ''character''
-====chr_get_kill_count====
-<code lua>
-chr_get_kill_count(handle character, int monsterId)
-chr_get_kill_count(handle character, string monsterName)
-chr_get_kill_count(handle character, MonsterClass monsterClass)
-</code>
-**Return value:** The total number of monsters of the specy (passed either
-as monster id, monster name or monster class) the ''character'' has killed
-during its career.
-====chr_get_level====
-<code lua>
-chr_get_level(handle character)
-chr_get_level(handle character, int skill_id)
-chr_get_level(handle character, string skill_name)
-</code>
-**Return value:** Returns the level of the ''character''. If a skill is
-passed (either by name or id) the level of this skill is returned.
+Valid only for actor entities.
 
-**Note:** If the skill is provided as string (''skill_name'') you have to
-use this format: <setname>_<skillname>. So for example: "Weapons_Unarmed".
-====chr_get_post====
-<code lua>
-chr_get_post(handle character)
-</code>
-Gets the post for the character.
-====chr_get_quest====
-<code lua>
-chr_get_quest(handle character, string name)
-</code>
-**Return value:** The quest variable named ''name'' for the given character.
-
-**Warning:** May only be called from an NPC talk function.
-
-====chr_get_rights====
-<code lua>
-chr_get_rights(handle character)
-</code>
-**Return value:** The access level of the account of character.
-====chr_get_special_mana====
-<code lua>
-chr_get_special_mana(handle ch, int specialid)
-chr_get_special_mana(handle ch, string specialname)
-</code>
-**Return value:** The mana (recharge status) of the special that is owned by
-the character ''ch''.
-
-**Note:** When passing the ''specialname'' as parameter make sure that it is
-formatted in this way: <setname>_<specialname> (for eg. "Magic_Healingspell").
-====chr_get_special_recharge_speed====
-<code lua>
-chr_get_special_recharge_speed(handle ch, int specialid)
-chr_get_special_recharge_speed(handle ch, string specialname)
-</code>
-**Return value:** The current recharge speed of the special that is owned by
-the character ''ch''.
-
-**Note:** When passing the ''specialname'' as parameter make sure that it is
-formatted in this way: <setname>_<specialname> (for eg. "Magic_Healingspell").
-====chr_give_exp====
-<code lua>
-chr_give_exp(handle character, int skill, int amount [, int optimalLevel])
-chr_give_exp(handle character, string skillname, int amount [, int optimalLevel])
-</code>
-Gives ''character'' ''amount'' experience in skill ''skill''. When an
-optimal level is set (over 0), the experience is reduced when the characters
-skill level is beyond this. If the skill is provided as string
-(''skillname'') you have to use this format: <setname>_<skillname>.
-So for example: "Weapons_Unarmed".
-====chr_give_special====
-<code lua>
-chr_give_special(handle character, int special)
-</code>
-Enables a special for a character.
-====chr_has_special====
-<code lua>
-chr_has_special(handle character, int special)
-</code>
-**Return value:** True if the ''character'' has the special. False otherwise
-====chr_kick====
-<code lua>
-chr_kick(handle character)
-</code>
-Kicks the character.
-====chr_request_quest====
-<code lua>
-chr_request_quest(handle character, string questvariable, Ref function)
-</code>
-Requests the questvar from the account server. This will make it available in
-the quest cache after some time. The passed function will be called back as
-soon the quest var is available.
-====chr_set_hair_color====
-<code lua>
-chr_set_hair_color(handle character, int color)
-</code>
-Sets the hair color ID of ''character'' to ''color''
-====chr_set_hair_style====
-<code lua>
-chr_set_hair_style(handle character, int style)
-</code>
-Sets the hair style ID of ''character'' to ''style''
-====chr_set_quest====
-<code lua>
-chr_set_quest(handle character, string name, string value)
-</code>
-Sets the quest variable named ''name'' for the given  character to the value
-''value''.
-====chr_set_special_mana====
-<code lua>
-chr_set_special_mana(handle ch, int specialid, int new_mana)
-chr_set_special_mana(handle ch, string specialname, int new_mana)
-</code>
-Sets the mana (recharge status) of the special to a new value for the
-character.
-
-**Note:** When passing the ''specialname'' as parameter make sure that it is
-formatted in this way: <setname>_<specialname> (for eg. "Magic_Healingspell").
-====chr_set_special_recharge_speed====
-<code lua>
-chr_set_special_recharge_speed(handle ch, int specialid, int new_speed)
-chr_set_special_recharge_speed(handle ch, string specialname, int new_speed)
-</code>
-Sets the recharge speed of the special to a new value for the character.
-
-**Note:** When passing the ''specialname'' as parameter make sure that it is
-formatted in this way: <setname>_<specialname> (for eg. "Magic_Healingspell").
-====chr_shake_screen====
-<code lua>
-chr_shake_screen(handle character, int x, int y[, float strength, int radius])
-</code>
-Shake the screen for a given character.
-====chr_take_special====
-<code lua>
-chr_take_special(handle character, int special)
-</code>
-Removes a special from a character.
-
-**Return value:** True if removal was successful. False otherwise
-(in case the ''character'' did not have the special)
-====chr_try_get_quest====
-<code lua>
-chr_try_get_quest(handle character, string questvariable)
-</code>
-Callback for checking if a quest variable is available in cache.
-
-**Return value:** It will return the variable if it is or nil
-if it is not in cache.
-====chr_warp====
-<code lua>
-chr_warp(handle character, int mapID, int posX, int posY)
-chr_warp(handle character, string mapName, int posX, int posY)
-</code>
-Teleports the ''character'' to the position ''posX'':''posY'' on the map
-with the ID number ''mapID'' or name ''mapName''. The ''mapID'' can be
-substituted by ''nil'' to warp the ''character'' to a new position on the
-current map.
-====exp_for_level====
-<code lua>
-exp_for_level(int level)
-</code>
-**Return value:** Returns the total experience necessary (counted from
-level 0) for reaching ''level'' in any skill.
+**Return value:** The y position of the actor in pixels, measured from
+the top border of the map it is currently on.
 ====get_character_by_name====
 <code lua>
 get_character_by_name(string name)
 </code>
 Tries to find an online character by name.
 
-**Return value** the character handle or nil if there is none
-====posX====
+**Return value** the character handle or nil if there is none.
+====xp_for_level====
 <code lua>
-posX(handle being)
+xp_for_level(int level)
 </code>
-**Return value:** The horizontal position of the ''being'' in pixels
-measured from the left border of the map it is currently on.
-====posY====
-<code lua>
-posY(handle being)
-</code>
-**Return value:** The vertical position of the ''being'' in pixels measured
-from the upper border of the map it is currently on.
+**Return value:** Returns the total experience necessary (counted from
+level 0) for reaching ''level'' in any skill.
 ======Creation and removal of stuff======
 
 ====drop_item====
@@ -585,6 +679,11 @@ This has no effect on gameplay.
 **Warning:** Remember that clients might switch off particle effects for
 performance reasons. Thus you should not use this for important visual
 input.
+====entity:remove====
+<code lua>
+entity:remove()
+</code>
+Removes the entity from its current map.
 ====monster_create====
 <code lua>
 monster_create(int monsterID, int x, int y)
@@ -594,16 +693,10 @@ monster_create(string monstername, int x, int y)
 
 Spawns a new monster of type ''monsterID'' or ''monstername'' on the current
 map on the pixel coordinates ''x'':''y''.
-====monster_remove====
-<code lua>
-monster_remove(handle monster)
-</code>
-**Return value:** True if removing the monster suceeded.
-
-Remove the monster ''monster'' from the current map.
 ====npc_create====
 <code lua>
-npc_create(string name, int spriteID, int gender, int x, int y, function talkfunct, function updatefunct)
+npc_create(string name, int spriteID, int gender, int x, int y,
+           function talkfunct, function updatefunct)
 </code>
 **Return value:** A handle to the created NPC.
 
@@ -632,7 +725,8 @@ npc_disable(handle npc)
 Re-enables an NPC that got disabled before.
 ====trigger_create====
 <code lua>
-trigger_create(int x, int y, int width, int height, function trigger_function, int arg, bool once)
+trigger_create(int x, int y, int width, int height,
+               function trigger_function, int arg, bool once)
 </code>
 Creates a new trigger area with the given ''height'' and ''width'' in pixels
 at the map position ''x'':''y'' in pixels. When a being steps into this area
@@ -668,7 +762,7 @@ damage:element()
 </code>
 **Return value:** This function returns the element of the attack.
 
-**See:** [[scripting#being_damage|being_damage]] for possible values.
+**See:** [[scripting#entitydamage|entity:damage]] for possible values.
 ====damage:id====
 <code lua>
 damage:id()
@@ -698,20 +792,7 @@ damage:type()
 </code>
 **Return value:** This function returns the type of the attack.
 
-**See:** [[scripting#being_damage|being_damage]] for possible values.
-======General Information======
-
-====item_get_name====
-<code lua>
-get_map_property(string key)
-</code>
-**Return value:** The value of the property ''key'' of the current map.
-The string is empty if the property ''key'' does not exist.
-====monster_get_name====
-<code lua>
-get_map_id()
-</code>
-**Return value:** The ID number of the map the script runs on.
+**See:** [[scripting#entitydamage|entity:damage]] for possible values.
 ======Input and output======
 
 ====announce====
@@ -720,21 +801,25 @@ announce(string message [, string sender])
 </code>
 Sends a global announce with the given ''message'' and ''sender''. If no
 ''sender'' is passed "Server" will be used as sender.
-====being_say====
+====ask====
 <code lua>
-being_say(handle being, string message)
+ask(item1, item2, ... itemN)
 </code>
-Makes ''being'', which can be a character, monster or NPC, speak the string
-''message'' as if it was entered by a player in the chat bar.
-====chat_message====
+**Return value:** Number of the option the player selected (starting with 1).
+
+**Warning:** May only be called from an NPC talk function.
+
+Shows an NPC dialog box on the users screen with a number of dialog options
+to choose from. Idles the current thread until the user selects one or
+aborts the current thread when the user clicks "cancel".
+
+Items are either strings or tables of strings (indices are ignored,
+but presumed to be taken in order). So,
+''ask("A", {"B", "C", "D"}, "E")'' is the same as
+''ask("A", "B", "C", "D", "E")''.
+====ask_number====
 <code lua>
-chat_message(handle character, string message)
-</code>
-Outputs the string ''message'' in the chatlog of ''character'' which will
-appear as a private message from "Server".
-====npc_ask_integer====
-<code lua>
-npc_ask_integer(handle npc, handle character, min_num, max_num, [default_num])
+ask_number(min_num, max_num, [default_num])
 </code>
 **Return value:** The number the player entered into the field.
 
@@ -743,125 +828,43 @@ npc_ask_integer(handle npc, handle character, min_num, max_num, [default_num])
 Shows a dialog box to the user which allows him to choose a number between
 ''min_num'' and ''max_num''. If ''default_num'' is set this number will be
 uses as default.  Otherwise ''min_num'' will be the default.
-====npc_ask_string====
+====ask_string====
 <code lua>
-npc_ask_string(handle npc, handle character)
+ask_string()
 </code>
 **Return value:** The string the player entered.
 
 **Warning:** May only be called from an NPC talk function.
 
 Shows a dialog box to a user which allows him to enter a text.
-====npc_choice====
+====entity:message====
 <code lua>
-npc_choice(handle npc, handle character, item1, item2, ... itemN)
+entity:message(string message)
 </code>
-**Return value:** Number of the option the player selected (starting with 1).
-
-**Warning:** May only be called from an NPC talk function.
-
-Shows an NPC dialog box on the users screen with a number of dialog options
-to choose from. Idles the current thread until the user selects one or
-aborts the current   thread when the user clicks "cancel".
-
-Items are either strings or tables of strings (indices are ignored,
-but presumed to be taken in order). So,
-''npc_choice(npc, ch, "A", {"B", "C", "D"}, "E")'' is the same as
-''npc_choice(npc, ch, "A", "B", "C", "D", "E")''.
-====npc_message====
+Delivers the string ''message'' to this entity (which needs to be a
+character). It will appear in the chatlog as a private message from
+"Server".
+====entity:say====
 <code lua>
-npc_message(handle npc, handle character, string message)
+entity:say(string message)
 </code>
-**Warning:** May only be called from an NPC talk function.
-
-Shows an NPC dialog box on the screen of character ''ch'' displaying the
-string ''msg''. Idles the current thread until the user click "OK".
+Makes this entity (which can be a character, monster or NPC), speak the
+string ''message'' as if it was entered by a player in the chat bar.
 ====npc_post====
 <code lua>
-npc_post(handle npc, handle character)
+npc_post()
 </code>
 Starts retrieving post. Better not try to use it so far.
+====say====
+<code lua>
+say(string message)
+</code>
+**Warning:** May only be called from an NPC talk function.
+
+Shows an NPC dialog box on the screen of displaying the string ''message''.
+Idles the current thread until the user click "OK".
 ======Inventory interaction======
 
-====chr_equip_item====
-<code lua>
-chr_equip_item(handle character, int item_id)
-chr_equip_item(handle character, string item_name)
-</code>
-Makes the character equip the item id when it's existing
-in the player's inventory.
-
-**Return value:** true if equipping suceeded. false otherwise.
-====chr_equip_slot====
-<code lua>
-chr_equip_slot(handle character, int slot)
-</code>
-Makes the character equip the item in the given inventory slot.
-====chr_get_equipment====
-<code lua>
-chr_get_equipment(character): table[](slot, item id, name)}
-</code>
-Used to get a full view of a character's equipment.
-This is not the preferred way to know whether an item is equipped:
-Use chr_inv_count for simple cases.
-
-**Return value:** A table containing all the info about the character's equipment.
-Empty slots are not listed.
-
-**Example of use:**
-<code lua>
-local equipment_table = chr_get_equipment(ch)
-for i = 1, #equipment_table do
-    item_message = item_message.."\n"..equipment_table[i].slot..", "
-        ..equipment_table[i].id..", "..equipment_table[i].name
-end
-</code>
-====chr_get_inventory====
-<code lua>
-chr_get_inventory(character): table[]{slot, item id, name, amount}
-</code>
-used to get a full view of a character's inventory.
-This is not the preferred way to know whether an item is in the character's inventory:
-Use chr_inv_count for simple cases.
-
-**Return value:** A table containing all the info about the character's inventory.
-Empty slots are not listed.
-
-**Example of use:**
-<code lua>
-local inventory_table = chr_get_inventory(ch)
-for i = 1, #inventory_table do
-    item_message = item_message.."\n"..inventory_table[i].slot..", "
-        ..inventory_table[i].id..", "..inventory_table[i].name..", "
-        ..inventory_table[i].amount
-end
-</code>
-====chr_inv_change====
-<code lua>
-chr_inv_change(handle character, int id1, int number1, ..., int idN, numberN)
-chr_inv_change(handle character, string name1, int number1, ..., string nameN, numberN)
-</code>
-**Return value:** Boolean true on success, boolean false on failure.
-
-Changes the number of items with the item ID ''id'' or ''name'' owned by
-''character'' by ''number''. You can change any number of items with this
-function by passing         multiple ''id'' or ''name'' and ''number'' pairs.
-A failure can be caused by trying to take items the character doesn't possess.
-
-**Warning:** When one of the operations fails the following operations are
-ignored but these before are executed. For that reason you should always
-check if the character     possesses items you are taking away using
-chr_inv_count.
-====chr_inv_count====
-<code lua>
-chr_inv_count(handle character, bool inInventory, bool inEquipment, int id1, ..., int idN)
-chr_inv_count(handle character, bool inInventory, bool inEquipment, string name1, ..., string nameN)
-</code>
-The boolean values ''inInventory'' and ''inEquipment'' make possible to
-select whether equipped or carried items must be counted.
-
-**Return values:** A number of integers with the amount of items ''id'' or
-''name'' carried or equipped by the ''character''.
 ====chr_money====
 <code lua>
 chr_money(handle character)
@@ -878,42 +881,140 @@ chr_money_change(handle character, int amount)
 -
 - **Warning:** Before reducing the money make sure to check if the character
 - owns enough money using chr_money.
-====chr_unequip_item====
+====entity:equip_item====
 <code lua>
-chr_unequip_item(handle character, int item_id)
-chr_unequip_item(handle character, string item_name)
+entity:equip_item(int item_id)
+entity:equip_item(string item_name)
 </code>
-Makes the character unequip the item(s) corresponding to the id
-when it's existing in the player's equipment.
+Valid only for character entities.
+
+Makes the character equip the item id when it exists in the player's
+inventory.
+
+**Return value:** true if equipping suceeded. false otherwise.
+====entity:equip_slot====
+<code lua>
+entity:equip_slot(int slot)
+</code>
+Valid only for character entities.
+
+Makes the character equip the item in the given inventory slot.
+====entity:equipment====
+<code lua>
+entity:equipment(): table[](slot, item id, name)}
+</code>
+Valid only for character entities.
+
+Used to get a full view of a character's equipment.
+This is not the preferred way to know whether an item is equipped:
+Use entity:inv_count for simple cases.
+
+**Return value:** A table containing all the info about the character's
+equipment. Empty slots are not listed.
+
+**Example of use:**
+<code lua>
+local equipment_table = ch:equipment()
+for i = 1, #equipment_table do
+    item_message = item_message.."\n"..equipment_table[i].slot..", "
+        ..equipment_table[i].id..", "..equipment_table[i].name
+end
+</code>
+====entity:inv_change====
+<code lua>
+entity:inv_change(int id1, int number1, ..., int idN, numberN)
+entity:inv_change(string name1, int number1, ..., string nameN, numberN)
+</code>
+Valid only for character entities.
+
+Changes the number of items with the item ID ''id'' or ''name'' owned by
+this character by ''number''. You can change any number of items with this
+function by passing multiple ''id'' or ''name'' and ''number'' pairs.
+A failure can be caused by trying to take items the character doesn't possess.
+
+**Return value:** Boolean true on success, boolean false on failure.
+
+**Warning:** When one of the operations fails the following operations are
+ignored but these before are executed. For that reason you should always
+check if the character possesses items you are taking away using
+entity:inv_count.
+====entity:inv_count====
+<code lua>
+entity:inv_count(bool inInventory, bool inEquipment,
+                 int id1, ..., int idN)
+entity:inv_count(bool inInventory, bool inEquipment,
+                 string name1, ..., string nameN)
+</code>
+Valid only for character entities.
+
+The boolean values ''inInventory'' and ''inEquipment'' make possible to
+select whether equipped or carried items must be counted.
+
+**Return values:** A number of integers with the amount of items ''id'' or
+''name'' carried or equipped by the character.
+====entity:inventory====
+<code lua>
+entity:inventory(): table[]{slot, item id, name, amount}
+</code>
+Valid only for character entities.
+
+Used to get a full view of a character's inventory.
+This is not the preferred way to know whether an item is in the character's
+inventory:
+Use entity:inv_count for simple cases.
+
+**Return value:** A table containing all the info about the character's
+inventory. Empty slots are not listed.
+
+**Example of use:**
+<code lua>
+local inventory_table = ch:inventory()
+for i = 1, #inventory_table do
+    item_message = item_message.."\n"..inventory_table[i].slot..", "
+        ..inventory_table[i].id..", "..inventory_table[i].name..", "
+        ..inventory_table[i].amount
+end
+</code>
+====entity:unequip_item====
+<code lua>
+entity:unequip_item(int item_id)
+entity:unequip_item(string item_name)
+</code>
+Valid only for character entities.
+
+Makes the character unequip the item(s) corresponding to the id when it
+exists in the player's equipment.
 
 **Return value:** true when every item were unequipped from equipment.
-====chr_unequip_slot====
+====entity:unequip_slot====
 <code lua>
-chr_unequip_slot(handle character, int slot)
+entity:unequip_slot(int slot)
 </code>
+Valid only for character entities.
+
 Makes the character unequip the item in the given equipment slot.
 
 **Return value:** true upon success. false otherwise.
-====npc_trade====
+====trade====
 <code lua>
-npc_trade(handle npc,
-          handle character,
-          bool mode,
-          {int item1id, int item1amount, int item1cost}, ...,
-          {int itemNid, int itemNamount, int itemNcost})
-npc_trade(handle npc,
-          handle character,
-          bool mode,
-          {string item1name, int item1amount, int item1cost}, ...,
-          {string itemNname, int itemNamount, int itemNcost})
+trade(bool mode,
+      { int item1id, int item1amount, int item1cost }, ...,
+      { int itemNid, int itemNamount, int itemNcost })
+trade(bool mode,
+      { string item1name, int item1amount, int item1cost }, ...,
+      { string itemNname, int itemNamount, int itemNcost })
 </code>
 FIXME: Move into a seperate file
-Opens a trade window for ''character'' while talking with ''npc''. ''mode'' is true for selling and false for buying. You have to set each items the NPC is buying/selling,    the cost and the maximum amount in {}.
+Opens a trade window from an NPC conversation. ''mode''
+is true for selling and false for buying. You have to set each items the NPC
+is buying/selling,    the cost and the maximum amount in {}.
 
-**Note:** If the fourth parameters (table type) is omitted or invalid, and the mode set to sell (true),
+**Note:** If the fourth parameters (table type) is omitted or invalid, and
+the mode set to sell (true),
 the whole player inventory is then sellable.
 
-**N.B.:** Be sure to put a ''value'' (item cost) parameter in your items.xml to permit the player to sell it when using this option.
+**N.B.:** Be sure to put a ''value'' (item cost) parameter in your items.xml
+to permit the player to sell it when using this option.
 
 **Return values:**
   * **0** when a trade has been started
@@ -921,40 +1022,54 @@ the whole player inventory is then sellable.
   * **2** in case of errors.
 
 **Examples:**
-<code lua npc_trade.lua>
+<code lua trade.lua>
     -- "A buy sample."
-    local buycase = npc_trade(npc, ch, false, { {"Sword", 10, 20}, {"Bow", 10, 30}, {"Dagger", 10, 50} })
+    local buycase = trade(false, {
+        {"Sword", 10, 20},
+        {"Bow", 10, 30},
+        {"Dagger", 10, 50}
+    })
     if buycase == 0 then
-      npc_message(npc, ch, "What do you want to buy?")
+      npc_message("What do you want to buy?")
     elseif buycase == 1 then
-      npc_message(npc, ch, "I've got no items to sell.")
+      npc_message("I've got no items to sell.")
     else
-      npc_message(npc, ch, "Hmm, something went wrong... Ask a scripter to fix the buying mode!")
+      npc_message("Hmm, something went wrong... Ask a scripter to
+      fix the buying mode!")
     end
 
 -- ...
 
    -- "Example: Let the player sell only pre-determined items."
-   local sellcase = npc_trade(npc, ch, true, { {"Sword", 10, 20}, {"Bow", 10, 30},
-                     {"Dagger", 10, 200}, {"Knife", 10, 300}, {"Arrow", 10, 500}, {"Cactus Drink", 10, 25} })
+   local sellcase = trade(true, {
+                     {"Sword", 10, 20},
+                     {"Bow", 10, 30},
+                     {"Dagger", 10, 200},
+                     {"Knife", 10, 300},
+                     {"Arrow", 10, 500},
+                     {"Cactus Drink", 10, 25}
+    })
     if sellcase == 0 then
-      npc_message(npc, ch, "Here we go:")
+      npc_message("Here we go:")
     elseif sellcase == 1 then
-      npc_message(npc, ch, "I'm not interested by your items.")
+      npc_message("I'm not interested by your items.")
     else
-      npc_message(npc, ch, "Hmm, something went wrong... Ask a scripter to fix me!")
+      npc_message("Hmm, something went wrong...")
+      npc_message("Ask a scripter to fix me!")
     end
 
 -- ...
 
-    -- "Example: Let the player sell every item with a 'value' parameter in the server's items.xml file
-    local sellcase = npc_trade(npc, ch, true)
+    -- "Example: Let the player sell every item with a 'value' parameter in
+    the server's items.xml file
+    local sellcase = trade(true)
     if sellcase == 0 then
-      npc_message(npc, ch, "Ok, what do you want to sell:")
+      npc_message("Ok, what do you want to sell:")
     elseif sellcase == 1 then
-      npc_message(npc, ch, "I'm not interested by any of your items.")
+      npc_message("I'm not interested by any of your items.")
     else
-      npc_message(npc, ch, "Hmm, something went wrong... Ask a scripter to fix this!")
+      npc_message("Hmm, something went wrong...")
+      npc_message("Ask a scripter to fix me!")
     end
 </code>
 ======Item class======
@@ -974,6 +1089,11 @@ itemclass:attacks()
 
 **See:** the [[scripting#AttackInfo Class|AttackInfo class]] for more info
 about how to use the values in the list.
+====itemclass:name====
+<code lua>
+itemclass:name()
+</code>
+**Return value:** The name of the item class.
 ====itemclass:on====
 <code lua>
 itemclass:on(string event, function callback)
@@ -1102,28 +1222,36 @@ mapobject:type()
 a mapobject object.
 ======Monster======
 
-====monster_change_anger====
+====entity:change_anger====
 <code lua>
-monster_change_anger(handle monster, handle being, int anger)
+entity:change_anger(handle being, int anger)
 </code>
-Makes the ''monster'' more angry about the ''being'' by adding ''anger'' to
-the being.
-====monster_drop_anger====
+Valid only for monster entities.
+
+Makes the monster more angry about the ''being'' by adding ''anger'' to the
+being.
+====entity:drop_anger====
 <code lua>
-monster_drop_anger(handle monster, handle target)
+entity:drop_anger(handle target)
 </code>
+Valid only for monster entities.
+
 Will drop all anger against the ''target''.
-====monster_get_angerlist====
+====entity:get_angerlist====
 <code lua>
-monster_get_angerlist(handle monster)
+entity:get_angerlist()
 </code>
+Valid only for monster entities.
+
 **Return value:** A table with the beings as key and the anger against them
 as values.
-====monster_get_id====
+====entity:monster_id====
 <code lua>
-monster_get_id(handle monster)
+entity:monster_id()
 </code>
-**Return value:** The id of the specy of the monster handle.
+Valid only for monster entities.
+
+**Return value:** The id of the monster class.
 ======Monster class======
 
 ====get_monster_class====
@@ -1139,6 +1267,11 @@ monsterclass:attacks()
 </code>
 **Return value:** This function returns a table with all attacks of the
 monster. See the [[scripting#AttackInfo class|Attack Info]] section.
+====monsterclass:name====
+<code lua>
+monsterclass:name()
+</code>
+**Return value:** The name of the monster class.
 ====monsterclass:on_damage====
 <code lua>
 monsterclass:on_damage(function callback)
@@ -1154,9 +1287,9 @@ a monsterclass object.
 
 **Example:** <code lua>
 local function damage(mob, aggressor, hploss)
-    being_say(mob, "I took damage -.- ".. hploss)
+    mob:say("I took damage -.- ".. hploss)
     if aggressor then
-        being_say(mob, "Curse you, ".. being_get_name(aggressor))
+        mob:say("Curse you, ".. aggressor:name())
     end
 end
 local maggot = get_monster_class("maggot")
@@ -1389,32 +1522,42 @@ is active.
 a statuseffect object.
 ======Status effects======
 
-====being_apply_status====
+====entity:apply_status====
 <code lua>
-being_apply_status(handle Being, int status_id, int time)
+entity:apply_status(int status_id, int time)
 </code>
-Gives a ''being'' a status effect ''status_id'', status effects don't work
-on NPCs. ''time'' is in game ticks.
-====being_get_status_time====
+Valid only for being entities.
+
+Gives a being a status effect ''status_id'', status effects don't work on
+NPCs. ''time'' is in game ticks.
+====entity:has_status====
 <code lua>
-being_get_status_time(handle Being, int status_id)
+entity:has_status(int status_id)
 </code>
-**Return Value:** Number of ticks remaining on a status effect.
-====being_has_status====
+Valid only for being entities.
+
+**Return value:** True if the being has a given status effect.
+====entity:remove_status====
 <code lua>
-being_has_status(handle Being, int status_id)
+entity:remove_status(int status_id)
 </code>
-**Return value:** Bool if the being has a given status effect.
-====being_remove_status====
-<code lua>
-being_remove_status(handle Being, int status_id)
-</code>
+Valid only for being entities.
+
 Removes a given status effect from a being.
-====being_set_status_time====
+====entity:set_status_time====
 <code lua>
-being_set_status_time(handle Being, int status_id, int time)
+entity:set_status_time(int status_id, int time)
 </code>
+Valid only for being entities.
+
 Sets the time on a status effect a target being already has.
+====entity:status_time====
+<code lua>
+entity:status_time(int status_id)
+</code>
+Valid only for being entities.
+
+**Return Value:** Number of ticks remaining on a status effect.
 
 ====== Needed script bindings ======
 
