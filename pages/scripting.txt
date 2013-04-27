@@ -47,7 +47,7 @@ attackinfo:cooldowntime()
 damage after which a new attack can be used) of the attack.
 ====attackinfo:damage====
 <code lua>
->attackinfo:damage()
+attackinfo:damage()
 </code>
 **Return value:** This function returns the damage info of the attack.
 
