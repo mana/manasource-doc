@@ -1,15 +1,16 @@
 
-Manasource is a platform used by many independent teams to create their online world. While some make use of their freedom to fork and modify the Mana plattform to fit their individual needs others use the software in the default state and contribute to its development directly.
+Mana is a platform used by many independent teams to create their online world. While some make use of their freedom to fork and modify the Mana platform to fit their individual needs others use the software in the default state and contribute to its development directly.
 
-^Name ^Server ^comp((compatible with unmodified Manasource client)) ^Status ^Description ^
-|[[http://themanaworld.org|The Mana World]] | eA | Yes | playable (2010-03-24) | The original (and currently most widely played) Manasource project |
-|[[http://themanaworld.org|The Mana World]] | Mana | Yes | planning (2010-03-24 | The new Mana World |
-|[[http://invertika.org/|Invertika]] | Mana | Yes | testing (2009-12-27) | German project with a huge game world |
-|<del>Whispers of Avalon</del> | Mana | Yes | dead (2012-01-31) | A fantasy MMO aiming for a high graphical quality standard |
-|[[http://www.aethyraproject.org/|Aethyra]] | eA | No | inactive (2009-12-27) | Fork of The Mana World with laxer quality standards |
-|<del>The Alternate World</del> | eA | Yes | dead (2012-02-26) | Fork of The Mana World with laxer quality standards |
-|<del>Mundo Dos Dragões</del> | Mana | ? | inactive (2009-12-27) | Brazilian project based on Manasource |
-|<del>My Path Online</del> | Mana | ? | dead (2010-03-24) | A new fork focusing on the social elements of online gaming |
+^Name ^Server ^comp((compatible with unmodified Mana client)) ^Status      ^Description ^
+|[[http://themanaworld.org|The Mana World]] | eA   | Yes | playable (2013-04-28) | The original (and currently most widely played) Mana-based project |
+|[[http://themanaworld.org|The Mana World]] | Mana | Yes | planning (2010-03-24  | The new Mana World |
+|[[http://sourceoftales.org|Source of Tales]] | Mana | No | testing (2013-04-28) | A project based on graphics from the [[http://lpc.opengameart.org|Liberated Pixel Cup]] |
+|[[http://invertika.org/|Invertika]]        | Mana | Yes | testing (2009-12-27)  | German project with a huge game world |
+|<del>Whispers of Avalon</del>              | Mana | Yes | dead (2012-01-31)     | A fantasy MMO aiming for a high graphical quality standard |
+|[[http://www.aethyraproject.org/|Aethyra]] | eA   | No  | inactive (2009-12-27) | Fork of The Mana World with laxer quality standards |
+|<del>The Alternate World</del>             | eA   | Yes | dead (2012-02-26)     | Fork of The Mana World with laxer quality standards |
+|<del>Mundo Dos Dragões</del>               | Mana | ?   | inactive (2009-12-27) | Brazilian project |
+|<del>My Path Online</del>                  | Mana | ?   | dead (2010-03-24)     | A new fork focusing on the social elements of online gaming |
 
 
   * Playable: There is a productive server with serious gameplay and administration
