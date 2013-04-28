@@ -5,10 +5,11 @@ Mana is a platform used by many independent teams to create their online world. 
 |[[http://themanaworld.org|The Mana World]] | eA   | Yes | playable (2013-04-28) | The original (and currently most widely played) Mana-based project |
 |[[http://themanaworld.org|The Mana World]] | Mana | Yes | planning (2010-03-24  | The new Mana World |
 |[[http://sourceoftales.org|Source of Tales]] | Mana | No | testing (2013-04-28) | A project based on graphics from the [[http://lpc.opengameart.org|Liberated Pixel Cup]] |
+|[[http://www.evolonline.org/|Evol Online]] | eA   | ?   | playable (2013-04-28) | An evolving 2D MMORPG, based on a fork of the Mana client |
 |[[http://invertika.org/|Invertika]]        | Mana | Yes | testing (2009-12-27)  | German project with a huge game world |
 |<del>Whispers of Avalon</del>              | Mana | Yes | dead (2012-01-31)     | A fantasy MMO aiming for a high graphical quality standard |
-|[[http://www.aethyraproject.org/|Aethyra]] | eA   | No  | inactive (2009-12-27) | Fork of The Mana World with laxer quality standards |
-|<del>The Alternate World</del>             | eA   | Yes | dead (2012-02-26)     | Fork of The Mana World with laxer quality standards |
+|[[http://www.aethyraproject.org/|Aethyra]] | eA   | No  | inactive (2009-12-27) | Fork of The Mana World |
+|<del>The Alternate World</del>             | eA   | Yes | dead (2012-02-26)     | Fork of The Mana World |
 |<del>Mundo Dos Dragões</del>               | Mana | ?   | inactive (2009-12-27) | Brazilian project |
 |<del>My Path Online</del>                  | Mana | ?   | dead (2010-03-24)     | A new fork focusing on the social elements of online gaming |
 
