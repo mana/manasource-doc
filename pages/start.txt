@@ -1,5 +1,3 @@
-{{http://manasource.org/gfx/manasource-logo.png}}
-
 ====== Welcome to the Mana documentation wiki! ======
 
 The Manasource project aims at bringing a real innovative, complete and Free 2D-MMORPG generic platform.
