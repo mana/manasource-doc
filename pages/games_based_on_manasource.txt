@@ -3,7 +3,7 @@ Mana is a platform used by many independent teams to create their online world. 
 
 ^Name ^Server ^comp((compatible with unmodified Mana client)) ^Status      ^Description ^
 |[[http://themanaworld.org|The Mana World]] | eA   | Yes | playable (2013-04-28) | The original (and currently most widely played) Mana-based project |
-|[[http://themanaworld.org|The Mana World]] | Mana | Yes | planning (2010-03-24  | The new Mana World |
+|[[http://themanaworld.org|The Mana World]] | Mana | Yes | planning (2010-03-24) | The new Mana World |
 |[[http://sourceoftales.org|Source of Tales]] | Mana | No | testing (2013-04-28) | A project based on graphics from the [[http://lpc.opengameart.org|Liberated Pixel Cup]] |
 |[[http://www.evolonline.org/|Evol Online]] | eA   | ?   | playable (2013-04-28) | An evolving 2D MMORPG, based on a fork of the Mana client |
 |[[http://invertika.org/|Invertika]]        | Mana | Yes | testing (2009-12-27)  | German project with a huge game world |
