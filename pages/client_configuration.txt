@@ -45,7 +45,9 @@ data/[[skills.xml]] \\
 data/[[specials.xml]] \\
 data/[[status-effects.xml]] \\
 
-  * You can also get the official client data from [[Git repository|Git]]. A basic example is even provided [[http://www.gitorious.org/mana/manaserv/trees/master/example/clientdata|here]].
+  * You can also get the official client data from [[Git repository|Git]]. A
+    basic example is provided
+    [[https://github.com/mana/manaserv/tree/master/example|here]].
 
 To start the client when trying your own data, use the given command to avoid auto-update when choosing a server
 that is not providing update data yet:

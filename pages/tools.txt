@@ -15,7 +15,7 @@ Grab the latest release, and have a look at our [[mapping|mapping tutorial]] if 
 ==== TMX copy ====
 
 TMX copy is a simple but efficient tool permitting to copy a map border to a another map. So, when you need a map well fitting the former one's border, use this tool and here you are!
-The tool can be downloaded [[http://gitorious.org/mana/mana/trees/master/tools|here]].
+The tool can be downloaded [[https://github.com/mana/mana/tree/master/tools|here]].
 
 Have a look at our [[mapping#Making two maps with a fluent transition|mapping tutorial]] if you're new about how to use it.
 

@@ -17,9 +17,12 @@ The official map editor used for Manaserv is called Tiled. This a Qt-based appli
 ===== Setting up the data files =====
 To create a map, you will first need some graphics, as well as existing maps to use for reference.
 
-You can get all the files in the right directory structure by having a look at the ManaServ source files, in the ''example/'' folder, [[http://gitorious.org/mana/manaserv/trees/master/example/clientdata|here]].
+You can get all the files in the right directory structure by having a look at
+the ManaServ source files, in the ''example/'' folder,
+[[https://github.com/mana/manaserv/tree/master/example|here]].
 
-Another good example can be found [[http://gitorious.org/tmwdata/mainline/trees/master|here]].
+Another good example can be found
+[[https://github.com/themanaworld/tmwa-client-data|here]].
 
 Alternatively, you can use the data files that are downloaded while playing the game.  When you downloaded the Mana client as an installer packet, all map graphics were downloaded at the start of Mana from the update server of your favourite world and are stored in the update sub-folder ([[client_data_handling#data_locations|depending on your OS]]) of your home directory as zip archives. Unpack these into the "data" sub-folder of your Mana installation.
 
@@ -90,9 +93,20 @@ The Stamp Feature is a powerful feature of Tiled that is hard to find but can sa
 
 ==== Making two maps with a fluent transition ====
 
-When you create an outdoor map, it is most likely supposed to be adjacent to an existing map. In this case, the transmission from one map to the other should be as seamless as possible. This can only be reached when the border areas of both maps are identical. Unfortunately, Tiled can't copy/paste between different maps (well, it is possible, but it only works correctly when both maps use exactly the same tilesets in exactly the same order), so we developed a command-line based program called TMXcopy for this task. You can find the sourcecode on the GIT repository in the folder [[http://gitorious.org/tmw/mainline/trees/master/tools/tmxcopy]]. A compiled windows binary can be found at [[http://www.crushnet.org/TempFiles/tmw/tmxcopy.zip]].
+When you create an outdoor map, it is most likely supposed to be adjacent to
+an existing map. In this case, the transmission from one map to the other
+should be as seamless as possible. This can only be reached when the border
+areas of both maps are identical. Unfortunately, Tiled can't copy/paste
+between different maps (well, it is possible, but it only works correctly when
+both maps use exactly the same tilesets in exactly the same order), so we
+developed a command-line based program called TMXcopy for this task. You can
+find the sourcecode on the GIT repository in the folder
+[[https://github.com/mana/mana/tree/master/tools/tmxcopy]]. A compiled windows
+binary can be found at [[http://www.crushnet.org/TempFiles/tmw/tmxcopy.zip]].
 
-An introduction on how to use this program is described in its [[http://gitorious.org/tmw/mainline/blobs/HEAD/tools/tmxcopy/readme.txt|readme file]].
+An introduction on how to use this program is described in its
+[[https://github.com/mana/mana/blob/master/tools/tmxcopy/readme.txt|readme
+file]].
 
 To create a map adjacent to an existing one, you should:
   * Create the new map as described above, and save it.

@@ -7,7 +7,7 @@ Mana Mobile is basically a Qt 4.7 based version of the client, written from scra
 You need to:
 
   * Get Qt 4.7 development libraries. Install ''libqt4-dev'' and ''libqt4-opengl-dev'' on Ubuntu 10.10 or install the Qt SDK on any OS.
-  * Clone Mana Mobile from: http://gitorious.org/mana/manamobile
+  * Clone Mana Mobile from: http://github.com/mana/manamobile
   * Run ''qmake'' and ''make'' to compile Mana Mobile, or open ''manamobile.pro'' in Qt Creator.
   * Run ''./manamobile'' to try it out (Ctrl+R in Qt Creator).
 

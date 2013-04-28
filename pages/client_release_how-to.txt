@@ -56,11 +56,11 @@ See also http://gcc.gnu.org/projects/cxx0x.html for more information about the n
 
 Start with cloning The Mana repository from the [[Git repository]]:
 
-  $ git clone git://gitorious.org/mana/mana.git mana
+  $ git clone git://github.com/mana/mana.git mana
 
 If you want to rebrand the Mana client into a TMW one, you'll also need to clone the tmw-branding repository:
 
-  $ git clone git://gitorious.org/tmw/tmw.git tmw-branding
+  $ git clone git://github.com/themanaworld/tmw-branding.git
 
 === Preparing the cross-compilation environment ===
 
