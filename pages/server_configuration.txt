@@ -27,7 +27,7 @@ The server is configured in [[manaserv.xml]]. The world has its own [[settings.x
 [[equip.xml]] \\
 [[items.xml]] \\
 [[skills.xml]] \\
-[[maps.xml]] \\
+[[status-effects.xml]] \\
 [[monsters.xml]] \\
 [[permissions.xml]] \\
 
