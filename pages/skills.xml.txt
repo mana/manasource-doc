@@ -9,22 +9,22 @@ Here is an example of a [[https://github.com/mana/manaserv/blob/master/example/s
 <file xml skills.xml>
 <?xml encoding="UTF-8" version="1.0"?>
 <skills>
-    <set name="Weapons">
+    <skill-set name="Weapons">
         <skill id="100" name="Unarmed" icon="graphics/images/unarmed.png" default="true" />
         <skill id="101" name="Knife" icon="graphics/images/knife.png" />
         <skill id="102" name="Sword" icon="graphics/images/sword.png" />
-    </set>
-    <set name="Magic">
+    </skill-set>
+    <skill-set name="Magic">
         <skill id="200" name="Magic Example" />
-    </set>
-    <set name="Crafts">
+    </skill-set>
+    <skill-set name="Crafts">
         <skill id="300" name="Craft Example" />
-    </set>
+    </skill-set>
 </skills>
 </file>
 
 ^  ''skills'' node  ^^^^^^^
-^  ''set'' child node  ^^^^^^^
+^  ''skill-set'' child node  ^^^^^^^
 ^  Parameter name  ^  Type  ^  Required in client  ^  Required in account-server  ^  Required in game-server  ^  Default value  ^  Description  ^
 |  name    |  **string**  |  yes  |  no   |  no  |  ""    | The skill group name. Sets are used to visually group skills in the same tab in the client's skill window. |
 ^  ''skill'' child node  ^^^^^^^

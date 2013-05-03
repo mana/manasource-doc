@@ -12,7 +12,7 @@ Here is an example of a specials.xml file:
 <file xml specials.xml>
 <?xml version="1.0" encoding="utf-8"?>
 <specials>
-    <set name="Magic">
+    <special-set name="Magic">
         <special
             id="1"
             name="Test Spell 1"
@@ -30,12 +30,12 @@ Here is an example of a specials.xml file:
             target="being"
             icon="icons/spell_2.png"
         />
-    </set>
+    </special-set>
 </specials>
 </file>
 
 ^  ''skills'' node  ^^^^^^^
-^  ''set'' child node  ^^^^^^^
+^  ''special-set'' child node  ^^^^^^^
 ^  Parameter name  ^  Type  ^  Required in client  ^  Required in account-server  ^  Required in game-server  ^  Default value  ^  Description  ^
 |  name    |  **string**  |  yes  |  no   |  no  |  ""    | The special group name. Sets are used to visually group specials in the same tab in the client's specials window. |
 ^  ''special'' child node  ^^^^^^^
