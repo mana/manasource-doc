@@ -50,9 +50,15 @@ Defines an attribute. Used only for the Mana server.
 
 See [[attributes.xml]].
 
+===== <points> =====
+
+Defines character starting points. Used only for the Mana server.
+
+See [[attributes.xml]].
+
 ===== <special-set> =====
 
-Defines a set of specials. Used only for the Mana server. For backwards compatibility, a <set> node inside a file with <specials> as its root element is also interpreted as <special-set>.
+Defines a set of specials. Used onlys for the Mana server. For backwards compatibility, a <set> node inside a file with <specials> as its root element is also interpreted as <special-set>.
 
 See [[specials.xml]].
 
