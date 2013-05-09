@@ -8,7 +8,8 @@ First of all, be sure to download all the [[dependencies]] needed by the client 
 
 === Getting the sources ===
 
-In order to be able to download the client sources, you can either [[http://manasource.org/downloads|download]] the latest stable version,
+In order to be able to download the client sources, you can either
+[[http://www.manasource.org/downloads.html|download]] the latest stable version,
 of install [[http://git-scm.com/|GIT]].
 If you opted for the latest git version of the client, you'll then be able to run this on the command-line:
 

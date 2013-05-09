@@ -8,7 +8,7 @@ If you want to get on board, why not try to come on [[IRC]], or try the [[http:/
 
 ===== Community =====
   * [[Games based on Manasource]]
-  * [[http://manasource.org/downloads|Downloads]]
+  * [[http://www.manasource.org/downloads.html|Downloads]]
   * [[Client Features]]
   * [[Server Features]]
 

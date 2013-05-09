@@ -2,7 +2,7 @@
 
 === Mana Client ===
 
-The Mana Client has currently only nightlies and a beta port for Windows. See [[http://manasource.org/downloads|here]] for downloading it.
+The Mana Client has currently only nightlies and a beta port for Windows. See [[http://www.manasource.org/downloads.html|here]] for downloading it.
 
 You can also see [[http://wiki.themanaworld.org/index.php/Ports|the ports page]] from the Mana World wiki, which is technically the previous and latest stable version of the current Mana client.
 

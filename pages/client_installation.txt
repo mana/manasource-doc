@@ -2,7 +2,7 @@
 This page contains information about how to install the client on your system.
 
 ===== Windows =====
-For latest release get the installer from [[http://manasource.org/downloads]] and install it.
+For latest release get the installer from [[http://www.manasource.org/downloads.html]] and install it.
 
 For daily builds check out [[http://nightlies.manasource.org/]]
 

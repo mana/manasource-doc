@@ -4,7 +4,7 @@ The serverlist.xml file is used to advertised available servers, giving informat
 
 The server list is specified in the [[branding.xml|branding file]]. If a server isn't given on the command-line, the file is downloaded (or used from disk if it can't be) and the user presented with the servers it lists, along with the X most recent servers the client has connected (identical type, address, and port are shown as a single entry instead of multiple, with the latest name, minimum version, etc, used). The last used servers are listed first, with the most recent on top, then the remaining servers from the downloaded list.
 
-Here is an example, taken from [[http://manasource.org/serverlist.xml]].
+Here is an example, taken from [[http://www.manasource.org/serverlist.xml]].
 
 <file xml serverlist.xml>
 <serverlist version="1">
@@ -36,7 +36,7 @@ Here is an example, taken from [[http://manasource.org/serverlist.xml]].
   <connection hostname="testing.manasource.org" port="9601" protocol="UDP"/>
   <description>This is the Mana test server.</description>
   <state>TEST</state>
-  <support>http://manasource.org/</support>
+  <support>http://www.manasource.org/</support>
  </server>
 </serverlist>
 </file>

@@ -7,7 +7,7 @@ That means, if you upgrade you database model, you also have to update ManaServ 
 
    [FTL] Error opening the database: Database version is not supported. Needed version: '1', current version: '2'
 
-In this case, the version of your database is newer, than the version of the account server. You'll have to get the [[http://manasource.org/downloads|latest sources]] of ManaServ.
+In this case, the version of your database is newer, than the version of the account server. You'll have to get the [[http://www.manasource.org/downloads.html|latest sources]] of ManaServ.
 
 ==== Determine the database version ====
 
