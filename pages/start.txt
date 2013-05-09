@@ -4,7 +4,7 @@ The Manasource project aims at bringing a real innovative, complete and Free 2D-
 With both our server and client provided, you'll be able to set up your own world, or take part of one already
 set up by our community.
 
-If you want to get on board, why not try to come on [[IRC]], or try the [[http://forums.themanaworld.org|forums]].
+If you want to get on board, why not try to come on [[IRC]], or try the [[http://forums.themanaworld.org/viewforum.php?f=31|forums]].
 
 ===== Community =====
   * [[Games based on Manasource]]
