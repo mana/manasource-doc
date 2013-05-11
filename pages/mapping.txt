@@ -74,6 +74,12 @@ To test your map, you have to replace one of the maps in your Mana folder (in th
 Sometimes your changed map is overridden by a new version of the map in the updates. In that case, you won't see any changes when you change or even remove a map. When you encounter this problem, either skip the update loading by starting mana with the parameter ''"-u"''.
 
 ===== Intermediate topics =====
+
+==== Adding warp points ====
+
+You can learn about warping between maps (or within the same map) [[mappingref/warp|here].
+
+
 ==== Adding monsters to a map ====
 To add an monster create an object layer and create an new rectangular object. This rectangle will be the spawning area. Then open the properties of the object choose a name and set type to "spawn" (upper or lowercase makes no difference). Then set the following properties:
 ^ Key ^ Value ^
