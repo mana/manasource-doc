@@ -77,7 +77,7 @@ Sometimes your changed map is overridden by a new version of the map in the upda
 
 ==== Adding warp points ====
 
-You can learn about warping between maps (or within the same map) [[mappingref/warp|here]].
+You can learn about warping between maps (or within the same map) [[mappingref:warp|here]].
 
 
 ==== Adding monsters to a map ====
