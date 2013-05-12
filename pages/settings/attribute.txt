@@ -1,6 +1,6 @@
 ====== settings.xml - The <attribute> tag ======
 
-More informations about attributes can be found [[attributes|here]]
+More informations about attributes can be found [[:attributes|here]]
 
 The attribute types are still hardcoded into the game-server - this file
 determines how the attribute can be further modified past the base value. 
