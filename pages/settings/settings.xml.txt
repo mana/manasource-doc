@@ -1,0 +1,63 @@
+====== The settings.xml file ======
+
+Since Mana 0.7, the `settings.xml` file defines all the settings for the game.
+It replaces the predefined files that were used before, like `npcs.xml`,
+`monsters.xml`, `items.xml`, etc. The new format allows including arbitrary
+additional files, which gives total freedom of the structure of the settings.
+The meaning of each node is based on the name of its tag.
+
+
+===== The root tag =====
+
+Due to compatibility issues, the name of the root tag is not checked.
+For compatibility with older games and tmwAthena, the meaning of some tags
+depends on the name of the root tag (this is the case for the <set> tag which
+has different meaning depending if it is inside <skills> or <specials> tag).
+
+You should use <settings> as the root tag when creating new settings file,
+as all other names will generate a working in future release (and maybe
+someday an error will be thrown).
+
+
+===== List of supported tags =====
+
+^ Tag name ^ Short description
+| [[settings:attribute|<attribute>]] | Defines a character attribute |
+| [[settings:color|<color>]] | Defines a hair color |
+| [[settings:effect|<effect>]] | Defines status and magic particle effects seen around the character. |
+| [[settings:emote|<emote>]] | Defines emoticons the player can display to show his/her mood to others while in-game |
+| [[settings:equip|<equip>]] | Defines an equipement slot |
+| [[settings:include|<include>]] | Includes an other settings file |
+| [[settings:item|<item>]] | Defines an ingame item |
+| [[settings:npc|<npc>]] | Defines the look of an NPC |
+| [[settings:map|<map>]] | Maps a map to a numeric identifier |
+| [[settings:monster|<monster>]] | Defines attributes and the looks of a monster |
+| [[settings:points|<points>]] | Defines character starting points |
+| [[settings:skill-set|<skill-set>]] | Defines a category of skills |
+| [[settings:special-set|<special-set>]] | Defines a category of specials |
+| [[settings:status-effect|<status-effect]] | Defines a status effect |
+| [[settings:unit|<unit>]] | Configures a unit (weight and currency) and its subdivisions |
+
+
+===== Compatibility =====
+
+For compatibility with older games, you can just include the following settings.xml file:
+
+<file xml settings.xml>
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+    <include file="maps.xml" />
+    <include file="attributes.xml" />
+    <include file="skills.xml" />
+    <include file="specials.xml" />
+    <include file="equip.xml" />
+    <include file="items.xml" />
+    <include file="monsters.xml" />
+    <include file="npcs.xml" />
+    <include file="emotes.xml" />
+    <include file="status-effects.xml" />
+    <include file="hair.xml" />
+    <include file="units.xml" />
+</settings>
+
+

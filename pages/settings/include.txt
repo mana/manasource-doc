@@ -1,0 +1,29 @@
+===== settings.xml - The <include> tag =====
+
+This tag includes an other settings file.
+
+^ ''include'' tag ^^^^^^^
+^ Parameter name ^ Type ^ Required in client ^ Required in account-server ^ Required in game-server ^ Default value ^ Description ^
+| file | **string** | no | no | no | n/a | Path to the settings file to be included, relative to current file. |
+
+
+==== Example ====
+
+<file xml settings.xml>
+<?xml encoding="UTF-8" version="1.0"?>
+<settings>
+    <include file="maps.xml" />
+    <include file="attributes.xml" />
+    <include file="skills.xml" />
+    <include file="specials.xml" />
+    <include file="equip.xml" />
+    <include file="items.xml" />
+    <include file="monsters.xml" />
+    <include file="npcs.xml" />
+    <include file="emotes.xml" />
+    <include file="status-effects.xml" />
+    <include file="hair.xml" />
+    <include file="units.xml" />
+</settings>
+</file>
+
