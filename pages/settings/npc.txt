@@ -13,7 +13,6 @@ The **sprite** and **particlfx** childnodes are following the [[sprite system]] 
 ==== Example ====
 
 <file xml settings.xml>
-<settings>
   <npc id="23">
     <sprite>characters/male_base.xml</sprite>
     <sprite>equipment/torso/brown_shirt_male.xml</sprite>
@@ -29,6 +28,5 @@ The **sprite** and **particlfx** childnodes are following the [[sprite system]] 
     <sprite>npcs/npc-test.xml</sprite>
     <particlefx>graphics/particles/circle.particle.xml</particlefx>
   </npc>
-</settings>
 </file>
 

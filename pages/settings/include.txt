@@ -10,20 +10,8 @@ This tag includes an other settings file.
 ==== Example ====
 
 <file xml settings.xml>
-<?xml encoding="UTF-8" version="1.0"?>
-<settings>
     <include file="maps.xml" />
     <include file="attributes.xml" />
     <include file="skills.xml" />
-    <include file="specials.xml" />
-    <include file="equip.xml" />
-    <include file="items.xml" />
-    <include file="monsters.xml" />
-    <include file="npcs.xml" />
-    <include file="emotes.xml" />
-    <include file="status-effects.xml" />
-    <include file="hair.xml" />
-    <include file="units.xml" />
-</settings>
 </file>
 

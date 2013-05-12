@@ -15,7 +15,7 @@ depends on the name of the root tag (this is the case for the <set> tag which
 has different meaning depending if it is inside <skills> or <specials> tag).
 
 You should use <settings> as the root tag when creating new settings file,
-as all other names will generate a working in future release (and maybe
+as all other names will generate a warning in future release (and maybe
 someday an error will be thrown).
 
 
