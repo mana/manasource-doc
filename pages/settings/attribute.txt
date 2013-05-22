@@ -1,4 +1,4 @@
-====== settings.xml - The <attribute> tag ======
+======= settings.xml - The <attribute> tag =======
 
 More informations about attributes can be found [[:attributes|here]]
 
@@ -23,6 +23,7 @@ Calculation of the base value is hardcoded - see the virtual being updateDerived
 
 Prior to Mana version 0.7, this tag was located in attributes.xml file.
 
+Go back to [[settings.xml]].
 
 ==== Example ====
 

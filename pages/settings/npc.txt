@@ -1,4 +1,4 @@
-===== settings.xml - The <npc> tag =====
+======= settings.xml - The <npc> tag =======
 
 This tag is used to display and animate the non-playable-characters (NPC) the player will interact with while in-game.
 
@@ -6,9 +6,10 @@ It is only used by the client.
 
 The <npc> tag has only one required attribute, the **id**. This parameter is mapping the NPCs to the client system.
 
-The **sprite** and **particlfx** childnodes are following the [[sprite system]] and the [[particle system]] specifications. \\
+The **sprite** and **particlfx** childnodes are following the [[:sprite system]] and the [[:particle system]] specifications. \\
 **Note:** The variant parameter to the ''sprite'' tag is equally in function as the index parameter.
 
+Go back to [[settings.xml]].
 
 ==== Example ====
 

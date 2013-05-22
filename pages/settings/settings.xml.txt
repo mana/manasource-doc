@@ -1,4 +1,4 @@
-====== The settings.xml file ======
+======= The settings.xml file =======
 
 Since Mana 0.7, the `settings.xml` file defines all the settings for the game.
 It replaces the predefined files that were used before, like `npcs.xml`,
@@ -29,9 +29,10 @@ someday an error will be thrown).
 | [[settings:equip|<equip>]] | Defines an equipement slot |
 | [[settings:include|<include>]] | Includes an other settings file |
 | [[settings:item|<item>]] | Defines an ingame item |
-| [[settings:npc|<npc>]] | Defines the look of an NPC |
 | [[settings:map|<map>]] | Maps a map to a numeric identifier |
 | [[settings:monster|<monster>]] | Defines attributes and the looks of a monster |
+| [[settings:npc|<npc>]] | Defines the look of an NPC |
+| [[settings:option|<option>]] | Sets a client option |
 | [[settings:points|<points>]] | Defines character starting points |
 | [[settings:skill-set|<skill-set>]] | Defines a category of skills |
 | [[settings:special-set|<special-set>]] | Defines a category of specials |
@@ -46,6 +47,7 @@ For compatibility with older games, you can just include the following settings.
 <file xml settings.xml>
 <?xml version="1.0" encoding="utf-8"?>
 <settings>
+    <include file="paths.xml" />
     <include file="maps.xml" />
     <include file="attributes.xml" />
     <include file="skills.xml" />
@@ -59,5 +61,6 @@ For compatibility with older games, you can just include the following settings.
     <include file="hair.xml" />
     <include file="units.xml" />
 </settings>
+</file>
 
 

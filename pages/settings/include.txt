@@ -1,4 +1,4 @@
-===== settings.xml - The <include> tag =====
+======= settings.xml - The <include> tag =======
 
 This tag includes an other settings file.
 
@@ -6,6 +6,7 @@ This tag includes an other settings file.
 ^ Parameter name ^ Type ^ Required in client ^ Required in account-server ^ Required in game-server ^ Default value ^ Description ^
 | file | **string** | no | no | no | n/a | Path to the settings file to be included, relative to current file. |
 
+Go back to [[settings.xml]].
 
 ==== Example ====
 
