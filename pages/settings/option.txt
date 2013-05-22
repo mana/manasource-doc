@@ -1,16 +1,14 @@
-====== paths.xml ======
+======= settings.xml - The <option> tag =======
 
-The ''paths.xml'' file is used by the client to override default data paths and some default filenames not already handled by the [[branding.xml|branding]] file.
+The <option> tag is used by the client to override default data paths and some default filenames not already handled by the [[:branding.xml|branding]] file.
 
-Here is a description of the currently available options:
+Go back to [[settings.xml]].
 
 ====== Paths parameters ======
 
-Here is a paths.xml file sample:
+Here are some sample options:
 
 <file xml paths.xml>
-<?xml version="1.0"? encoding="utf-8">
-<configuration>
     <option name="itemIcons" value="graphics/items/" />
     <option name="unknownItemFile" value="unknown-item.png" />
     <option name="sprites" value="graphics/sprites/" />
@@ -31,11 +29,12 @@ Here is a paths.xml file sample:
 
     <option name="wallpapers" value="graphics/images/" />
     <option name="wallpaperFile" value="login_wallpaper.png" />
-</configuration>
 </file>
 
 **Note:** The parameter names ending with 'File' are obviously for setting filenames. Other parameters are setting up paths.
 Also, note that folder parameters are ending with a '/'.
+
+Here is a description of the currently available options:
 
 ^  Parameter  ^  Default value  ^ Description  ^
 |  itemIcons  |  graphics/items/  | Item icon path folder name.  |
@@ -45,8 +44,8 @@ Also, note that folder parameters are ending with a '/'.
 |  particles  |  graphics/particles/  | Particles files path.  |
 |  levelUpEffectFile  |  levelup.particle.xml  | XML file used for the level-up particle effect.  |
 |  portalEffectFile  |  warparea.particle.xml  | XML file used to show warp area particle effects.  |
-|  hitEffectid  |  26  | Default effect id to trigger when doing a successful hit with a weapon. This is an integer value, but it must refer to an effect having itself an actual path. See [[effects.xml]].  |
-|  criticalHitEffectId  |  28  | Default effect id to trigger when doing a successful critical hit with a weapon. This is an integer value, but it must refer to an effect having itself an actual path. See [[effects.xml]].  |
+|  hitEffectid  |  26  | Default effect id to trigger when doing a successful hit with a weapon. This is an integer value, but it must refer to an effect having itself an actual path. See [[effect|<effect>]].  |
+|  criticalHitEffectId  |  28  | Default effect id to trigger when doing a successful critical hit with a weapon. This is an integer value, but it must refer to an effect having itself an actual path. See [[effect|<effect>]].  |
 |  minimaps  |  graphics/minimaps/  | Minimap files path.  |
 |  maps  |  maps/  | Map files path.  |
 |  sfx  |  sfx/  | sfx files path.  |

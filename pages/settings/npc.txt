@@ -1,0 +1,33 @@
+======= settings.xml - The <npc> tag =======
+
+This tag is used to display and animate the non-playable-characters (NPC) the player will interact with while in-game.
+
+It is only used by the client.
+
+The <npc> tag has only one required attribute, the **id**. This parameter is mapping the NPCs to the client system.
+
+The **sprite** and **particlfx** childnodes are following the [[:sprite system]] and the [[:particle system]] specifications. \\
+**Note:** The variant parameter to the ''sprite'' tag is equally in function as the index parameter.
+
+Go back to [[settings.xml]].
+
+==== Example ====
+
+<file xml settings.xml>
+  <npc id="23">
+    <sprite>characters/male_base.xml</sprite>
+    <sprite>equipment/torso/brown_shirt_male.xml</sprite>
+    <sprite>equipment/legs/green_trousers_male.xml</sprite>
+    <sprite>equipment/feet/brown_shoes_male.xml</sprite>
+    <sprite>characters/hair09_male.xml|#5a72dd</sprite>
+  </npc>
+  <npc id="185"><!-- Evil Obelisk -->
+    <sprite variant="44">npcs/npc.xml</sprite>
+    <particlefx>graphics/particles/evilobelisk.particle.xml</particlefx>
+  </npc>
+  <npc id="200">
+    <sprite>npcs/npc-test.xml</sprite>
+    <particlefx>graphics/particles/circle.particle.xml</particlefx>
+  </npc>
+</file>
+

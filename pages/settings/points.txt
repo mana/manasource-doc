@@ -1,0 +1,22 @@
+======= settings.xml - The <points> tag =======
+
+More informations about attributes can be found [[:attributes|here]] and [[attribute|here]].
+
+''<points>'' defines character starting points.
+
+
+^  ''points'' child node  ^^^^^^^
+^  Parameter name  ^  Type  ^  Required in client  ^  Required in account-server  ^  Required in game-server  ^  Default value  ^  Description  ^
+|  start    |  **integer**  |  yes  |  yes   |  no  |  0    | The characters' starting points. Here are the points a player can distribute in modifiable attributes when creating a new character.  |
+|  minimum  |  **integer**   |  yes  |  yes  |  no   |  0   | The minimum permitted value of a modifiable attribute when creating a character.  |
+|  maximum  |  **integer**   |  yes   |  yes  |  no   |  0   | The maximum permitted value of a modifiable attribute when creating a character.  |
+
+
+Go back to [[settings.xml]].
+
+==== Example ====
+
+<file xml settings.xml>
+<points start="100" minimum="1" maximum="20" />
+</file>
+

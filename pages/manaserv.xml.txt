@@ -77,7 +77,7 @@ FIXME: Add PostgreSQL.
 | net_password              | No | changeMe  | Password used between the account and the game server to authenticates queries (Very important in order not to get hacked easily.  |
 | net_defaultUpdateHost | No | ""  | The Update host hostname or IP address given to the client, used to download updates data.  |
 | net_clientDataUrl | No | ""  | The data URL used by the QML based Mana client, used to download data on-demand.  |
-| net_gameServerName | No | "" | The name of the gameserver. This is only required for reserving maps (see [[maps.xml]]). |
+| net_gameServerName | No | "" | The name of the gameserver. This is only required for reserving maps (see [[settings:map|<map>]]). |
 
 
 === Account settings ===
@@ -97,7 +97,7 @@ FIXME: Add PostgreSQL.
 === Avatars settings ===
 
 ^ Option name   ^ Mandatory   ^ Default value   ^ Description   ^
-| char_startMap      | Yes | | Map ID used by the account server See: [[maps.xml|maps.xml]]  |
+| char_startMap      | Yes | | Map ID used by the account server See: [[settings:map|<map>]]  |
 | char_startX        | Yes | | X pixel start coordinate on the start map. |
 | char_startY        | Yes | | Y pixel start coordinate on the start map. |
 | char_numHairStyles   | No | 15  | Number of available Hairstyles.    |
@@ -105,7 +105,7 @@ FIXME: Add PostgreSQL.
 | char_numGenders      | No | 2   | Number of available gender types.  |
 | char_minNameLength   | No | 4   | Characters' names minimal length.  |
 | char_maxNameLength   | No | 25  | Characters' names maximal length.  |
-| char_respawnMap      | Yes |         | Map ID where the character will respawn if he/she dies. See: [[maps.xml | maps.xml]]  |
+| char_respawnMap      | Yes |         | Map ID where the character will respawn if he/she dies. See: [[settings:map|<map>]]  |
 | char_respawnX        | Yes |         | X coordinate of the spawn point on the respawn map.  |
 | char_respawnY        | Yes |         | Y coordinate of the spawn point on the respawn map.  |
 

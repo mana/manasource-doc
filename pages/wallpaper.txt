@@ -6,12 +6,12 @@ The background wallpapers are shown at client startup and are handled by the cli
 
 The different usable wallpaper paths will be searched in that order:
   - From the ''wallpapersPath'' in the [[branding.xml]] file if there is one and if some fitting files are found there,
-  - From the ''wallpapers'' options isn't set in the [[paths.xml]] file if there is one and if some fitting files are found there,
+  - From the ''wallpapers'' options isn't set in the [[settings:settings.xml]] file if there is one and if some fitting files are found there,
   - In the ''graphics/images/'' otherwise.
 
 The default wallpaper file will be searched in that order:
   - From the ''wallpaperFile'' in the [[branding.xml]] file if there is a fitting file found at the path+file location,
-  - From the ''wallpaperFile'' options isn't set in the [[paths.xml]] file if there is a fitting file found at the path+file location,
+  - From the ''wallpaperFile'' options isn't set in the [[settings:settings.xml]] file if there is a fitting file found at the path+file location,
   - As ''graphics/images/login_wallpaper.png'' otherwise.
 
 ==== Wallpapers options ====

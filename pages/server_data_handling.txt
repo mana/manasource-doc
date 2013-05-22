@@ -11,18 +11,16 @@ The server requires only a few configuration files, located at the path correspo
 
 ^ File ^ Required ^ Description ^
 | [[manaserv.xml]] | Yes | Main configuration file. |
-| [[maps.xml]] | Yes | Map name to integer ID translation used internally to speed computation. |
 | [[permissions.xml]] | No | File used to set up account's permissions. Without it, you can't set up admin players. |
+| [[items.xml]] | Yes | Yes | Items description. |
+
+See also [[settings:settings.xml]].
 
 ===== Data used by both the client and the servers =====
 
 ^ File ^ Required by the server ^ Required by the client ^ Description ^
-| [[attributes.xml]] | Yes | Yes \\ (No for old servers) | Attributes description and characters starting points. This file is only used by and required for playing with a Manaserv server.  |
+| [[settings:settings.xml]] | Yes | Yes | Contains world settings. |
 | [[equip.xml]] | Yes | Yes | Equipment slots description. |
-| [[items.xml]] | Yes | Yes | Items description. |
 | [[skills.xml]] | No | No | Skills description. |
-| map files \\ (maps/*.tmx) | Yes | Yes | Map files. Their fienames must be in sync with the [[maps.xml]] file. |
-| [[monsters.xml]] | No | No | Monsters description. Without it, no monsters will be available to your world, though. |
-| [[specials.xml]] | No | No | Special attack descriptions. |
 
 

@@ -1,0 +1,42 @@
+======= settings.xml - The <attribute> tag =======
+
+More informations about attributes can be found [[:attributes|here]]
+
+The attribute types are still hardcoded into the game-server - this file
+determines how the attribute can be further modified past the base value. 
+
+Calculation of the base value is hardcoded - see the virtual being updateDerivedAttributes() method for details.
+
+^  ''attribute'' node  ^^^^^^^
+^  Parameter name  ^  Type  ^  Required in client  ^  Required in account-server  ^  Required in game-server  ^  Default value  ^  Description  ^
+|  id    |  **integer**  |  yes  |  when modifiable   |  yes  |  0    | The attribute id. Must be unique, non-zero, and match between the server and the client.  |
+|  name  |  **string**   |  yes       |  no           |  no   |  ""   | The attribute name displayed by the client.  |
+|  desc  |  **string**   |  no        |  no           |  no   |  ""   | The attribute description displayable as a tooltip in the client for instance.  |
+|  modifiable  |  **boolean** \\ false/true  |  yes  |  yes  |  yes  |  no  | Defines whether the player is able to put points in the attribute. Must match for all three definitions. Modifiable attributes are displayed at character's creation and modifiable when the character levels up. Other attributes are usually derived ones only modified by the server and modified in the client on server's request.  |
+|  scope  |  **string** \\ //predefined values:// \\ being, monster, character, none  |  yes  |  no  |  yes  |  -  | The attribute's scope used to know what types of beings have this attribute. \\ Note that being scope attributes apply to all beings, including monsters and characters.  |
+^  ''modifier'' child node to ''attribute''. Not required in the account-server. Optional in the client.  ^^^^^^^
+^  Parameter name  ^  Type  ^  Required in client  ^  Required in account-server  ^  Required in game-server  ^  Default value  ^ Description  ^
+|  tag        |  **string**  |  optional  |  no  |  yes  |  -   | The attribute's modifier tag. Must be unique.  |
+|  effect     |  **string**  |  optional  |  no  |  no   |  ""  | If provided, the client will use as a format specifier to describe the effect to this layer whenever a reference to this layer is found. For instance, given a stackable additive layer for agility, an appropriate format specifier would be "Agility %+.1f". For example an item that applies +3 on equip to this layer would show "Agility +3.0 upon successful equip" in the item's description, along with any other specifiers (such as note or additional) in the item definition.  |
+|  stacktype  |  **string** \\ //predefined values:// \\ stackable, \\ non stackable, \\ non stackable bonus  |  no  |  no  |  yes  |  -  | Defines how modifiers on this layer apply when other modifiers on this layer are present. \\ **Stackable** modifiers are precisely this - all modifiers on this layer apply. \\ **Non stackable** modifiers will only apply one modifier at a time - the character will automatically use the highest modifier at this level. If a new modifier has an effect greater than that of the previous highest modifier and/or previous base value, it takes precedence over them. Otherwise, there is no effect. \\ **Non stackable bonus** modifiers are similar to **Non stackable** modifiers, but will apply on top of the previous base value. |
+|  modtype    |  **string** \\ //predefined values:// \\ additive, \\ multiplicative  |  no  |  no  |  yes  |  -  | The modifier type. \\ **Additive** modifiers are applied additively: base + mod1 + mod2 + ... modn; (greatest)modx; base + (greatest)modx for stackable, non stackable, and non stackable bonus respectively. \\ **Multiplicative** modifiers are applied using multiplication: base x mod1 x mod2 x ... x modn; (greatest)modx; base x (greatest)modx for stackable, non-stackable, and non-stackable bonus respectively.  |
+
+Prior to Mana version 0.7, this tag was located in attributes.xml file.
+
+Go back to [[settings.xml]].
+
+==== Example ====
+
+<file xml>
+    <attribute id="1" name="Strength" desc="Increases carrying capacity and increases damage for many melee weapons." scope="being">
+        <modifier tag="str" effect="Strength %+.1f" stacktype="stackable" modtype="additive" />
+    </attribute>
+    <attribute id="15" name="Hitpoint regeneration" tag="hpregen" effect="hp regen +%d" desc="The rate at which hitpoints are automatically replenished." modifiable="false" scope="being">
+        <modifier stacktype="non stackable bonus" modtype="multiplicative" tag="hpr1" effect="You shouldn't be seeing this. Items shouldn't be affecting this layer."/> <!-- Reserved for map effects -->
+        <modifier stacktype="non stackable bonus" modtype="multiplicative" tag="hpr2" effect="Hitpoint regeneration x%.2f" additional="This modifier does not stack with other ##1Basic##0 hitpoint regeneration type effects."/> <!-- Reserved for passive item effects -->
+        <modifier stacktype="stackable" modtype="multiplicative" tag="hpr3" effect="Hitpoint regeneration x%.2f"/> <!-- Reserved for active effects -->
+        <modifier stacktype="stackable" modtype="additive" tag="hpr4" effect="Hitpoint regeneration %+.2f"/> <!-- General purpose -->
+        <modifier stacktype="non stackable bonus" modtype="multiplicative" tag="hpr5" effect="Hitpoint regeneration x%.2f" additional="This modifier does not stack with other ##1Greater##0 hitpoint regeneration type effects."/> <!-- For *Very* powerful effects only -->
+    </attribute>
+</file>
+

@@ -36,7 +36,7 @@ You can find below a working example about how to set up the link to playersets 
 </items>
 </file>
 
-For each XML file declared above, a corresponding file in ''graphics/sprites''((per default, see [[paths.xml]] to change the default paths.)) will have to exist.
+For each XML file declared above, a corresponding file in ''graphics/sprites''((per default, see [[settings:option]] to change the default paths.)) will have to exist.
 
 == Note on the hair sets definition ==
 
@@ -96,7 +96,7 @@ You can find below a working example about how to set up the link to hairsets an
     </item>
 </file>
 
-For each XML file declared above, a corresponding file in ''graphics/sprites''((per default, see [[paths.xml]] to change the default paths.)) will have to exist.
+For each XML file declared above, a corresponding file in ''graphics/sprites''((per default, see [[settings:option]] to change the default paths.)) will have to exist.
 
 === Configuration of a sprite file ===
 
