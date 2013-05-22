@@ -180,7 +180,7 @@ animation-frameX is the Tile number (0 is top left tile, 1 would be the tile rig
 The animation does not show up in Tiled.
 
 === Advanced Topics/Adding a map to the server ===
-To get the ManaServ to use your map, you will need to make it available for him by adding it in client data and making those data set in the ''clientDataPath'' of the [[manaserv.xml]] file, and by editing the [[maps.xml]] file and add it without the file extension. For the maps/myMap.tmx file, add ''<map id="<insert an unique ID here>" name="myMap"/>''
+To get the ManaServ to use your map, you will need to make it available for him by adding it in client data and making those data set in the ''clientDataPath'' of the [[manaserv.xml]] file, and by addomg [[settings:map|<map>]] tag to [[settings:settings.xml]] file without the file extension. For the maps/myMap.tmx file, add ''<map id="<insert an unique ID here>" name="myMap"/>''.
 
 The server will only need the ''collision'' layer to compute the walkability.
 

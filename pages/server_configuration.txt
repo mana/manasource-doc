@@ -20,16 +20,7 @@ There is a small example world and an example configuration file provided with m
 
 ==== Server and World Configuration ====
 
-The server is configured in [[manaserv.xml]]. The world has its own [[settings.xml]] file that defines the maps, NPCs, monsters, items, etc. in your world. Most of these settings are also used by the client. The following pages document different parts of the world settings:
-
-[[maps.xml]] \\
-[[attributes.xml]] \\
-[[equip.xml]] \\
-[[items.xml]] \\
-[[skills.xml]] \\
-[[status-effects.xml]] \\
-[[monsters.xml]] \\
-[[permissions.xml]] \\
+The server is configured in [[manaserv.xml]]. The world has its own [[settings:settings.xml]] file that defines the maps, NPCs, monsters, items, etc. in your world. Most of these settings are also used by the client.
 
 ==== Making yourself a GM ====
 

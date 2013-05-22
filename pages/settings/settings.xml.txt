@@ -1,8 +1,8 @@
 ======= The settings.xml file =======
 
-Since Mana 0.7, the `settings.xml` file defines all the settings for the game.
-It replaces the predefined files that were used before, like `npcs.xml`,
-`monsters.xml`, `items.xml`, etc. The new format allows including arbitrary
+Since Mana 0.7, the ''settings.xml'' file defines all the settings for the game.
+It replaces the predefined files that were used before, like ''npcs.xml'',
+''monsters.xml'', ''items.xml'', etc. The new format allows including arbitrary
 additional files, which gives total freedom of the structure of the settings.
 The meaning of each node is based on the name of its tag.
 
@@ -11,10 +11,10 @@ The meaning of each node is based on the name of its tag.
 
 Due to compatibility issues, the name of the root tag is not checked.
 For compatibility with older games and tmwAthena, the meaning of some tags
-depends on the name of the root tag (this is the case for the <set> tag which
-has different meaning depending if it is inside <skills> or <specials> tag).
+depends on the name of the root tag (this is the case for the ''<set>'' tag which
+has different meaning depending if it is inside ''<skills>'' or ''<specials>'' tag).
 
-You should use <settings> as the root tag when creating new settings file,
+You should use ''<settings>'' as the root tag when creating new settings file,
 as all other names will generate a warning in future release (and maybe
 someday an error will be thrown).
 
@@ -42,7 +42,7 @@ someday an error will be thrown).
 
 ===== Compatibility =====
 
-For compatibility with older games, you can just include the following settings.xml file:
+For compatibility with older games, you can just include the following ''settings.xml'' file:
 
 <file xml settings.xml>
 <?xml version="1.0" encoding="utf-8"?>

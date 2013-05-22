@@ -49,7 +49,7 @@ This will give you a list of all users online with a character in ManaServ.
 
     * **name**: Name of the character
     * **gender**: 0 = male, 1 = female
-    * **map**: ID of the current location (see [[maps.xml]])
+    * **map**: ID of the current location (see [[settings:map|<map>]])
     * **login_timestamp**: Unix time-stamp the character logged in
     * **login_date**: Time-stamp of login in ISO 8601 format (e.g. 2004-02-12T15:19:21+00:00)
 
