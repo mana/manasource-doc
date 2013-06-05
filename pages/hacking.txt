@@ -14,26 +14,30 @@ One reason for this is to keep code readable. In such cases it would often be be
 
 ===== Control constructs =====
 
-Control keywords are not function names, so they should be followed by a space. Statements should be enclosed in brackets, and these brackets should be on their own lines. Control constructs are complete statements, so they should not be followed by semi-colons.
+Control keywords are not function names, so they should be followed by a space.
+Statements should be enclosed in brackets. Control constructs are complete
+statements, so they should not be followed by semi-colons.
 
 <code cpp>
-if (condition)
-{  
-}  
-else  
-{  
+if (condition) {  
+    // multiline
+    // code here
+} else {  
+    // code
 }
 </code>
 
 <code cpp>
-for (init; condition; step)  
-{  
+for (init; condition; step) {  
+    // multiline
+    // code
 }
 </code>
 
 <code cpp>
-while (condition)  
-{  
+while (condition) {  
+    // multiline
+    // code
 }
 </code>
 
@@ -329,8 +333,7 @@ The following loop suffers from several short-comings:
 
 <code cpp>
 std::map< int, std::string >::const_iterator i;
-for (i = themap.begin(); i != themap.end(); i++)  
-{  
+for (i = themap.begin(); i != themap.end(); i++) {  
     std::cout << i->first << ", " << i->second << std::endl;  
 }  
 // i no longer used
@@ -346,8 +349,7 @@ So the loop should have been coded as:
 
 <code cpp>
 for (std::map< int, std::string >::const_iterator
-     i = themap.begin(), i_end = themap.end(); i != i_end; ++i)  
-{  
+     i = themap.begin(), i_end = themap.end(); i != i_end; ++i) {  
     std::cout << i->first << ", " << i->second << std::endl;  
 }
 </code>
