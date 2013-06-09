@@ -1,0 +1,33 @@
+---
+title: speechbubble.xml
+layout: wiki
+---
+{% include toc.md %}
+#  speechbubble.xml
+
+The `speechbubble.xml` file located per default in the `graphics/gui` folder, or in a custom theme folder (See [GUI configuration](gui_configuration.html)),
+is used to specify how to display the speech bubbles when characters chat while in game.
+
+Here is an example of a usable `speechbubble.xml` file:
+
+{% highlight xml %}
+<skinset name="SpeechBubble" image="bubble.png">
+    <widget type="Window">
+        <!-- Top Row -->
+        <part type="top-left-corner" xpos="0" ypos="0" width="5" height="5" />
+	<part type="top-edge" xpos="5" ypos="0" width="5" height="5" />
+	<part type="top-right-corner" xpos="10" ypos="0" width="5" height="5" />
+
+	<!-- Middle Row -->
+	<part type="left-edge" xpos="0" ypos="5" width="5" height="5" />
+	<part type="bg-quad" xpos="5" ypos="5" width="5" height="5" />
+	<part type="right-edge" xpos="10" ypos="5" width="5" height="5" />
+
+	<!-- Bottom Row -->
+	<part type="bottom-left-corner" xpos="0" ypos="10" width="5" height="5" />
+	<part type="bottom-edge" xpos="5" ypos="10" width="5" height="5" />
+	<part type="bottom-right-corner" xpos="10" ypos="10" width="5" height="5" />
+	</widget>
+</skinset>
+{% endhighlight %}
+

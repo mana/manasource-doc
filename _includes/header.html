@@ -1,0 +1,9 @@
+{% capture lvl %}{{ page.url | append:'index.html' | split:'/' | size }}{% endcapture %}
+{% capture relative %}{% for i in (3..lvl) %}../{% endfor %}{% endcapture %}
+<html>
+    <head profile="http://www.w3.org/2005/10/profile">
+        <title>{{ page.title }}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="{{ relative }}css/bootstrap.min.css" rel="stylesheet" media="screen" />
+        <link href="{{ relative }}css/bootstrap-responsive.css" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{{ relative }}media/icon.png" />

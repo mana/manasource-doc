@@ -1,3 +1,4 @@
+# dokuwiki files
 .htaccess
 _dummy
 attic/
@@ -11,3 +12,6 @@ meta/
 security.png
 security.xcf
 tmp/
+
+#jekyll files
+_site/

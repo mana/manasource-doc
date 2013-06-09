@@ -1,0 +1,35 @@
+{% include header.html %}
+
+        <link rel="stylesheet" type="text/css" href="{{ relative }}css/code.css" />
+        <link rel="stylesheet" type="text/css" href="{{ relative }}css/wiki.css" />
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="brand" href="{{ relative }}start.html">Manasource Documentation</a>
+                <ul class="breadcrumb">
+                    {% if page.categorylink %}
+                    <li>
+                    <a href="{{ relative }}{{ page.categorylink }}.html">{{ page.category }}</a>
+                        <span class="divider">/</span>
+                    </li>
+                    {% endif %}
+                    <li class="active"><a href="#">{{ page.title }}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span2">
+                    {% include leftnav.html %}
+                </div>
+                <div id="content" class="span10">
+                    <div class="page-header">
+                        <h1>{{ page.title }}</h1>
+                    </div>
+                    {{ content }}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

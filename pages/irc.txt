@@ -1,1 +1,0 @@
-The Mana Project operates the following IRC channel: [[irc://irc.freenode.net/mana|#mana on irc.freenode.net]].

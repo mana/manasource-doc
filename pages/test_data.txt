@@ -1,3 +1,0 @@
-====== Test data ======
-
-Usable test data for client and server is available in the ''example/'' folder of the manaserv source folder.
