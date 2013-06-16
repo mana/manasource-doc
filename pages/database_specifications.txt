@@ -1,5 +1,6 @@
 ====== Database version 8 ======
 
+**THIS IS OUTADTED. Check the creation scripts directly for more info https://github.com/mana/manaserv/blob/master/src/sql/sqlite/createTables.sql!
 
 ^mana_accounts|||||
 |Column name|Datatype|Nullable|References|Description|
