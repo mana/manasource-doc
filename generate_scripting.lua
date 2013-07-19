@@ -45,7 +45,7 @@ local function parse_body(target_table, input)
         if line == " */" then
             break
         end
-        line = line:gsub("^ ?[%-%*] ?(.*)", "%1")
+        line = line:gsub("^ ?[%-%*]+ ?(.*)", "%1")
         target_table[#target_table + 1] = line
         line = input:read()
     end
