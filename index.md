@@ -1,5 +1,5 @@
 ---
-title: start
+title: The Manasource Documentation
 layout: wiki
 ---
 {% include toc.md %}

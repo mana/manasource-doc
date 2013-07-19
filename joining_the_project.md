@@ -16,7 +16,7 @@ This page should provide you with the necessary starting points. It can always b
 
 To know what is currently happening or what could be worked on, we have a few important pages. The [roadmap](http://bugs.manasource.org/roadmap_page.php) provides a planning for upcoming releases, where sometimes tasks are assigned or listed to be picked up by somebody. Known issues, including many which are generally free for anybody to look into can be found on [Mantis](http://bugs.manasource.org).
 
-These pages and others are linked from the section for developers on the [main page](start.html).
+These pages and others are linked from the section for developers on the [main page](index.html).
 
 It is very important for you to be available for discussion with other developers on [our IRC channel](irc.html) from time to time, as we do most of our discussions there. We also have a mailing lists for development discussion, that you should subscribe to:
 
