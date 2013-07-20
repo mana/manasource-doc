@@ -45,7 +45,7 @@ local function parse_body(target_table, input)
         if line == " */" then
             break
         end
-        line = line:gsub("^ ?[%-%*] ?(.*)", "%1")
+        line = line:gsub("^ ?[%-%*]+ ?(.*)", "%1")
         target_table[#target_table + 1] = line
         line = input:read()
     end
@@ -98,13 +98,13 @@ table.sort(categories_by_name, function(lhs, rhs)
 end)
 
 -- Write
-local output = assert(io.open(DOCS_DIR .. "/pages/scripting.txt", "w"))
-local template = assert(io.open(DOCS_DIR .. "/pages/scripting.in.txt", "r"))
+local output = assert(io.open(DOCS_DIR .. "/scripting.md", "w"))
+local template = assert(io.open(DOCS_DIR .. "/scripting.in.md", "r"))
 local template_line = template:read()
 while template_line do
     if template_line == "{{body}}" then
         for _, category in ipairs(categories_by_name) do
-            output:write("======" .. category.name .. "======\n")
+            output:write("## " .. category.name .. "\n")
             output:write(table.concat(categories[category.tag].body, "\n") .. "\n")
 
             -- Convert to indexed table to allow sort
@@ -117,10 +117,10 @@ while template_line do
             table.sort(indexed_table)
 
             for _, name in ipairs(indexed_table) do
-                output:write("====" .. name .. "====\n")
-                output:write("<code lua>\n")
+                output:write("### " .. name .. "\n")
+                output:write("{% highlight lua %}\n")
                 output:write(table.concat(categories[category.tag].members[name].header, "\n") .. "\n")
-                output:write("</code>\n")
+                output:write("{% endhighlight %}\n")
                 output:write(table.concat(categories[category.tag].members[name].body, "\n") .. "\n")
             end
         end

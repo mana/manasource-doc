@@ -1,0 +1,24 @@
+---
+title: chat commands/where
+layout: wiki
+categorylink: chat_commands
+category: Chat Commands
+---
+{% include toc.md %}
+#  Synopsis
+  @where
+Reports the map ID and pixel coordinates of the invoking character.
+
+#  Examples
+Entering @where might return something like
+  Your current location is map 12 \[1056:2845\]
+This means that the current character is on map 12, 1056 pixels away from the left map border and 2845 pixels away from the upper border. To find out which map ID corresponds to which TMX file, you need to take a look at the [maps.xml](../maps.xml.html) of the server.
+
+#  Security
+
+**Harmless**
+
+The user can get the same information from the F10 debug window. The difference is that the F10 window shows the location how the client believes it while this command returns the opinion of the server. This can be useful for troubleshooting netcode issues.
+
+#  See also
+ * [@help](help.html)
