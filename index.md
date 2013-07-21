@@ -82,10 +82,10 @@ To get support about setting up a **TmwAthena server**, please have a look at [T
 Welcome on board! We're happy that you're thinking about [Joining the project](joining_the_project.html)!
 
 #####  Found a bug, missing a feature?
- * Report them in our [Bug tracker](http://bugs.manasource.org/)
+ * Report them in our [Bug tracker](bugtracker.html)
  * [How to make good use of our bug tracker](mantis_workflow.html)
 
- * For what is being worked on, see the [Roadmap](http://bugs.manasource.org/roadmap_page.php)
+ * For what is being worked on, see the [Roadmaps of the bugtrackers](bugtracker.html)
  * Technical concepts and documentation needing reviews, see [Requests for Comments](requests_for_comments.html)
 
 #####  Development conventions

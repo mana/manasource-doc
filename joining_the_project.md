@@ -14,7 +14,11 @@ This page should provide you with the necessary starting points. It can always b
 ####  General organization
 **Refer to:** Bjørn
 
-To know what is currently happening or what could be worked on, we have a few important pages. The [roadmap](http://bugs.manasource.org/roadmap_page.php) provides a planning for upcoming releases, where sometimes tasks are assigned or listed to be picked up by somebody. Known issues, including many which are generally free for anybody to look into can be found on [Mantis](http://bugs.manasource.org).
+To know what is currently happening or what could be worked on, we have a few
+important pages. The [roadmap](bugtracker.html) provides a planning for
+upcoming releases, where sometimes tasks are assigned or listed to be picked up
+by somebody. Known issues, including many which are generally free for anybody
+to look into can be found on the [bugtracker](bugtracker.html).
 
 These pages and others are linked from the section for developers on the [main page](index.html).
 
@@ -32,7 +36,9 @@ Our current projects include the client and two different servers. The server wh
 
 When you want to contribute, you should check out our [Development Process](development_process.html) to familiarize yourself with how things work around here.
 
-When you are searching for something you could do you should check our bug- and task tracking system on http://bugs.manasource.org. It lists a lot of small and large problems on many different areas. Just pick one that interests you.
+When you are searching for something you could do you should check our
+[bugtracker](bugtracker.html). It lists a lot of small and large problems on
+many different areas. Just pick one that interests you.
 
 Your first contributions could be in the form of patches submitted to our Mantis task tracker or the developer mailing list. Please check the [hacking guidelines](hacking.html) before writing your patches. If it turns out you like the project and you want to keep contributing for a long period, we'll consider giving you push access to our main Git repository.
 

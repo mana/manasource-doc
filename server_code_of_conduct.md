@@ -16,20 +16,20 @@ Manasource is free software licensed under the GNU General Public License. Every
  * Do not abuse the personal data people give you
  * Do not give away the personal data you collect
  * Value the confidentiality of personal conversations of your players
- * When you find a security vulnerability in the client which can be abused by the server do not abuse it. [Report it to the Manasource development team](http://bugs.manasource.org) instead.
-  
+ * When you find a security vulnerability in the client which can be abused by the server do not abuse it. [Report it to the Manasource development team](bugtracker.html) instead.
+
 ##  Respect other server administrators
 
  * Be polite and respectful towards administrators of other servers. Try to be helpful when they ask for help and your resources allow it.
  * Do not perform any action which disrupt the gameplay on other servers
  * When you connect to other servers as a player, respect their terms of service
  * Avoid badmouthing or spreading negative rumors about other servers and their contributors
- 
+
 ##  Respect the spirit of Open Source
 
  * Release all of your client-sided content under the GNU General Public License or a compatible license
  * When you make sourcecode changes to the server software, make these changes available to the public
- * [Report bugs to the Manasource development team](http://bugs.manasource.org) when you find them, especially those critical to stability and security
+ * [Report bugs to the Manasource development team](bugtracker.html) when you find them, especially those critical to stability and security
 
 #  Consequences for not following the Code of Conduct
 
