@@ -85,7 +85,8 @@ Welcome on board! We're happy that you're thinking about [Joining the project](j
  * Report them in our [Bug tracker](bugtracker.html)
  * [How to make good use of our bug tracker](mantis_workflow.html)
 
- * For what is being worked on, see the [Roadmaps of the bugtrackers](bugtracker.html)
+ * For what is being worked on, see the [bug tracker](bugtracker.html) or talk
+   with the developers
  * Technical concepts and documentation needing reviews, see [Requests for Comments](requests_for_comments.html)
 
 #####  Development conventions

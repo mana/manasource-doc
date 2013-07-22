@@ -13,11 +13,6 @@ question please open an issue on the bugtracker of the relevant project at
 If you report a bug please make sure to give as much information as possible
 (such as used version, used operating system, ...)
 
-# Roadmaps
-
-For seeing roadmaps of the projects check the "Milestones" of the relevant
-projects on [https://github.com/mana](https://github.com/mana).
-
 # Old bugtracker
 
 Before we switched to github we used
