@@ -3,14 +3,14 @@ title: server configuration
 layout: wiki
 ---
 {% include toc.md %}
-#  ManaServ Configuration
+#  the Mana server Configuration
 
-**Note:** This article is about setting up your own Mana server, either for testing purposes or because you want to provide an alternative to the official server. <br />
+**Note:** This article is about setting up your own the Mana server, either for testing purposes or because you want to provide an alternative to the official server. <br />
 To get support about setting up a **TmwAthena server**, please have a look at [The Mana World wiki](http://wiki.themanaworld.org/index.php/Main_Page).
 
 There are several steps to achieve this:
 
-###  Running ManaServ
+###  Running the Mana server
 
  * [Install](database_installation.html) or [upgrade](upgrade_database.html) your database backend.
 
@@ -47,7 +47,7 @@ This assumes that you are using sqlite as database backend (default) and that yo
 
  * Get sqlite3 from http://www.sqlite.org/download.html
  * Put it into the manaserv directory
- * Open a command prompt inside the tmwserv directory
+ * Open a command prompt inside the Mana server directory
  * Enter `sqlite3 mana.db "UPDATE mana_accounts SET level=255 WHERE username='MyAccount';"`
  * You can check if you were successful by entering `sqlite3 mana.db "SELECT username, level FROM mana_accounts;"` (lists all accounts and their userlevels) or `sqlite3 mana.db "SELECT username FROM mana_accounts WHERE level &gt; 1;"` (lists all GM accounts)
 
@@ -66,4 +66,4 @@ FIXME: This is to be done.
 
 **Note:** The level 255 means maximum rights. When you want to give selected people limited rights, refer to the [permissions.xml](permissions.xml.html) file configuration.
 
-Basic knowledge of [SQL](http://en.wikipedia.org/wiki/SQL) and [how to use it](http://sqlzoo.net/) is an important skill for a ManaServ administrator.
+Basic knowledge of [SQL](http://en.wikipedia.org/wiki/SQL) and [how to use it](http://sqlzoo.net/) is an important skill for a the Mana server administrator.

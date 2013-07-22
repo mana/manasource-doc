@@ -33,7 +33,7 @@ If you want to get on board, why not try to come on [IRC](irc.html), or try the 
         </tr>
         <tr>
             <td>[Ports](ports.html) <br /> [Dependencies](dependencies.html) <br /> [Compile Mana from source](compile_mana_from_source.html)</td>
-            <td>[Ports](ports.html) <br /> [Dependencies](dependencies.html) <br /> [Compile ManaServ from source](compile_manaserv_from_source.html)</td>
+            <td>[Ports](ports.html) <br /> [Dependencies](dependencies.html) <br /> [Compile the Mana server from source](compile_manaserv_from_source.html)</td>
         </tr>
         <tr>
             <th colspan="2">Basic configuration</th>
@@ -60,11 +60,11 @@ If you want to get on board, why not try to come on [IRC](irc.html), or try the 
         </tr>
         <tr>
             <td>[Image dyeing system](image_dyeing_system.html)</td>
-            <td>[ManaServ Protocol](manaserv_protocol.html)</td>
+            <td>[The Mana server Protocol](manaserv_protocol.html)</td>
         </tr>
         <tr>
             <td>[Client design overview](client_design_overview.html)</td>
-            <td>[ManaServ Database specifications](database_specifications.html)</td>
+            <td>[The Mana server Database specifications](database_specifications.html)</td>
         </tr>
         <tr>
         </tr>
@@ -91,7 +91,7 @@ Welcome on board! We're happy that you're thinking about [Joining the project](j
 
 #####  Source code documentation
  * [Doxygen for client](http://manasource.org/doxygen/mana/) ([Doxygen Warnings](http://manasource.org/doxygen/mana-warnings.log))
- * [Doxygen for ManaServ server](http://manasource.org/doxygen/manaserv/) ([Doxygen Warnings](http://manasource.org/doxygen/manaserv-warnings.log))
+ * [Doxygen for the Mana server server](http://manasource.org/doxygen/manaserv/) ([Doxygen Warnings](http://manasource.org/doxygen/manaserv-warnings.log))
  * Additional Documentation about the eAthena servers((TmwAthena is a modified eAthena server.)) can be found in itse original [web site](http://www.eathena.ws/).
 
 #####  External Resources

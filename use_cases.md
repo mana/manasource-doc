@@ -23,7 +23,7 @@ Also, in order not to lose information about tests made on the different project
 
 ####  Core
 
- * [Movement system for ManaServ](manaserv-use_cases-characters_movement_system.html)
+ * [Movement system for the Mana server](manaserv-use_cases-characters_movement_system.html)
 
 ####  Interface
 

@@ -5,7 +5,7 @@ layout: wiki
 {% include toc.md %}
 #  Tools
 
-In order to ease the work of Manaserv's maintainers, several tools have been created and are in a continuous progress to lower the time and energy needed to do daily tasks, and such.
+In order to ease the work of the Mana server's maintainers, several tools have been created and are in a continuous progress to lower the time and energy needed to do daily tasks, and such.
 
 ##  Tools for managing the client data
 
@@ -13,7 +13,7 @@ Here is a list of useful tools used to deal with client data, which is most visi
 
 ###  Tiled
 
-ManaServ and the Mana client are currently following the tmx format from [Tiled](http://www.mapeditor.org): A generic 2D map editor.
+the Mana server and the Mana client are currently following the tmx format from [Tiled](http://www.mapeditor.org): A generic 2D map editor.
 
 Grab the latest release, and have a look at our [mapping tutorial](mapping.html) if you're new about how to create new maps.
 

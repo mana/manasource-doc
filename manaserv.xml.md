@@ -323,7 +323,7 @@ FIXME: Add PostgreSQL.
             <td>account_allowRegister</td>
             <td>No</td>
             <td>1</td>
-            <td>Tells if the registration can be done via a Manaserv client (1), or not (0).</td>
+            <td>Tells if the registration can be done via a the Mana server client (1), or not (0).</td>
         </tr>
         <tr>
             <td>account_denyRegisterReason</td>

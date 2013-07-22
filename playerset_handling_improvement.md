@@ -26,7 +26,7 @@ Currently, the layer specification is made of these layers for each supported pr
     SPRITE_WEAPON,
     SPRITE_SHIELD,
 
-**ManaServ:**
+**the Mana server:**
     SPRITE_BASE = 0,
     SPRITE_SHOE,
     SPRITE_BOTTOMCLOTHES,

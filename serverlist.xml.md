@@ -74,7 +74,7 @@ Here is an example, taken from [http://manasource.org/serverlist.xml](http://man
         </tr>
         <tr>
             <td>type</td>
-            <td>The server protocol type supported by the server. Currently, tmwAthena (and eAthena for backwards compatibility) and Manaserv are supported. If the type is unknown (or not specified), the client will ignore the entry.</td>
+            <td>The server protocol type supported by the server. Currently, tmwAthena (and eAthena for backwards compatibility) and the Mana server are supported. If the type is unknown (or not specified), the client will ignore the entry.</td>
         </tr>
         <tr>
             <td>minimumVersion</td>
@@ -97,7 +97,7 @@ Here is an example, taken from [http://manasource.org/serverlist.xml](http://man
         </tr>
         <tr>
             <td>protocol</td>
-            <td>The base protocol used to handle connection. Should be TCP for tmwAthena, and UDP for ManaServ.</td>
+            <td>The base protocol used to handle connection. Should be TCP for tmwAthena, and UDP for the Mana server.</td>
         </tr>
         <tr>
             <th colspan="2">`description` child node</th>

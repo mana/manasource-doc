@@ -6,7 +6,7 @@ layout: wiki
 #  Mantis issue tracker workflow
 
 Here is the documentation about the workflow used to deal with new bugs and features
-in Mana, and ManaServ.
+in Mana, and the Mana server.
 
 The [Mantis issue tracker ](http://www.mantisbt.org) is our tool to deal with task assignment, mainly for development purpose.
 
@@ -27,9 +27,9 @@ The Mana project is using its own Mantis issue tracker, following the convention
 
 
 The [Mana Project](http://manasource.org) is aiming at giving a generic client used to many 2D MMORPG protocol, supporting currently eAthena
-and ManaServ (The Mana project one) protocols.
+and the Mana server (The Mana project one) protocols.
 
-Only Technical bugs and missing features about the client or the supported server (ManaServ)
+Only Technical bugs and missing features about the client or the supported server (the Mana server)
 should be reported there. We don't provide any support neither for new graphics, nor any kind of content itself, but the support to make use
 of them in your own servers.
 Issues related to the Mana Project can be reported [here](http://bugs.manasource.org).

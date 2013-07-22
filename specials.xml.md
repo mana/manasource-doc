@@ -4,7 +4,7 @@ layout: wiki
 ---
 {% include toc.md %}
 #  Special Overview
-Specials in Manaserv are special attacks or abillities by characters that are actively triggered by the player. For example magic spells, special attacks or specific actions of the character can be implemented using specials.
+Specials in the Mana server are special attacks or abillities by characters that are actively triggered by the player. For example magic spells, special attacks or specific actions of the character can be implemented using specials.
 
 #  specials.xml Documentation
 

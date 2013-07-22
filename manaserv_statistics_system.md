@@ -3,9 +3,9 @@ title: manaserv statistics system
 layout: wiki
 ---
 {% include toc.md %}
-#  ManaServ statistics system
+#  the Mana server statistics system
 
-This page tries to gather latest discussion about the statistic system used in ManaServ, [here](http://forums.themanaworld.org/viewtopic.php?p=86168).
+This page tries to gather latest discussion about the statistic system used in the Mana server, [here](http://forums.themanaworld.org/viewtopic.php?p=86168).
 Would the gaps and lacks be filled, the given page would then become a reference for developers and high-level players.
 
 I especially invite the senior developers to make review of this page and/or take part of the forum's thread to make things happen. :)
@@ -183,7 +183,7 @@ character from level 1 to 100.
 There are many thing lacking for now, e.g.: character profile (Warriors -&gt; More points on physical attributes and skills, Mage -&gt; More points on spiritual attributes and skills, ...) but it's already a great help.
 
 FIXME: Add an ods file, too.
-<br /> ManaServ - Statistics System: {{:wiki:manaserv_-_statistics_system_-_0.1.0.xls|XLS Sheet file}}
+<br /> the Mana server - Statistics System: {{:wiki:manaserv_-_statistics_system_-_0.1.0.xls|XLS Sheet file}}
 
 #  Discussion
 
