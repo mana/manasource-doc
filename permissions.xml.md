@@ -7,7 +7,7 @@ layout: wiki
 
 This file is for managing the permission model of the server.
 
-the Mana server supports up to 8 permission classes which can include different permissions. Every player account can have any combination of permission classes, so it is rarely neccessary to put the same permission into different classes. Every newly created account has the class 1 automatically, so permissions of a normal player should be placed here.
+The Mana server supports up to 8 permission classes which can include different permissions. Every player account can have any combination of permission classes, so it is rarely neccessary to put the same permission into different classes. Every newly created account has the class 1 automatically, so permissions of a normal player should be placed here.
 
 ##  permissions.xml
 {% highlight xml %}

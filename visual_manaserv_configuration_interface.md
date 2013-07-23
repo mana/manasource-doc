@@ -7,7 +7,7 @@ layout: wiki
 
 ##  Current Situation
 
-Setting up and administrating a the Mana server server is currently a task which requires to learn a lot of knowledge. To create a server with really basic gameplay, a server administrator has to know how to edit various XML files, learn the LUA scripting language and some basic SQL. To make the learning curve mre newbie-friendly and also allow seasoned system administrators to perform simple changes more quickly, we should start a new project to create a configuration tool for the Mana server with a graphical user interface as soon as the configuration files have reached a stable state.
+Setting up and administrating a Mana server is currently a task which requires to learn a lot of knowledge. To create a server with really basic gameplay, a server administrator has to know how to edit various XML files, learn the LUA scripting language and some basic SQL. To make the learning curve mre newbie-friendly and also allow seasoned system administrators to perform simple changes more quickly, we should start a new project to create a configuration tool for the Mana server with a graphical user interface as soon as the configuration files have reached a stable state.
 
 The goal is that an inexperienced user is able to set up a basic game world without having to edit any XML or LUA code by hand.
 

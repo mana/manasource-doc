@@ -32,7 +32,7 @@ This should give you a list of mana_* tables.
 ####  Configuring the Mana server to use the database
 
 Before starting the Mana server, you'll have to configure the account server where your database file is located. <br />
-The the Mana server engines use a XML file called `[manaserv.xml](manaserv.xml.html)` with an easy to read *key = value* structure.
+The Mana server engines use a XML file called `[manaserv.xml](manaserv.xml.html)` with an easy to read *key = value* structure.
 
 Locate the option `sqlite_database` and modify the value attribute according to your environment. You can use a relative path starting at the location of your the Mana server executable.
 
@@ -46,7 +46,7 @@ Locate the option `sqlite_database` and modify the value attribute according to 
 ####  Requirements
 
 To run the Mana server with MySQL you should use a MySQL version &gt;= 5.0.*. It was tested successfully with 5.0.51a. <br />
-**Note:** You need to compile the Mana server with MySQL support to be able to use MySQL: See [Compilation of the Mana server server](compile_manaserv_from_source.html) for more information
+**Note:** You need to compile the Mana server with MySQL support to be able to use MySQL: See [Compilation of the Mana server](compile_manaserv_from_source.html) for more information
 
 ####  Creating a database and a user
 

@@ -97,7 +97,7 @@ Welcome on board! We're happy that you're thinking about [Joining the project](j
 
 #####  Source code documentation
  * [Doxygen for client](http://manasource.org/doxygen/mana/) ([Doxygen Warnings](http://manasource.org/doxygen/mana-warnings.log))
- * [Doxygen for the Mana server server](http://manasource.org/doxygen/manaserv/) ([Doxygen Warnings](http://manasource.org/doxygen/manaserv-warnings.log))
+ * [Doxygen for the Mana server](http://manasource.org/doxygen/manaserv/) ([Doxygen Warnings](http://manasource.org/doxygen/manaserv-warnings.log))
  * Additional Documentation about the eAthena servers((TmwAthena is a modified eAthena server.)) can be found on its original [web site](http://www.eathena.ws/).
 
 #####  External Resources

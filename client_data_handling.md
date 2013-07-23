@@ -177,7 +177,7 @@ The following files and folders are required by the client but not included with
         </tr>
         <tr>
             <td>[attributes.xml](attributes.xml.html)</td>
-            <td>Attribute description. This file is only used by and required for playing with a the Mana server server.</td>
+            <td>Attribute description. This file is only used by and required for playing with a Mana server.</td>
         </tr>
         <tr>
             <td>[specials.xml](specials.xml.html)</td>

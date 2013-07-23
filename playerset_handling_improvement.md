@@ -26,7 +26,7 @@ Currently, the layer specification is made of these layers for each supported pr
     SPRITE_WEAPON,
     SPRITE_SHIELD,
 
-**the Mana server:**
+**Mana server:**
     SPRITE_BASE = 0,
     SPRITE_SHOE,
     SPRITE_BOTTOMCLOTHES,
@@ -364,7 +364,7 @@ class DBManager
 
   DBManager()
   { init(); }
-  
+
   ~DBManager()
   { deinit(); }
 
@@ -381,22 +381,22 @@ class DBManager
 
   ItemInfo& get(int id) const
   { return mItemDB::get(id); }
-  
+
   ItemInfo& get(std:string name) const
   { return mItemDB::get(name); }
-  
+
   MonsterInfo& get(int id) const
   { return mMonsterDB::get(id); }
-  
+
   MonsterInfo& get(std:string name) const
   { return mMonsterDB::get(name); }
-  
+
   ...
-  
+
  protected:
   /** Logs any eAthena specific ID problems */
   static void checkeAthenaSpecificID();
-  
+
  private:
   ItemDB *mItemDB;
   MonsterDB *mMonsterDB;

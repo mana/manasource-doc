@@ -39,7 +39,7 @@ But when you should be careful to provide only the client data when dealing with
             <th>Type</th>
             <th>Mandatory</th>
             <th>Default value</th>
-            <th colspan="2">the Mana server</th>
+            <th colspan="2">Mana server</th>
             <th colspan="2">TMW-Athena</th>
             <th>Description</th>
         </tr>
@@ -276,7 +276,7 @@ Used only by the server to handle inventory limitations.
 
 ###  TmwAthena specific parameters
 
-The the Mana server isn't concerned by the given parameters and will ignore them.
+The Mana server isn't concerned by the given parameters and will ignore them.
 
 
 These "items" are purely virtual ones. They are used to configure the available hairstyle, races, and weapon type within
@@ -285,7 +285,7 @@ an TmwAthena session. The client use them to get in sync with server when dealin
 
 ####  Hair Styles
 
-**Note:** FIXME: The the Mana server client is using this hairstyle system for now. This should be fixed by adding the available hairstyle in a specific xml file, why not along with TmwAthena configuration. See the [playerset handling improvement](playerset_handling_improvement.html) where a hairstyle node should be added.
+**Note:** FIXME: The Mana server client is using this hairstyle system for now. This should be fixed by adding the available hairstyle in a specific xml file, why not along with TmwAthena configuration. See the [playerset handling improvement](playerset_handling_improvement.html) where a hairstyle node should be added.
 
 {% highlight xml %}
  <?xml version="1.0"?>
@@ -325,7 +325,7 @@ See the [#&lt;sprite&gt; childnode description](#sprite_childnode_description.ht
 
 ####  Races
 
-**Note:** FIXME: The the Mana server client is using this hairstyle system for now and the server doesn't support more than one race. See the [playerset handling improvement](playerset_handling_improvement.html) where a race parameter should be added for both.
+**Note:** FIXME: The Mana server client is using this hairstyle system for now and the server doesn't support more than one race. See the [playerset handling improvement](playerset_handling_improvement.html) where a race parameter should be added for both.
 
 {% highlight xml %}
  <?xml version="1.0"?>

@@ -3,7 +3,7 @@ title: server configuration
 layout: wiki
 ---
 {% include toc.md %}
-#  the Mana server Configuration
+# Mana server Configuration
 
 **Note:** This article is about setting up your own the Mana server, either for testing purposes or because you want to provide an alternative to the official server. <br />
 To get support about setting up a **TmwAthena server**, please have a look at [The Mana World wiki](http://wiki.themanaworld.org/index.php/Main_Page).
@@ -36,7 +36,7 @@ data/[permissions.xml](permissions.xml.html) <br />
 
 **Note:** you can use the `--config` option to set where your manaserv.xml file is located. E.g.:
   manaserv-game --config /path/to/my/manaserv.xml
-  
+
 **Tip:** Type `manaserv-account --help` and `manaserv-game --help` to get the list of available options.
 
 ###  Making yourself a GM
@@ -66,4 +66,4 @@ FIXME: This is to be done.
 
 **Note:** The level 255 means maximum rights. When you want to give selected people limited rights, refer to the [permissions.xml](permissions.xml.html) file configuration.
 
-Basic knowledge of [SQL](http://en.wikipedia.org/wiki/SQL) and [how to use it](http://sqlzoo.net/) is an important skill for a the Mana server administrator.
+Basic knowledge of [SQL](http://en.wikipedia.org/wiki/SQL) and [how to use it](http://sqlzoo.net/) is an important skill for a Mana server administrator.

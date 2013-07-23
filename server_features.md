@@ -3,7 +3,7 @@ title: server features
 layout: wiki
 ---
 {% include toc.md %}
-The the Mana server has the following features and capabilities:
+The Mana server has the following features and capabilities:
 
 #  General
  * Consists entirely of free, open source software (GPL v2)

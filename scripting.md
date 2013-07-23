@@ -4,7 +4,7 @@ layout: wiki
 ---
 {% include toc.md %}
 
-The the Mana server uses the scripting language LUA for scripting. This is a list
+The Mana server uses the scripting language LUA for scripting. This is a list
 of the script commands currently implemented in addition to the
 [standard lua statements and functions](http://www.lua.org/manual/5.1/).
 
@@ -116,7 +116,7 @@ as argument as soon a character logged in.
 {% highlight lua %}
 on_craft(function ref)
 {% endhighlight %}
-Will make sure that the function `ref` gets called with the the crafting
+Will make sure that the function `ref` gets called with the crafting
 character and a table with the recipes {(id, amount}) when a character
 performs crafting.
 ### on_create_npc_delayed
@@ -142,7 +142,7 @@ map as current map when the map is initialized.
 {% highlight lua %}
 on_mapupdate(function ref)
 {% endhighlight %}
-Will make sure that the function `ref` gets called with the the map id
+Will make sure that the function `ref` gets called with the map id
 as argument for each game tick and map.
 ### on_recalculate_base_attribute
 {% highlight lua %}

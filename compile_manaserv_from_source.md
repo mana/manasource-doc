@@ -3,10 +3,10 @@ title: compile manaserv from source
 layout: wiki
 ---
 {% include toc.md %}
-#  Compilation of the Mana server server
+#  Compilation of the Mana server
 
 ##  Linux
-Here is how to set up a the Mana server server on a Linux/Unix system.
+Here is how to set up a Mana server on a Linux/Unix system.
 
 Be sure to get all the needed [dependencies](dependencies.html) and corresponding headers((Headers are files used by developers ending with .h. They're obtained by installing the corresponding &lt;package-name&gt;-dev or -devel package files.)) before trying to compile.
 

@@ -427,7 +427,7 @@ Here is a description of each available nodes and their parameters:
             <th colspan="5">`animation` node (childnode of `particle` or `emitter`)</th>
         </tr>
         <tr>
-            <td colspan="5">The animation tag can be used as a childtag of the `\&amp;lt;particle\&amp;gt;` tag to make the root particle appear as an animated image or it can be used as a childtag for an `emitter`. In that case the emitter spawns animated particles instead of a static ones. <br /> The usage is similar to the the `animation` tag described in the [sprite system](sprite_system.html). You can use the same child elements with the same syntax. The only difference are the properties of the animation tag itself. There is no direction property. Instead the used imageset is described in the animation tag with the properties `imageset`, `width` and `height`. All three properties are required.</td>
+            <td colspan="5">The animation tag can be used as a childtag of the `\&amp;lt;particle\&amp;gt;` tag to make the root particle appear as an animated image or it can be used as a childtag for an `emitter`. In that case the emitter spawns animated particles instead of a static ones. <br /> The usage is similar to the `animation` tag described in the [sprite system](sprite_system.html). You can use the same child elements with the same syntax. The only difference are the properties of the animation tag itself. There is no direction property. Instead the used imageset is described in the animation tag with the properties `imageset`, `width` and `height`. All three properties are required.</td>
         </tr>
     </tbody>
 </table>

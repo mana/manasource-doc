@@ -164,13 +164,13 @@ FIXME: Add PostgreSQL.
             <td>log_gameServerLogLevel</td>
             <td>No</td>
             <td>2 (Warning level)</td>
-            <td>Set the the game server's log verbosity level.</td>
+            <td>Set the game server's log verbosity level.</td>
         </tr>
         <tr>
             <td>log_accountServerLogLevel</td>
             <td>No</td>
             <td>2 (Warning level)</td>
-            <td>Set the the account server's log verbosity level.</td>
+            <td>Set the account server's log verbosity level.</td>
         </tr>
         <tr>
             <td>log_toStandardOutput</td>
@@ -323,7 +323,7 @@ FIXME: Add PostgreSQL.
             <td>account_allowRegister</td>
             <td>No</td>
             <td>1</td>
-            <td>Tells if the registration can be done via a the Mana server client (1), or not (0).</td>
+            <td>Tells if the registration can be done via a Mana server client (1), or not (0).</td>
         </tr>
         <tr>
             <td>account_denyRegisterReason</td>

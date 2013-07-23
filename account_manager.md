@@ -95,4 +95,4 @@ To copy those images, the web server needs write permission to the images/items 
 
 ##  Manaweb Connector
 
-The Manaweb Connector is a package of methods provided by Manaweb to allow foreign applications to access data of the running the Mana server server. A common example is a list of online users that are currently connected to the server. See [Manaweb Connectors](manaweb_connectors.html) for a detailed description of available methods.
+The Manaweb Connector is a package of methods provided by Manaweb to allow foreign applications to access data of the running the Mana server. A common example is a list of online users that are currently connected to the server. See [Manaweb Connectors](manaweb_connectors.html) for a detailed description of available methods.

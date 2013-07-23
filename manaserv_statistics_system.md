@@ -3,7 +3,7 @@ title: manaserv statistics system
 layout: wiki
 ---
 {% include toc.md %}
-#  the Mana server statistics system
+# The Mana server statistics system
 
 This page tries to gather latest discussion about the statistic system used in the Mana server, [here](http://forums.themanaworld.org/viewtopic.php?p=86168).
 Would the gaps and lacks be filled, the given page would then become a reference for developers and high-level players.
@@ -80,12 +80,12 @@ We multiply the skill level by a factor based on to what extent the skill is one
     9  0.387420489 *   15   =  5.811307335
        -----------            -------------
        6.513215599            300.231653235
-    
+
     Sum of factors: 6.513215599
     Sum of skills * factors: 300.231653235
-    
+
     300.231653235 / 6.513215599 = 46.0957646298544
-    
+
     Character level: 46.0957646298544 (level 46, 10% progression to next level)
 
 
@@ -183,7 +183,8 @@ character from level 1 to 100.
 There are many thing lacking for now, e.g.: character profile (Warriors -&gt; More points on physical attributes and skills, Mage -&gt; More points on spiritual attributes and skills, ...) but it's already a great help.
 
 FIXME: Add an ods file, too.
-<br /> the Mana server - Statistics System: {{:wiki:manaserv_-_statistics_system_-_0.1.0.xls|XLS Sheet file}}
+
+The Mana server - Statistics System: {{:wiki:manaserv_-_statistics_system_-_0.1.0.xls|XLS Sheet file}}
 
 #  Discussion
 

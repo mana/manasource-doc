@@ -6,7 +6,7 @@ layout: wiki
 
 This document is a draft written by me (Philipp "Crush" Sehmisch). It is not rectified by the Manasource development team.
 
-#  Code of Conduct for the Mana server Server Administrators
+#  Code of Conduct for the Mana server Administrators
 
 Manasource is free software licensed under the GNU General Public License. Everyone is allowed to use it for any purpose. But when you offer a service on the internet other people can use, you have a responsibility. That's why we ask administrators of public servers to follow this code of conduct, although it is not part of the license Manasource is licensed under.
 
@@ -16,7 +16,7 @@ Manasource is free software licensed under the GNU General Public License. Every
  * Do not abuse the personal data people give you
  * Do not give away the personal data you collect
  * Value the confidentiality of personal conversations of your players
- * When you find a security vulnerability in the client which can be abused by the server do not abuse it. [Report it to the Manasource development team](bugtracker.html) instead.
+ * If you find a security vulnerability in the client which can be abused by the server do not abuse it. [Report it to the Manasource development team](http://bugs.manasource.org) instead.
 
 ##  Respect other server administrators
 

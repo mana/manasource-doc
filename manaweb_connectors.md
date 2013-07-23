@@ -5,7 +5,7 @@ layout: wiki
 {% include toc.md %}
 #  What is a Manaweb Connector?
 
-The Manaweb Connector is a package of methods provided by Manaweb to allow foreign applications to access data of the running the Mana server server. A common example is a list of online users that are currently connected to the server. Manaweb is able to deliver the data in different formats to be as open as possible for all kinds of applications, e.g. plain text or XML.
+The Manaweb Connector is a package of methods provided by Manaweb to allow foreign applications to access data of the running the Mana server. A common example is a list of online users that are currently connected to the server. Manaweb is able to deliver the data in different formats to be as open as possible for all kinds of applications, e.g. plain text or XML.
 
 ##  FAQ
 
@@ -22,7 +22,7 @@ Some methods might need input parameters or support different output formats. Al
 
 ####  List of online users (onlineuser)
 
-This will give you a list of all users online with a character in the Mana server.
+This will give you a list of all users online with a character.
 
 ####  Parameters
 **Output format:**

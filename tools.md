@@ -13,7 +13,7 @@ Here is a list of useful tools used to deal with client data, which is most visi
 
 ###  Tiled
 
-the Mana server and the Mana client are currently following the tmx format from [Tiled](http://www.mapeditor.org): A generic 2D map editor.
+The Mana server and the Mana client are currently following the tmx format from [Tiled](http://www.mapeditor.org): A generic 2D map editor.
 
 Grab the latest release, and have a look at our [mapping tutorial](mapping.html) if you're new about how to create new maps.
 
@@ -47,7 +47,7 @@ This editor is to be replaced sooner or later by Fairy Glow, a QT-based applicat
 adler32 is the simplest possible c implementation of the same-named algorithm. It is currently used to compute the checksum of the update files.
 This tool is located [here](http://github.com/mana/mana/tree/master/tools) and can be compiled using this command with gcc, for instance:
   gcc -o adler32 -c adler32.c -lz
-  
+
 Then, type `adler32 myZipFile.zip` to get the corresponding adler checksum.
 
 ###  upalyser

@@ -3,11 +3,11 @@ title: manaserv protocol
 layout: wiki
 ---
 {% include toc.md %}
-#  the Mana server server protocol
+# The Mana server protocol
 
-When playing on a the Mana server server, the player will interact with different other entities, includinf his/her own character, use item, chat, fight monsters, use skills, ...
+When playing on a Mana server, the player will interact with different other entities, includinf his/her own character, use item, chat, fight monsters, use skills, ...
 
-In order to deal with all players real-time requests in an efficient way, a the Mana server server message protocol has been defined to
+In order to deal with all players real-time requests in an efficient way, a Mana server message protocol has been defined to
 give the client all the necessary information, in a minimalistic approach, to save bandwidth and server computation cycles.
 
 The protocol has been defined in a way that if the client can compute a data, it will have to do it as the server will try to avoid unnecessary computation for the clients.
@@ -15,7 +15,7 @@ The protocol has been defined in a way that if the client can compute a data, it
 This page will then describe what kind of data, in which order, and in which case they are used.
 
 ##  Network layer
-the Mana server is using Enet (http://enet.bespin.org) as its network layer. Enet is a cross-platform reliable UDP layer, and it's a good compromise between speed and reliability. Thus, to be able to get into communication with a the Mana server server, you'll have to be aware that Enet encapsulates the data in its own format, first.
+the Mana server is using Enet (http://enet.bespin.org) as its network layer. Enet is a cross-platform reliable UDP layer, and it's a good compromise between speed and reliability. Thus, to be able to get into communication with a Mana server, you'll have to be aware that Enet encapsulates the data in its own format, first.
 
 ##  Message types
 

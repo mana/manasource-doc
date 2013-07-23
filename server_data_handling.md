@@ -3,7 +3,7 @@ title: server data handling
 layout: wiki
 ---
 {% include toc.md %}
-the Mana server, as a MMORPG server, will need rather a lot of different data. Depending on their scope, the data can used by the server, the client or both.
+The Mana server, as a MMORPG server, will need rather a lot of different data. Depending on their scope, the data can used by the server, the client or both.
 Maintainers usually tend to put data used by both in the client data along with the rest, and have the server points to it using the `clientDataPath` option from [manaserv.xml](manaserv.xml.html).
 
 The following section will now attempt to describe what data is useful where, and why.
@@ -57,7 +57,7 @@ The server requires only a few configuration files, located at the path correspo
             <td>[attributes.xml](attributes.xml.html)</td>
             <td>Yes</td>
             <td>Yes <br /> (No for old servers)</td>
-            <td>Attributes description and characters starting points. This file is only used by and required for playing with a the Mana server server.</td>
+            <td>Attributes description and characters starting points. This file is only used by and required for playing with a Mana server.</td>
         </tr>
         <tr>
             <td>[equip.xml](equip.xml.html)</td>
