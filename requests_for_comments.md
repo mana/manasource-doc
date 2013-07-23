@@ -26,4 +26,4 @@ __Jaxad0127__
 ##  These pages need to be reviewed, completed and fixed in order to officially include them in the manasource wiki documentation
 
 __ExceptionFault__
- * [ManaWeb Connectors](manaweb_connectors.html)
+ * [Manaweb Connectors](manaweb_connectors.html)

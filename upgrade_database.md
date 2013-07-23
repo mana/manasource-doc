@@ -5,14 +5,14 @@ layout: wiki
 {% include toc.md %}
 #  Database Upgrade
 
-When necessary, the database model used by ManaServ will be extended or modified. <br />
+When necessary, the database model used by the Mana server will be extended or modified. <br />
 To prevent inconsistencies between the database model and the account server, the database model has its own version number which has to match the known version of the account server.
 
-That means, if you upgrade you database model, you also have to update ManaServ and vice versa. If the version of your database is incompatible with you version of the account server, the account server will print out a message like this at startup:
+That means, if you upgrade you database model, you also have to update the Mana server and vice versa. If the version of your database is incompatible with you version of the account server, the account server will print out a message like this at startup:
 
     [FTL] Error opening the database: Database version is not supported. Needed version: '1', current version: '2'
 
-In this case, the version of your database is newer, than the version of the account server. You'll have to get the [latest sources](http://www.manasource.org/downloads.html) of ManaServ.
+In this case, the version of your database is newer, than the version of the account server. You'll have to get the [latest sources](http://www.manasource.org/downloads.html) of the Mana server.
 
 ###  Determine the database version
 

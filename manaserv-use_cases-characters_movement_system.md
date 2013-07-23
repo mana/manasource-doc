@@ -5,11 +5,11 @@ layout: wiki
 {% include toc.md %}
 #  Mana Server - Use cases for the Characters' movement system
 
-Here is a list of proposed use cases to test the quality of the movement system under ManaServ:
+Here is a list of proposed use cases to test the quality of the movement system under the Mana server:
 
 **Component description:**
 
-The server sided movement system is tile-based under ManaServ. On the contrary, the client emulates pixel coordinates
+The server sided movement system is tile-based under the Mana server. On the contrary, the client emulates pixel coordinates
 handling in order to attempt to smooth the user experience.
 Please keep in mind that characters/monsters/ NPC/... are moving pixel-wise while keeping a tile logic, expecially for collision handling.
 
@@ -17,7 +17,7 @@ Please, also make use of the F key to toggle the grid and path view when testing
 
 As a last note, the current use case are made against the &lt;del&gt;http://gitorious.org/~bertram/mana/mana-manaserv-movement-fixes&lt;/del&gt; branch.
 
-**Prerequisites:** To be able to realise these tests, a compiled version of the client of the above branch and a fully running Manaserv version is necessary. You should also be able to connect to the server with some prepared testing maps, characters, and monsters. Some collision case should also be available in these maps to test the corresponding cases. Last but not least, don't forget to enable debug mode with the default 'F' key, to actually view the being's path existence, and other useful things.
+**Prerequisites:** To be able to realise these tests, a compiled version of the client of the above branch and a fully running the Mana server version is necessary. You should also be able to connect to the server with some prepared testing maps, characters, and monsters. Some collision case should also be available in these maps to test the corresponding cases. Last but not least, don't forget to enable debug mode with the default 'F' key, to actually view the being's path existence, and other useful things.
 
 <table class="table table-bordered table-hover" markdown="1">
     <thead>

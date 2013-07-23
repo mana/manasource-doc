@@ -6,7 +6,7 @@ layout: wiki
 **Note:** The attack system will be rewritten to a more action fighting system. This page contains information about the current system. So do not expect this to stay the same for very long.
 
 #  Basics
-In Manaserv each being can have a series of attacks. For a character these attacks most likely will come from the items it has equipped. For monsters the attacks are defined in the [monsters.xml](monsters.xml.html).
+In the Mana server each being can have a series of attacks. For a character these attacks most likely will come from the items it has equipped. For monsters the attacks are defined in the [monsters.xml](monsters.xml.html).
 
 If a being wants to attack a target it picks the best suitable attack and uses it. To determinate the best attack the being goes through the list of the available attacks and checks if the attack has a sufficient range to hit the target. Then it will pick the attack with the highest priority and uses that. The used attack first goes through a warmup. After the warmup is finished the damage will be dealt. After this the cooldown starts. During warmup start until cooldown end no other attack can be used meanwhile. After the attack a reuse timer starts. However this timer only affects the attack that was used but not any other attack (This can be used to allow fast attack with dual wield weapons for e.g.)
 

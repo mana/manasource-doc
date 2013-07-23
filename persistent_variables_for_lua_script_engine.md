@@ -112,7 +112,7 @@ Script bindings:
 
 ##  Related Mantis tickets
  * [Global variables for LUA scripting](http://bugs.manasource.org/view.php?id=77)
- * [Add the possibility to add custom variables in Manaserv](http://bugs.manasource.org/view.php?id=173)
+ * [Add the possibility to add custom variables in the Mana server](http://bugs.manasource.org/view.php?id=173)
 
 ##  Discussion
 

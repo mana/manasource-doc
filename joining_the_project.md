@@ -28,7 +28,7 @@ Finally, although not required, you are invited to visit the TMW forums:
 
 ####  Programmers
 
-Our current projects include the client and two different servers. The server which is currently used is a customized version of eAthena (a Ragnarok Online server emulator) and the new server ManaServ which is less used at the moment but is heavily being worked on. See the [Git repository](git_repository.html) page about how to get the source of these programs. Try to browse the source to see if you can get a bit familiar with them.
+Our current projects include the client and two different servers. The server which is currently used is a customized version of eAthena (a Ragnarok Online server emulator) and the new server the Mana server which is less used at the moment but is heavily being worked on. See the [Git repository](git_repository.html) page about how to get the source of these programs. Try to browse the source to see if you can get a bit familiar with them.
 
 When you want to contribute, you should check out our [Development Process](development_process.html) to familiarize yourself with how things work around here.
 

@@ -5,7 +5,7 @@ layout: wiki
 {% include toc.md %}
 #  Crafting engine
 
-Manaserv includes a fully scripted crafting system which allows a server administrator to script an own crafting logic in LUA.
+the Mana server includes a fully scripted crafting system which allows a server administrator to script an own crafting logic in LUA.
 
 ##  Client side
 Currently crafting is done through the [@craft](chat_commands/craft.html) command. Replacing this workaround with a GUI is planned ([http://bugs.manasource.org/view.php?id=335](http://bugs.manasource.org/view.php?id=335))
@@ -35,7 +35,7 @@ The first crafting system (craft_strict) enforces the correct order and the exac
 With some basic LUA programming knowledge you should be able to add additional combinations to these scripts.
 
 ###  Handling many crafting recipes
-While the software architecture of the example scripts is sufficient to demonstrate how the crafting engine of Manaserv works, it will become very messy and hard to maintain when adding a large number of recipes.
+While the software architecture of the example scripts is sufficient to demonstrate how the crafting engine of the Mana server works, it will become very messy and hard to maintain when adding a large number of recipes.
 
 A good way to make your crafting system easier to maintain, especially for non-programmers on your team, is to move the crafting formulas and all their necessary meta information to a global LUA table and check the users recipe against it. When you want the deluxe solution, you could opt to export these information to an external text file or even a database to separate program logic and content properly.
 

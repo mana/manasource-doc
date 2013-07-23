@@ -3,23 +3,23 @@ title: compile manaserv from source
 layout: wiki
 ---
 {% include toc.md %}
-#  Compilation of the ManaServ server
+#  Compilation of the Mana server server
 
 ##  Linux
-Here is how to set up a ManaServ server on a Linux/Unix system.
+Here is how to set up a the Mana server server on a Linux/Unix system.
 
 Be sure to get all the needed [dependencies](dependencies.html) and corresponding headers((Headers are files used by developers ending with .h. They're obtained by installing the corresponding &lt;package-name&gt;-dev or -devel package files.)) before trying to compile.
 
 ###  Cloning and compiling
 
-Start with cloning ManaServ from the [Git repository](git_repository.html) and compile it. We're using the cmake build system:
+Start with cloning the Mana server from the [Git repository](git_repository.html) and compile it. We're using the cmake build system:
 
   $ git clone git://github.com/mana/manaserv.git manaserv
   $ cd manaserv
   $ cmake .
   $ make
 
-**N.B.:** By default, Manaserv is compiled with Sqlite support, when willing to set it up with MySQL support, you'll have to
+**N.B.:** By default, the Mana server is compiled with Sqlite support, when willing to set it up with MySQL support, you'll have to
 replace the following command:
   $ cmake .
 with:
@@ -27,7 +27,7 @@ with:
 
 **Note:** The PostGreSQL support is planned for later but cannot be compiled at the moment.
 
-Once this step is successful, you'll have to configure the server, or use the Manaserv data given in the `example/` folder
+Once this step is successful, you'll have to configure the server, or use the Mana server data given in the `example/` folder
 provided along with the source code.
 #  Windows
 
@@ -46,7 +46,7 @@ provided along with the source code.
   - When you get errors about "Undefined references to *something*" verify that you performed step 2 correctly. When you did join our [IRC Channel](irc.html) and complain that someone forgot to update the code::blocks project files again. Hey, it's work in progress!
   - Copy all the DLL files from the library pack into the same folder where accountserver.exe and gameserver.exe where created during compilation (when you want to set up multiple independent server installations you might prefer to put them into windows\system32 instead so that you don't have to do this for every instance)
 
-The accountserver.exe should now start, but complain about a database problem.  Proceed to the "Configuration" section below to set up your database. After you created your database you can start Manaserv by starting both the account- and the gameserver.
+The accountserver.exe should now start, but complain about a database problem.  Proceed to the "Configuration" section below to set up your database. After you created your database you can start the Mana server by starting both the account- and the gameserver.
 
 ##  Compilation with MySQL support
 
@@ -67,7 +67,7 @@ The accountserver.exe should now start, but complain about a database problem.  
   - Open the `accountserver.cbp` with Code::Blocks and in the `Build` menu, select the target `Windows (MySQL Support)`.
   - Select `Project &gt; Build Options...` Then click on `Windows (MySQL Support)`.
   - In the `Linker settings`, Under `Link libraries`, press `Add`, click `Browse...` and navigate to the `manaserv &gt; lib` folder and select `libmysql.lib`,   press `Open`, then `Yes`, `Ok` and `Ok`.
-  - Press the Build Icon or Right click ManaServ Accountserver project and select `Build`.
+  - Press the Build Icon or Right click the Mana server Accountserver project and select `Build`.
 
 
 ##  Configuration

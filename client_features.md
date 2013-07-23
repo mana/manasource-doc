@@ -11,7 +11,7 @@ The Mana client has the following features and capabilities:
  * Can download content updates from the web
  * Support for custom branding
  * Capable of connecting to different game worlds
- * Support for a modified eAthena server (named Tmw-eAthena) and [ManaServ](server_features.html)
+ * Support for a modified eAthena server (named Tmw-eAthena) and [the Mana server](server_features.html)
 
 #  Graphic engine
  * OpenGL support
@@ -26,7 +26,7 @@ The Mana client has the following features and capabilities:
  * Powerful [particle engine](particle_system.html)
  * Smooth scrolling
  * Very flexible [sprite system](sprite_system.html)
- * Pixel-accurate movement((only on ManaServ, not on eAthena))
+ * Pixel-accurate movement((only on the Mana server, not on eAthena))
  * TrueType Font rendering with Unicode support ((extent of Unicode support depends on the font file used))
 
 #  Input system

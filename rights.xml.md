@@ -6,7 +6,7 @@ layout: wiki
 #  Account Permission File permissions.xml
 
 ##  Current state
-Currently Manaserv knows 8 permission classes (player, tester, gm, developer, administrator and 3 reserved for future use). The permissions of every class are hardcoded.
+Currently the Mana server knows 8 permission classes (player, tester, gm, developer, administrator and 3 reserved for future use). The permissions of every class are hardcoded.
 
 ##  Target state
 To allow server administrators to decide their server management policy it should be possible to freely name the 8 available classes and define the extent of their permissions. The limitation of 8 classes should stay because it allows the economic and performant method of storing it in an 8 bit bitfield.

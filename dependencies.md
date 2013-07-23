@@ -25,7 +25,7 @@ Here is the list of libraries currently used by the Mana client:
 
 ###  Mana Server
 
-These are the libraries that are needed for compiling ManaServ:
+These are the libraries that are needed for compiling the Mana server:
 
  * **libsigc++ 2.0** - [http://libsigc.sourceforge.net/](http://libsigc.sourceforge.net/)
  * **libxml2** - [http://www.xmlsoft.org](http://www.xmlsoft.org)

@@ -7,7 +7,7 @@ layout: wiki
 
 ##  Introduction
 
-A special, in Manaserv terminology, is what some other games call a "Skill" or "Ability". It is a character property which is acquired during gameplay and gives an advantage to the character. It can either be an action the character can perform, like a spell, a special attack or just performing an emote. Or it can be a passive ability which does not need to be activated but always gives a bonus after acquiring it.
+A special, in the Mana server terminology, is what some other games call a "Skill" or "Ability". It is a character property which is acquired during gameplay and gives an advantage to the character. It can either be an action the character can perform, like a spell, a special attack or just performing an emote. Or it can be a passive ability which does not need to be activated but always gives a bonus after acquiring it.
 
 The specials are a central part of the individual gameplay experience of a server. For that reason they must be highly customizable. But on the other hand it must not be too complicated to allow server administrators to implement their concepts without a too steep learning curve.
 

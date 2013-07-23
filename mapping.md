@@ -8,7 +8,7 @@ layout: wiki
 Making maps for The Mana World is not a task that requires a lot of knowledge but is a very good way to become creative and help the game to become more attractive. But getting started can be a little frustrating. Here is a guide that will help you to learn how to make maps.
 
 #  Folders
-You need to use a certain folder structure when mapping for Manaserv:
+You need to use a certain folder structure when mapping for the Mana server:
 Store your map file and the tilesets((A tileset is an image made of tiles(pieces of textures) used draw a canvas, a pattern representing your map.)) in your client data:
 
 (Remember that certain client data are used by the server, too)
@@ -17,12 +17,12 @@ Store your map files (\*.tmx or \*.tmx.gz) into the 'maps/' folder (required her
 Store your tilesets files into the `graphics/tilesets/` folder, for instance. (This is up to you).
 
 #  How to get a map Editor
-The official map editor used for Manaserv is called Tiled. This a Qt-based application that you can find at http://mapeditor.org/.
+The official map editor used for the Mana server is called Tiled. This a Qt-based application that you can find at http://mapeditor.org/.
 
 #  Setting up the data files
 To create a map, you will first need some graphics, as well as existing maps to use for reference.
 
-You can get all the files in the right directory structure by having a look at the ManaServ source files, in the `example/` folder, [here](http://gitorious.org/mana/manaserv/trees/master/example/clientdata).
+You can get all the files in the right directory structure by having a look at the Mana server source files, in the `example/` folder, [here](http://gitorious.org/mana/manaserv/trees/master/example/clientdata).
 
 Another good example can be found [here](http://gitorious.org/tmwdata/mainline/trees/master).
 
@@ -30,7 +30,7 @@ Alternatively, you can use the data files that are downloaded while playing the 
 
 #  Setting up Tiled for making Maps
 
-Tiled is a map editor that isn't made specifically for Mana or ManaServ. That means it has a lot of options and settings we don't need.
+Tiled is a map editor that isn't made specifically for Mana or the Mana server. That means it has a lot of options and settings we don't need.
 
 ##  Create a map
 To create a new map, press `File-&gt;New` and use the following settings:
@@ -210,7 +210,7 @@ animation-frameX is the Tile number (0 is top left tile, 1 would be the tile rig
 The animation does not show up in Tiled.
 
 ###  Advanced Topics/Adding a map to the server
-To get the ManaServ to use your map, you will need to make it available for him by adding it in client data and making those data set in the `clientDataPath` of the [manaserv.xml](manaserv.xml.html) file, and by editing the [maps.xml](maps.xml.html) file and add it without the file extension. For the maps/myMap.tmx file, add `&lt;map id="&lt;insert an unique ID here&gt;" name="myMap"/&gt;`
+To get the Mana server to use your map, you will need to make it available for him by adding it in client data and making those data set in the `clientDataPath` of the [manaserv.xml](manaserv.xml.html) file, and by editing the [maps.xml](maps.xml.html) file and add it without the file extension. For the maps/myMap.tmx file, add `&lt;map id="&lt;insert an unique ID here&gt;" name="myMap"/&gt;`
 
 The server will only need the `collision` layer to compute the walkability.
 

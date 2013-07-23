@@ -15,7 +15,7 @@ Note that the Manasource development teams intent is to offer Manasource for fre
 
 Set up a server and charge people for playing. Integrate a billing system into the web interface and create a cronjob which automatically bans all user accounts which don't pay regularly. Hire a lawyer and accountant to make sure everything is in order with your local business- and tax laws.
 
-Offering a pay-to-play Mana server means that you compete with others who offer the same game for free. Offering custom client-sided content will be hard, because when you base your work on existing works you have to release it under GNU GPL and this means that every other server can use it too.
+Offering a pay-to-play the Mana server means that you compete with others who offer the same game for free. Offering custom client-sided content will be hard, because when you base your work on existing works you have to release it under GNU GPL and this means that every other server can use it too.
 
 You have to offer users an incentive to come to you instead. These could be:
  * more professional support and GM team

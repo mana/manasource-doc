@@ -106,7 +106,7 @@ The following files and folders are required by the client but not included with
         </tr>
         <tr>
             <td>graphics/particles/levelup.particle.xml</td>
-            <td>Level up effect for ManaServ.</td>
+            <td>Level up effect for the Mana server.</td>
         </tr>
         <tr>
             <td>graphics/particles/warparea.particle.xml</td>
@@ -173,11 +173,11 @@ The following files and folders are required by the client but not included with
             <td>Unit descriptions. At the moment, just weight and currency.</td>
         </tr>
         <tr>
-            <td colspan="2">**Files specific to Manaserv support - Specifications in progress**</td>
+            <td colspan="2">**Files specific to the Mana server support - Specifications in progress**</td>
         </tr>
         <tr>
             <td>[attributes.xml](attributes.xml.html)</td>
-            <td>Attribute description. This file is only used by and required for playing with a Manaserv server.</td>
+            <td>Attribute description. This file is only used by and required for playing with a the Mana server server.</td>
         </tr>
         <tr>
             <td>[specials.xml](specials.xml.html)</td>

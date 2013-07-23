@@ -3,15 +3,15 @@ title: manaweb connectors
 layout: wiki
 ---
 {% include toc.md %}
-#  What is a ManaWeb Connector?
+#  What is a Manaweb Connector?
 
-The ManaWeb Connector is a package of methods provided by ManaWeb to allow foreign applications to access data of the running ManaServ server. A common example is a list of online users that are currently connected to the server. ManaWeb is able to deliver the data in different formats to be as open as possible for all kinds of applications, e.g. plain text or XML.
+The Manaweb Connector is a package of methods provided by Manaweb to allow foreign applications to access data of the running the Mana server server. A common example is a list of online users that are currently connected to the server. Manaweb is able to deliver the data in different formats to be as open as possible for all kinds of applications, e.g. plain text or XML.
 
 ##  FAQ
 
 ###  How can I connect to the Connector?
 
-There is no public installation of the [Account Manager](account_manager.html) respective the connector. If you set up an installation of your own, just navigate your browser to the main page of ManaWeb and add a "index.php/connector/" to the URL. The URL might look like this: `http://localhost/manaweb/index.php/connector/`.
+There is no public installation of the [Account Manager](account_manager.html) respective the connector. If you set up an installation of your own, just navigate your browser to the main page of Manaweb and add a "index.php/connector/" to the URL. The URL might look like this: `http://localhost/manaweb/index.php/connector/`.
 
 This is the root URL of the connector. Now you have to extend the URL with the name of the connector function you want to execute, e.g. `onlineuser` which will give you this URL: `http://localhost/manaweb/index.php/connector/onlineuser/`
 
@@ -22,7 +22,7 @@ Some methods might need input parameters or support different output formats. Al
 
 ####  List of online users (onlineuser)
 
-This will give you a list of all users online with a character in ManaServ.
+This will give you a list of all users online with a character in the Mana server.
 
 ####  Parameters
 **Output format:**
