@@ -68,7 +68,7 @@ Then, click on the `build` button and pray...
 
 If not errors happened, you'll then want to run the client.
 In order to do that, there are two ways in doing so:
-The DLL files in the dll folder of the devpak have to copied in your **`&lt;Windows drive letter&gt;:\Windows\System32`** folder
+The DLL files in the dll folder of the devpak have to copied in your **`<Windows drive letter>:\Windows\System32`** folder
 if you want to keep them and don't worry about missing dlls or in a specific directory present in your **`%PATH`** environment variable.
 
 If you just want to make temporary tests with no dll potential pollution in your system. You can copy the **`mana.exe`** file from the source root folder to the devpak dll folder along with all the dll files.
