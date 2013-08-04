@@ -15,7 +15,7 @@ Here are some decisions that have been discussed and decided.
 
 
  * **UI skinning**<br /> Windows are skinned now but additional adaptions are still needed for buttons, progress bars, sliders and other things.
- * **UI layout**<br /> With the resolution kept between 640x360 - 1280x720, the rough goal of our main GUI is as follows:<br /> {{http://img339.imageshack.us/img339/852/goali.png}}<br /> Other parts of the UI like character status, inventory, equipment, etc. will need to be adapted and are planned to get a fixed position as opposed to windows that you can drag around. Changes include:
+ * **UI layout**<br /> With the resolution kept between 640x360 - 1280x720, the rough goal of our main GUI is as follows:<br /> <img src="http://img339.imageshack.us/img339/852/goali.png" /><br /> Other parts of the UI like character status, inventory, equipment, etc. will need to be adapted and are planned to get a fixed position as opposed to windows that you can drag around. Changes include:
     * Merge inventory and equipment into a single panel on the right
     * Merge character status and skills into a single panel on the left
     * Merge the social window into the chat panel (which will be placed in the top-left)
